@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="21" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="realtime-yjham.collection-system" options="-parameters -Xlint:all" />
+      <module name="realtime-yjham.collection-system.main" options="-parameters -Xlint:all" />
+      <module name="realtime-yjham.collection-system.test" options="-parameters -Xlint:all" />
+      <module name="realtime-yjham.indexing-system" options="-parameters -Xlint:all" />
+      <module name="realtime-yjham.indexing-system.main" options="-parameters -Xlint:all" />
+      <module name="realtime-yjham.indexing-system.test" options="-parameters -Xlint:all" />
+      <module name="realtime-yjham.processing-system" options="-parameters -Xlint:all" />
+      <module name="realtime-yjham.processing-system.main" options="-parameters -Xlint:all" />
+      <module name="realtime-yjham.processing-system.test" options="-parameters -Xlint:all" />
+      <module name="realtime-yjham.serving-system" options="-parameters -Xlint:all" />
+      <module name="realtime-yjham.serving-system.main" options="-parameters -Xlint:all" />
+      <module name="realtime-yjham.serving-system.test" options="-parameters -Xlint:all" />
+    </option>
+  </component>
+</project>
