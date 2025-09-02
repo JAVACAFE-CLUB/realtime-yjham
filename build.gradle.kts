@@ -26,6 +26,9 @@ subprojects {
     
     dependencies {
         implementation("com.fasterxml.jackson.core:jackson-databind")
+
+        compileOnly("org.projectlombok:lombok:1.18.30")
+        annotationProcessor("org.projectlombok:lombok:1.18.30")
         
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
@@ -36,6 +39,5 @@ subprojects {
     
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
-        options.compilerArgs.addAll(listOf("-Xlint:all")) // 추후 소나 큐브로 변경 예정
     }
 }
