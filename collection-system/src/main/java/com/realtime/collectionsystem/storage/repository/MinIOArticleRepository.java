@@ -24,7 +24,7 @@ public class MinIOArticleRepository implements ArticleRepository {
     private final MinioClient minioClient;
     private final ObjectMapper objectMapper;
 
-    private static final String BUCKET_NAME = "articles";
+    private static final String BUCKET_NAME = "crawled-data";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 
     @PostConstruct
@@ -86,6 +86,6 @@ public class MinIOArticleRepository implements ArticleRepository {
         String datePrefix = article.getCollectedDate().format(DATE_FORMATTER);
         String urlHash = String.valueOf(article.getUrl().hashCode());
         String source = article.getSource().replace(" ", "_");
-        return String.format("%s/%s/%s.json", datePrefix, source, urlHash);
+        return String.format("articles/%s/%s/%s.json", datePrefix, source, urlHash);
     }
 }

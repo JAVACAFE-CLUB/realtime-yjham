@@ -14,9 +14,9 @@ kafka:
 
 minio:
   endpoint: http://localhost:9000
-  access-key: minioadmin
-  secret-key: minioadmin123
-  bucket-name: realtime-data
+  access-key: minadmin
+  secret-key: minadmin
+  bucket-name: crawled-data
 
 collection:
   schedule:

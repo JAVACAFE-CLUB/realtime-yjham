@@ -10,9 +10,6 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-    volumes:
-      - ./docker/volumes/zookeeper/data:/var/lib/zookeeper/data
-      - ./docker/volumes/zookeeper/log:/var/lib/zookeeper/log
     networks:
       - realtime-network
 
@@ -36,8 +33,6 @@ services:
       KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://schema-registry:8081
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
       KAFKA_DELETE_TOPIC_ENABLE: 'true'
-    volumes:
-      - ./docker/volumes/kafka/data:/var/lib/kafka/data
     networks:
       - realtime-network
 
@@ -64,11 +59,9 @@ services:
       - "9000:9000"
       - "9001:9001"
     environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin123
+      MINIO_ROOT_USER: minadmin
+      MINIO_ROOT_PASSWORD: minadmin
     command: server /data --console-address ":9001"
-    volumes:
-      - ./docker/volumes/minio/data:/data
     networks:
       - realtime-network
 
@@ -79,9 +72,10 @@ services:
       - minio
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc config host add minio http://minio:9000 minioadmin minioadmin123;
-      /usr/bin/mc mb minio/realtime-data --ignore-existing;
-      /usr/bin/mc policy set public minio/realtime-data;
+      sleep 5;
+      /usr/bin/mc alias set minio http://minio:9000 minadmin minadmin;
+      /usr/bin/mc mb minio/crawled-data --ignore-existing;
+      /usr/bin/mc anonymous set public minio/crawled-data;
       exit 0;
       "
     networks:
@@ -91,8 +85,3 @@ networks:
   realtime-network:
     driver: bridge
 
-volumes:
-  zookeeper-data:
-  zookeeper-log:
-  kafka-data:
-  minio-data:
