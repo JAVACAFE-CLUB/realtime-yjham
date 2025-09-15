@@ -22,16 +22,23 @@ public class RssCrawlingScheduler {
 
     @Scheduled(fixedRate = 3600000) // 1시간 = 3600000ms
     public void scheduledRssCrawling() {
-        log.info("예약된 RSS 크롤링 실행");
+        log.info("[RSS-CRAWLING] 예약된 크롤링 실행 시작");
         executeRssCrawling();
     }
 
     private void executeRssCrawling() {
+        long startTime = System.currentTimeMillis();
         try {
-            log.info("RSS 크롤링 시작");
+            log.info("[RSS-CRAWLING] 기사 수집 시작");
 
             List<Article> articles = rssArticleCollectionService.collectArticles();
-            log.info("총 {}개의 기사 수집 완료", articles.size());
+
+            if (articles.isEmpty()) {
+                log.warn("[RSS-CRAWLING] 수집된 기사가 없습니다");
+                return;
+            }
+
+            log.info("[RSS-CRAWLING] 기사 수집 완료 - 총 {}개", articles.size());
 
             // MinIO에 기사 저장
             articleStorageService.saveArticles(articles);
@@ -39,9 +46,12 @@ public class RssCrawlingScheduler {
             // 카프카로 수집 이벤트 발송
             articleEventService.publishCollectionEvents(articles);
 
-            log.info("RSS 크롤링 완료");
+            long duration = System.currentTimeMillis() - startTime;
+            log.info("[RSS-CRAWLING] 전체 프로세스 완료 - 소요시간: {}ms", duration);
+
         } catch (Exception e) {
-            log.error("RSS 크롤링 중 오류 발생", e);
+            long duration = System.currentTimeMillis() - startTime;
+            log.error("[RSS-CRAWLING] 크롤링 실패 - 소요시간: {}ms, 오류: {}", duration, e.getMessage(), e);
         }
     }
 }

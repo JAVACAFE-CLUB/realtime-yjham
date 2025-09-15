@@ -31,8 +31,10 @@ crawling:
 
 logging:
   level:
-    com.realtime.collectionsystem: DEBUG
+    com.realtime.collectionsystem: INFO
     org.springframework.kafka: INFO
+    org.apache.kafka.clients.producer.ProducerConfig: WARN
+    org.apache.kafka.clients: WARN
     org.jsoup: WARN
     com.rometools: WARN
     root: INFO

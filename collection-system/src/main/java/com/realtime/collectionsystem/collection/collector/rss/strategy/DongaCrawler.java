@@ -23,7 +23,7 @@ public class DongaCrawler implements ArticleCrawler {
     @Override
     public Article crawlArticle(String url) {
         try {
-            log.debug("동아일보 기사 크롤링 시작: {}", url);
+            log.debug("[CRAWLER] 동아일보 기사 크롤링: {}", url);
 
             Document doc = Jsoup.connect(url)
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")

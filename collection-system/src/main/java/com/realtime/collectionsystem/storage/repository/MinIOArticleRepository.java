@@ -15,6 +15,8 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Repository
@@ -69,17 +71,45 @@ public class MinIOArticleRepository implements ArticleRepository {
                             .build()
             );
 
-            log.debug("기사 저장 완료: {}", objectName);
+            log.debug("[STORAGE] 기사 저장 완료: {}", objectName);
         } catch (Exception e) {
-            log.error("MinIO 기사 저장 실패: {}", article.getUrl(), e);
+            log.error("[STORAGE] MinIO 기사 저장 실패: {}", article.getUrl(), e);
             throw new RuntimeException("기사 저장 중 오류 발생", e);
         }
     }
 
     @Override
     public void saveAll(List<Article> articles) {
-        articles.forEach(this::save);
-        log.info("MinIO에 {}개 기사 저장 완료", articles.size());
+        if (articles.isEmpty()) {
+            log.warn("[STORAGE] 저장할 기사가 없습니다");
+            return;
+        }
+
+        Map<String, Long> sourceCount = articles.stream()
+                .collect(Collectors.groupingBy(Article::getSource, Collectors.counting()));
+
+        int successCount = 0;
+        int failCount = 0;
+
+        for (Article article : articles) {
+            try {
+                save(article);
+                successCount++;
+            } catch (Exception e) {
+                failCount++;
+                log.warn("[STORAGE] 기사 저장 실패 - URL: {}, 오류: {}", article.getUrl(), e.getMessage());
+            }
+        }
+
+        String sourceStats = sourceCount.entrySet().stream()
+                .map(entry -> entry.getKey() + ": " + entry.getValue() + "개")
+                .collect(Collectors.joining(", "));
+
+        if (failCount == 0) {
+            log.info("[STORAGE] MinIO 저장 완료 - {} (총 {}개)", sourceStats, successCount);
+        } else {
+            log.warn("[STORAGE] MinIO 저장 완료 - {} (성공: {}개, 실패: {}개)", sourceStats, successCount, failCount);
+        }
     }
 
     private String generateObjectName(Article article) {
