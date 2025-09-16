@@ -32,3 +32,12 @@ out/
 
 ### Claude ###
 .claude
+
+### Data files ###
+**/data/
+*.xml
+*.json
+*.csv
+*.tsv
+*.log
+!**/reference/**

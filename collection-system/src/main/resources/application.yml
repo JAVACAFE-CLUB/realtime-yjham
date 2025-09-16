@@ -1,33 +1,19 @@
 spring:
   kafka:
     bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      acks: all
-      retries: 3
-      enable-idempotence: true
-
-kafka:
-  topics:
-    cleansing: "data-cleansing"
 
 minio:
   endpoint: http://localhost:9000
   access-key: minadmin
   secret-key: minadmin
-  bucket-name: crawled-data
 
-collection:
-  schedule:
-    interval: 300000
-
-crawling:
-  enabled: true
-  schedule: "0 */10 * * * *"
-  connection-timeout: 10000
-  max-retries: 3
-  thread-pool-size: 4
+# Wiki Dump 수집 설정
+wiki:
+  dump:
+    storage:
+      path: ./wiki-dumps
+    processing:
+      batch-size: 1000
 
 logging:
   level:

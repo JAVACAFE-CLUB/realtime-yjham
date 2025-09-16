@@ -20,7 +20,7 @@ public class RssCrawlingScheduler {
     private final ArticleStorageService articleStorageService;
     private final ArticleEventService articleEventService;
 
-    @Scheduled(fixedRate = 3600000) // 1시간 = 3600000ms
+    // @Scheduled(fixedRate = 3600000) // 1시간 = 3600000ms - WikiDump 테스트를 위해 임시 비활성화
     public void scheduledRssCrawling() {
         log.info("[RSS-CRAWLING] 예약된 크롤링 실행 시작");
         executeRssCrawling();

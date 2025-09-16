@@ -1,0 +1,570 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.11/ http://www.mediawiki.org/xml/export-0.11.xsd"
+           version="0.11" xml:lang="ko">
+    <siteinfo>
+        <sitename>위키백과</sitename>
+        <dbname>kowiki</dbname>
+        <base>https://ko.wikipedia.org/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EB%8C%80%EB%AC%B8</base>
+        <generator>MediaWiki 1.45.0-wmf.16</generator>
+        <case>first-letter</case>
+        <namespaces>
+            <namespace key="-2" case="first-letter">미디어</namespace>
+            <namespace key="-1" case="first-letter">특수</namespace>
+            <namespace key="0" case="first-letter"/>
+            <namespace key="1" case="first-letter">토론</namespace>
+            <namespace key="2" case="first-letter">사용자</namespace>
+            <namespace key="3" case="first-letter">사용자토론</namespace>
+            <namespace key="4" case="first-letter">위키백과</namespace>
+            <namespace key="5" case="first-letter">위키백과토론</namespace>
+            <namespace key="6" case="first-letter">파일</namespace>
+            <namespace key="7" case="first-letter">파일토론</namespace>
+            <namespace key="8" case="first-letter">미디어위키</namespace>
+            <namespace key="9" case="first-letter">미디어위키토론</namespace>
+            <namespace key="10" case="first-letter">틀</namespace>
+            <namespace key="11" case="first-letter">틀토론</namespace>
+            <namespace key="12" case="first-letter">도움말</namespace>
+            <namespace key="13" case="first-letter">도움말토론</namespace>
+            <namespace key="14" case="first-letter">분류</namespace>
+            <namespace key="15" case="first-letter">분류토론</namespace>
+            <namespace key="100" case="first-letter">포털</namespace>
+            <namespace key="101" case="first-letter">포털토론</namespace>
+            <namespace key="102" case="first-letter">위키프로젝트</namespace>
+            <namespace key="103" case="first-letter">위키프로젝트토론</namespace>
+            <namespace key="118" case="first-letter">초안</namespace>
+            <namespace key="119" case="first-letter">초안토론</namespace>
+            <namespace key="710" case="first-letter">TimedText</namespace>
+            <namespace key="711" case="first-letter">TimedText talk</namespace>
+            <namespace key="828" case="first-letter">모듈</namespace>
+            <namespace key="829" case="first-letter">모듈토론</namespace>
+            <namespace key="1728" case="first-letter">행사</namespace>
+            <namespace key="1729" case="first-letter">행사토론</namespace>
+        </namespaces>
+    </siteinfo>
+    <page>
+        <title>위키백과:대문</title>
+        <ns>4</ns>
+        <id>3</id>
+        <revision>
+            <id>40156846</id>
+            <parentid>38586919</parentid>
+            <timestamp>2025-06-27T15:07:27Z</timestamp>
+            <contributor>
+                <username>Ykhwong</username>
+                <id>22169</id>
+            </contributor>
+            <minor/>
+            <origin>40156846</origin>
+            <model>wikitext</model>
+            <format>text/x-wiki</format>
+            <text bytes="14680" sha1="0pcfpwmj2x9p4xsxs2o6fhur5loodgn" xml:space="preserve">&lt;templatestyles src=&quot;틀:대문/styles.css&quot; /&gt;
+&lt;div class=&quot;main-box main-top&quot; style=&quot;flex: 10;&quot;&gt;
+	&lt;div class=&quot;main-top-left&quot;&gt;
+		&lt;span style=&quot;font-size: 1.8rem; margin-top: 0; margin-bottom: .1em;&quot;&gt;[[위키백과:소개|&lt;span style=&quot;color: black; font-weight: bold;&quot;&gt;위키백과&lt;/span&gt;]]&lt;/span&gt;
+		&lt;p style=&quot;font-size: 1rem; margin-top: .1em; margin-bottom: 1em;&quot;&gt;우리 모두가 만들어가는 자유 백과사전&lt;span class=&quot;nomobile&quot;&gt;&lt;br /&gt;문서 [[위키백과:통계|{{말풍선|1=&lt;span style=&quot;color: #246ad3;&quot;&gt;'''{{NUMBEROFARTICLES}}'''&lt;/span&gt;|style=text-decoration: none; cursor: pointer;|2=넘겨주기와 막다른 문서를 제외한 모든 글의 수}}]]개와 최근 기여자 '''[[위키백과:통계|{{NUMBEROFACTIVEUSERS}}]]'''명&lt;/span&gt;&lt;/p&gt;
+        &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;main-pane&quot;&gt;
+&lt;!--좌측 상자 시작--&gt;
+	&lt;div class=&quot;main-pane-left&quot; style=&quot;flex: 5; flex-flow: column;&quot;&gt;
+		&lt;!-- 사랑방질문방등등 --&gt;
+		&lt;div class=&quot;wikipedia-ko shortcuts main-box&quot; style=&quot;display: inline-block; width: 100%; margin-top: 20px; flex: 1;&quot;&gt;
+			&lt;div class=&quot;main-shortcut-item&quot; style=&quot;border: 1px solid #EBEBEB; margin: 10px 10px 0 10px; padding: .8rem 0;&quot;&gt;
+				&lt;div style=&quot;display: inline-block; margin-left: 10px;&quot;&gt;[[파일: XEIcon xi-group.svg|40px|sub|link=위키백과:사랑방]]&lt;/div&gt;
+				&lt;div style=&quot;display: inline-block; border-left: 2px solid rgb(82, 76, 76); margin-left: 10px; padding-left: 10px; width: calc(100% - 80px);&quot;&gt;
+					&lt;p style=&quot;margin: 0&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: bold;&quot;&gt;[[위키백과:사랑방|사랑방]]&lt;/span&gt;&lt;br&gt;
+					&lt;span style=&quot;font-size: 13px; font-weight: bold;&quot;&gt;다른 분들과 의견을 교환해봐요!&lt;/span&gt;&lt;/p&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+			&lt;div class=&quot;main-shortcut-item&quot; style=&quot;border: 1px solid #EBEBEB; margin: 10px 10px 0 10px; padding: .8rem 0;&quot;&gt;
+				&lt;div style=&quot;display: inline-block; margin-left: 10px;&quot;&gt;[[파일: XEIcon xi-message.svg|40px|sub|link=위키백과:질문방]]&lt;/div&gt;
+				&lt;div style=&quot;display: inline-block; border-left: 2px solid grey; margin-left: 10px; padding-left: 10px; width: calc(100% - 80px);&quot;&gt;
+					&lt;p style=&quot;margin: 0&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: bold;&quot;&gt;[[위키백과: 질문방|질문방]]&lt;/span&gt;&lt;br&gt;
+					&lt;span style=&quot;font-size: 13px; font-weight: bold;&quot;&gt;지침으로 해소되지 않는 의문을 풀어봐요!&lt;/span&gt;&lt;/p&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+			&lt;div class=&quot;main-shortcut-item&quot; style=&quot;border: 1px solid #EBEBEB; margin: 10px 10px 0 10px; padding: .8rem 0;&quot;&gt;
+				&lt;div style=&quot;display: inline-block; margin-left: 10px;&quot;&gt;[[파일:Group half.svg|40px|sub|link=위키백과:사용자 모임]]&lt;/div&gt;
+				&lt;div style=&quot;display: inline-block; border-left: 2px solid grey; margin-left: 10px; padding-left: 10px; width: calc(100% - 80px);&quot;&gt;
+					&lt;p style=&quot;margin: 0&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: bold;&quot;&gt;[[위키백과:사용자 모임|사용자 모임]]&lt;/span&gt;&lt;br&gt;
+					&lt;span style=&quot;font-size: 13px; font-weight: bold;&quot;&gt;커뮤니티 포털에 방문해 보세요!&lt;/span&gt;&lt;/p&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+			&lt;div class=&quot;main-shortcut-item&quot; style=&quot;border: 1px solid #EBEBEB; margin: 10px 10px 0 10px; padding: .8rem 0;&quot;&gt;
+				&lt;div style=&quot;display: inline-block; margin-left: 10px;&quot;&gt;[[파일: XEIcon xi-library-bookmark.svg|40px|sub|link=위키백과:정책과 지침]]&lt;/div&gt;
+				&lt;div style=&quot;display: inline-block; border-left: 2px solid grey; margin-left: 10px; padding-left: 10px; width: calc(100% - 80px);&quot;&gt;
+					&lt;p style=&quot;margin: 0&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: bold;&quot;&gt;[[위키백과:정책과 지침|정책과 지침]]&lt;/span&gt;&lt;br&gt;
+					&lt;span style=&quot;font-size: 13px; font-weight: bold;&quot;&gt;편집하시기 전에 한번 읽어주세요!&lt;/span&gt;&lt;/p&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+&lt;!-- 도움말 칸 --&gt;
+&lt;div class=&quot;wikipedia-ko manual main-box&quot; style=&quot;width: 100%; margin-top: 20px; flex: 1;&quot;&gt;
+		&lt;div class=&quot;wikipedia-ko participation-header&quot; style=&quot;width: 100%; font-size: 1.1em; overflow: auto;&quot;&gt;
+				&lt;span style=&quot;height: 2rem;&quot; class=&quot;main-section&quot;&gt;'''[[위키백과:위키백과에 참여하기|위키백과 참여하기]]'''&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;main-shortcut-item&quot; style=&quot;border: 1px solid #EBEBEB; margin: 10px; padding: .8rem 0;&quot;&gt;
+				&lt;div style=&quot;display: inline-block; margin-left: 10px;&quot;&gt;[[File:XEIcon xi-heart.svg|40px|sub|link=위키백과:환영합니다]]&lt;/div&gt;
+				&lt;div style=&quot;display: inline-block; border-left: 2px solid grey; margin-left: 10px; padding-left: 10px; width: calc(100% - 80px);&quot;&gt;
+					&lt;p style=&quot;margin: 0&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: bold;&quot;&gt;[[위키백과:환영합니다|환영합니다!]]&lt;/span&gt;&lt;br&gt;
+					&lt;span style=&quot;font-size: 13px; font-weight: bold;&quot;&gt;위키백과는 여러분을 환영합니다.&lt;br&gt;이것부터 시작해 볼까요?&lt;/span&gt;&lt;/p&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+&lt;div class=&quot;main-shortcut-item&quot; style=&quot;border: 1px solid #EBEBEB; margin: 10px; padding: .8rem 0;&quot;&gt;
+				&lt;div style=&quot;display: inline-block; margin-left: 10px;&quot;&gt;[[File:Book_sans_information.svg|40px|sub|link=도움말:소개]]&lt;/div&gt;
+				&lt;div style=&quot;display: inline-block; border-left: 2px solid grey; margin-left: 10px; padding-left: 10px; width: calc(100% - 80px);&quot;&gt;
+					&lt;p style=&quot;margin: 0&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: bold;&quot;&gt;[[도움말:소개|위키백과 길라잡이]]&lt;/span&gt;&lt;br&gt;
+					&lt;span style=&quot;font-size: 13px; font-weight: bold;&quot;&gt;여러분을 위키인으로 만들어줄 가이드북!&lt;/span&gt;&lt;/p&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+&lt;div class=&quot;main-shortcut-item&quot; style=&quot;border: 1px solid #EBEBEB; margin: 10px; padding: .8rem 0;&quot;&gt;
+				&lt;div style=&quot;display: inline-block; margin-left: 10px;&quot;&gt;[[File:Document sans add.svg|40px|sub|link=도움말:새 문서 만들기]]&lt;/div&gt;
+				&lt;div style=&quot;display: inline-block; border-left: 2px solid grey; margin-left: 10px; padding-left: 10px; width: calc(100% - 80px);&quot;&gt;
+					&lt;p style=&quot;margin: 0&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: bold;&quot;&gt;[[도움말:새 문서 만들기|새 문서 만들기 도움말]]&lt;/span&gt;&lt;br&gt;
+					&lt;span style=&quot;font-size: 13px; font-weight: bold;&quot;&gt;새 문서를 만드는 방법에 대해 안내합니다.&lt;/span&gt;&lt;/p&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+&lt;div class=&quot;main-shortcut-item&quot; style=&quot;border: 1px solid #EBEBEB; margin: 10px; padding: .8rem 0;&quot;&gt;
+				&lt;div style=&quot;display: inline-block; margin-left: 10px;&quot;&gt;[[File:Document text edit.svg|40px|sub|link=도움말:문서 편집하기]]&lt;/div&gt;
+				&lt;div style=&quot;display: inline-block; border-left: 2px solid grey; margin-left: 10px; padding-left: 10px; width: calc(100% - 80px);&quot;&gt;
+					&lt;p style=&quot;margin: 0&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: bold;&quot;&gt;[[도움말:문서 편집하기|문서 편집 도움말]]&lt;/span&gt;&lt;br&gt;
+					&lt;span style=&quot;font-size: 13px; font-weight: bold;&quot;&gt;문서를 편집하는 방법에 대해 안내합니다.&lt;/span&gt;&lt;/p&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+&lt;div class=&quot;main-shortcut-item&quot; style=&quot;border: 1px solid #EBEBEB; margin: 10px; padding: .8rem 0;&quot;&gt;
+				&lt;div style=&quot;display: inline-block; margin-left: 10px;&quot;&gt;[[File:PICOL icon Image add.svg|40px|sub|link=도움말:그림 올리기]]&lt;/div&gt;
+				&lt;div style=&quot;display: inline-block; border-left: 2px solid grey; margin-left: 10px; padding-left: 10px; width: calc(100% - 80px);&quot;&gt;
+					&lt;p style=&quot;margin: 0&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: bold;&quot;&gt;[[도움말:그림 올리기|그림 올리기 도움말]]&lt;/span&gt;&lt;br&gt;
+					&lt;span style=&quot;font-size: 13px; font-weight: bold;&quot;&gt;그림을 올리는 방법에 대해 안내합니다.&lt;/span&gt;&lt;/p&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+			&lt;div class=&quot;main-shortcut-item&quot; style=&quot;border: 1px solid #EBEBEB; margin: 10px; padding: .8rem 0;&quot;&gt;
+				&lt;div style=&quot;display: inline-block; margin-left: 10px;&quot;&gt;[[파일: XEIcon xi-building.svg|40px|sub|link=위키백과:지원 단체]]&lt;/div&gt;
+				&lt;div style=&quot;display: inline-block; border-left: 2px solid grey; margin-left: 10px; padding-left: 10px; width: calc(100% - 80px);&quot;&gt;
+					&lt;p style=&quot;margin: 0&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: bold;&quot;&gt;[[위키백과:지원 단체|지원 단체]]&lt;/span&gt;&lt;br&gt;
+					&lt;span style=&quot;font-size: 13px; font-weight: bold;&quot;&gt;위키백과 커뮤니티를 지원하는 단체는?&lt;/span&gt;&lt;/p&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- 위키백과 소개 --&gt;
+		&lt;div class=&quot;wikipedia-ko introduction main-box nomobile&quot; style=&quot;clear: both; width: 100%; margin-top: 20px; flex: 1;&quot;&gt;
+			&lt;div class=&quot;wikipedia-ko introduction-header&quot; style=&quot;width: 100%; font-size: 1.1em; overflow: auto;&quot;&gt;
+				&lt;span style=&quot;height: 2rem;&quot; class=&quot;main-section&quot;&gt;'''[[백:소개|위키백과 소개]]'''&lt;/span&gt;&lt;/div&gt;
+			&lt;div style=&quot;clear: both; margin: 0 20px;&quot;&gt;{{위키백과 소개}}&lt;/div&gt;
+		&lt;/div&gt;
+		&lt;div class=&quot;wikipedia-ko todaypircute main-box nomobile&quot; style=&quot;clear: both; width: 100%; margin-top: 20px; flex: 1;&quot;&gt;
+			&lt;div class=&quot;wikipedia-ko todaypircute-header&quot; style=&quot;width: 100%; font-size: 1.1em; overflow: auto;&quot;&gt;
+				&lt;span style=&quot;height: 2rem;&quot; class=&quot;main-section&quot;&gt;'''[[위키백과:오늘의 그림|오늘의 그림]]'''&lt;/span&gt;&lt;/div&gt;
+			&lt;div class=&quot;center&quot; style=&quot;clear: both; overflow: hidden;&quot;&gt;&lt;div style=&quot;margin-bottom: 0.5em&quot;&gt;[[파일:{{위키백과:오늘의 그림/{{#timel:Y년 F}}/그림|d{{#timel:j}}}}|270x270px]]&lt;/div&gt;{{#if: {{위키백과:오늘의 그림/{{#timel:Y년 F}}/한국어|d{{#timel:j}}}}|{{위키백과:오늘의 그림/{{#timel:Y년 F}}/영어|d{{#timel:j}}}}|위 그림은 [[:commons:Commons:Picture of the day/ko|위키미디어 공용]]에서 가져왔습니다.}}&lt;/div&gt;&lt;div style=&quot;text-align:right; margin: 0 20px;&quot;&gt;'''[[위키백과:오늘의 그림/역사|더 보기...]]'''
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;!-- 좌측 상자 끝 --&gt;
+&lt;!-- 우측 상자 시작 --&gt;
+	&lt;div class=&quot;main-pane-right&quot; style=&quot;flex: 4; flex-flow: column;&quot;&gt;
+		&lt;!-- 알찬/좋은 글 박스 --&gt;
+		&lt;div class=&quot;wikipedia-ko main-recommended main-box&quot; style=&quot;width: 100%; margin-top: 20px; height: max-content; flex: 1;&quot;&gt;
+			&lt;div class=&quot;wikipedia-ko good-header&quot; style=&quot;width: 100%; overflow: auto; font-size: 1.1em;&quot;&gt;&lt;span style=&quot;height: auto;&quot; class=&quot;main-section&quot;&gt;'''[[{{위키백과:오늘의 알찬 글/목록}}|알찬 글: {{위키백과:오늘의 알찬 글/목록}}]]'''&lt;/span&gt;&lt;div style=&quot;float: right; height: 2rem; margin: .6rem 0;&quot;&gt;{{클릭가능한 버튼2|:위키백과:알찬 글|더 보기|style=display: inline-block; height: 2rem; line-height: 2rem; padding: 0 1rem; border: 1px solid #EBEBEB; border-radius: 1rem; margin-right: 1rem;}}&lt;/div&gt;&lt;/div&gt;
+			&lt;div style=&quot;clear: both; margin: 0 20px;&quot;&gt;{{위키백과:오늘의 알찬 글}}&lt;/div&gt;
+            &lt;hr style=&quot;opacity: 0.5&quot;&gt;
+            &lt;div class=&quot;wikipedia-ko good-header&quot; style=&quot;width: 100%; overflow: auto; font-size: 1.1em;&quot;&gt;&lt;span style=&quot;height: auto;&quot; class=&quot;main-section&quot;&gt;'''[[{{위키백과:오늘의 좋은 글/목록}}|좋은 글: {{위키백과:오늘의 좋은 글/목록}}]]'''&lt;/span&gt;&lt;div style=&quot;float: right; height: 2rem; margin: .6rem 0;&quot;&gt;{{클릭가능한 버튼2|:위키백과:좋은 글|더 보기|style=display: inline-block; height: 2rem; line-height: 2rem; padding: 0 1rem; border: 1px solid #EBEBEB; border-radius: 1rem; margin-right: 1rem;}}&lt;/div&gt;&lt;/div&gt;
+&lt;hr style=&quot;opacity: 0.5&quot;&gt;
+            &lt;div class=&quot;wikipedia-ko good-header&quot; style=&quot;width: 100%; overflow: auto; font-size: 1.1em;&quot;&gt;&lt;span style=&quot;height: auto;&quot; class=&quot;main-section&quot;&gt;'''[[{{위키백과:오늘의 알찬 목록/목록}}|알찬 목록: {{위키백과:오늘의 알찬 목록/목록}}]]'''&lt;/span&gt;&lt;div style=&quot;float: right; height: 2rem; margin: .6rem 0;&quot;&gt;{{클릭가능한 버튼2|:위키백과:알찬 목록|더 보기|style=display: inline-block; height: 2rem; line-height: 2rem; padding: 0 1rem; border: 1px solid #EBEBEB; border-radius: 1rem; margin-right: 1rem;}}&lt;/div&gt;&lt;/div&gt;
+		&lt;/div&gt;
+		&lt;!-- 새로 들어온 소식 --&gt;
+		&lt;div class=&quot;wikipedia-ko news main-box&quot; style=&quot;clear: both; width: 100%; margin-top: 20px; flex: 1;&quot;&gt;
+			&lt;div class=&quot;wikipedia-ko news-header&quot; style=&quot;width: 100%; font-size: 1.1em; overflow: auto;&quot;&gt;
+				&lt;span style=&quot;height: 2rem;&quot; class=&quot;main-section&quot;&gt;'''[[포털:요즘 화제|새로 들어온 소식]]'''&lt;/span&gt;&lt;div style=&quot;float: right; height: 2rem; margin: .6rem 0;&quot;&gt;{{클릭가능한 버튼2|위키백과:새로 들어온 소식|이게 뭔가요?|style=display: inline-block; height: 2rem; line-height: 2rem; padding: 0 1rem; border: 1px solid #EBEBEB; border-radius: 1rem; margin-right: 1rem;}}&lt;/div&gt;&lt;/div&gt;
+			&lt;div style=&quot;clear: both; margin: 0 20px;&quot;&gt;{{새로 들어온 소식}}&lt;/div&gt;
+		&lt;/div&gt;
+		&lt;!-- 오늘의 역사 --&gt;
+		&lt;div class=&quot;wikipedia-ko history main-box nomobile&quot; style=&quot;width: 100%; margin-top: 20px; flex: 1;&quot;&gt;
+			&lt;div class=&quot;wikipedia-ko history-header&quot; style=&quot;width: 100%; overflow: auto; font-size: 1.1em;&quot;&gt;&lt;span style=&quot;height: 2rem;&quot; class=&quot;main-section&quot;&gt;'''[[위키백과:오늘의 역사|오늘의 역사]]'''&lt;/span&gt;&lt;div style=&quot;float: right; height: 2rem; margin: .6rem 0;&quot;&gt;{{클릭가능한 버튼2|위키백과:오늘의 역사/{{#timel: F j일|-1 days}}|어제|style=display: inline-block; height: 2rem; line-height: 2rem; padding: 0 1rem; border: 1px solid #EBEBEB; border-radius: 1rem; margin-right: 1rem;}}{{클릭가능한 버튼2|위키백과:오늘의 역사/{{#timel: F j일|+1 days}}|내일|style=display: inline-block; height: 2rem; line-height: 2rem; padding: 0 1rem; border: 1px solid #EBEBEB; border-radius: 1rem; margin-right: 1rem;}}&lt;/div&gt;&lt;/div&gt;
+			&lt;div style=&quot;clear: both; margin: 0 20px;&quot;&gt;{{위키백과:오늘의 역사/{{#timel:F j일}}}}&lt;/div&gt;
+		&lt;/div&gt;
+		&lt;!-- 알고 계십니까 --&gt;
+		&lt;div class=&quot;wikipedia-ko dyk main-box nomobile&quot; style=&quot;width: 100%; margin-top: 20px; flex: 1;&quot;&gt;
+			&lt;div class=&quot;wikipedia-ko dyk-header&quot; style=&quot;width: 100%; overflow: auto; font-size: 1.1em;&quot;&gt;&lt;span style=&quot;height: 2rem;&quot; class=&quot;main-section&quot;&gt;'''[[위키백과:알고 계십니까/역사|알고 계십니까]]'''&lt;/span&gt;&lt;div style=&quot;float: right; height: 2rem; margin: .6rem 0;&quot;&gt;{{클릭가능한 버튼2|위키백과:알고 계십니까|이게 뭔가요?|style=display: inline-block; height: 2rem; line-height: 2rem; padding: 0 1rem; border: 1px solid #EBEBEB; border-radius: 1rem; margin-right: 1rem;}}&lt;/div&gt;&lt;/div&gt;
+			&lt;div style=&quot;clear: both; margin: 0 20px;&quot;&gt;{{알고 계십니까}}&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- 우측 상자 끝--&gt;
+&lt;!-- 자매 프로젝트 --&gt;
+&lt;div class=&quot;wikipedia-ko sister main-box&quot; style=&quot;clear: both; display:inline-block; width: 100%; margin-top: 20px;&quot;&gt;
+&lt;div class=&quot;wikipedia-ko sister-header&quot; style=&quot;width: 100%; font-size: 1.1em; overflow: auto;&quot;&gt;
+&lt;span style=&quot;height: 2rem;&quot; class=&quot;main-section&quot;&gt;'''[[위키백과:자매 프로젝트|자매 프로젝트]]'''&lt;/span&gt;&lt;/div&gt;
+&lt;div style=&quot;clear: both; margin: 0 20px;&quot;&gt;{{자매프로젝트}}&lt;/div&gt;
+&lt;/div&gt;
+&lt;div style=&quot;display: inline-block; text-align: right; width: 100%;&quot;&gt;[[meta:List_of_Wikipedias/ko|위키백과 언어 전체 목록]]&lt;/div&gt;
+{{대문 인터위키}}{{noexternallanglinks}}</text>
+            <sha1>0pcfpwmj2x9p4xsxs2o6fhur5loodgn</sha1>
+        </revision>
+    </page>
+    <page>
+        <title>지미 카터</title>
+        <ns>0</ns>
+        <id>5</id>
+        <revision>
+            <id>40301269</id>
+            <parentid>40096343</parentid>
+            <timestamp>2025-07-19T13:30:53Z</timestamp>
+            <contributor>
+                <username>TedBot</username>
+                <id>368112</id>
+            </contributor>
+            <minor/>
+            <comment>봇: 문자열 변경 (안를 → 안을 )</comment>
+            <origin>40301269</origin>
+            <model>wikitext</model>
+            <format>text/x-wiki</format>
+            <text bytes="62995" sha1="2p5s32ltuxegvkiohitf1p5rktoh1kt" xml:space="preserve">{{대통령 정보
+| 이름 = 지미 카터
+| 원어명 = {{lang|en|Jimmy Carter}}
+| 그림 = JimmyCarterPortrait.jpg
+| 크기 = 300px
+| 설명 = 
+| 국가 = 미국
+| 대수 = 39
+| 취임일 = 1977년 1월 20일
+| 퇴임일 = 1981년 1월 20일
+| 부통령 = [[월터 먼데일]]
+| 전임 = 제럴드 포드
+| 전임대수 = 38
+| 후임 = 로널드 레이건
+| 후임대수 = 40
+&lt;!--주지사--&gt;| 국가2 = [[조지아주]]
+| 명칭2 = [[주지사]]
+| 대수2 = 76
+| 취임일2 = 1971년 1월 12일
+| 퇴임일2 = 1975년 1월 14일
+| 부통령2 = 레스터 매독스
+| 부통령명칭2 = 부주지사
+| 전임2 = 레스터 매독스
+| 전임대수2 = 
+| 후임2 = 조지 버스비
+| 후임대수2 = &lt;!--주의회 상원 의원--&gt;
+| 공직2 = [[조지아주]] 의회
+| 공직2명칭 = 주 상원 의원(제14구역)
+| 공직2대수 = 
+| 공직2취임일 = 1963년 1월 14일
+| 공직2퇴임일 = 1967년 1월 10일
+| 공직2전임 = 
+| 공직2후임 = 휴 카터
+| 국적 = [[미국]]
+| 출생일 = {{출생일|1924|10|1}}
+| 출생지 = [[미국]] [[조지아주]] [[플레인스 (조지아)|플레인스]]
+| 사망일 = {{사망일과 나이|2024|12|29|1924|10|1}}
+| 사망지 = 
+| 정당 = [[민주당 (미국)|민주당]]
+| 학력 = [[조지아 남서 주립대학교]]&lt;br /&gt;[[조지아 공과대학교]]&lt;br /&gt;[[유니언 칼리지]]&lt;br /&gt;[[미국 해군사관학교]]
+| 종교 = [[침례교]]
+| 부모 = 부 제임스 얼 카터 시니어(1894년~1953년)&lt;br /&gt;모 릴리안 고디 카터(1898년~1985년)
+| 배우자 = [[로절린 카터]] (1946년 결혼~2023년 사별)
+| 형제 = 2남 2녀 중 장남
+| 자녀 = 장남 잭 카터(1947년~)&lt;br /&gt;차남 칩 카터 (1950년~)&lt;br /&gt;삼남 도넬 카터(1952년~)&lt;br /&gt;장녀 에이미 카터 (1967년~)
+| 서명 = Jimmy Carter Signature-2.svg
+| 웹사이트 = [http://www.cartercenter.org/index.html 웹사이트]
+| 서훈 = [[노벨 평화상]](2002)
+}}
+'''제임스 얼 “지미” 카터 주니어'''({{llang|en|James Earl Carter, Jr.}}, [[1924년]] [[10월 1일]]~[[2024년]] [[12월 29일]])는 [[미국]]의 제39대 [[미국의 대통령|대통령]] (1977-81)을 지낸 미국의 정치인이다.&lt;ref&gt;https://www.washingtonpost.com/obituaries/2024/12/29/jimmy-carter-president-dead/&lt;/ref&gt;&lt;ref name=&quot;AJC_JC_Death&quot;&gt;{{뉴스 인용|url=https://www.ajc.com/news/former-us-president-jimmy-carter-100-dies/3ODQTR5NHVDTDF2SXOU34MKNZM/|제목=Former U.S. President Jimmy Carter, 100, dies|날짜=29 December 2024|출판사=Atlanta Journal-Constitution|확인날짜=29 December 2024}}&lt;/ref&gt; [[민주당 (미국)|민주당]] 소속으로 1963년부터 1967년까지 [[조지아주 상원|조지아주 상원 의원]], 1971년부터 1975년까지 [[조지아주의 주지사|조지아주의 76대 주지사]]을 지냈다. 카터는 [[백세인|100세]]까지 산 최초의 대통령으로 미국 역사상 가장 장수한 대통령이다.
+
+카터는 [[플레인스|조지아주 플레인스]]에서 태어나고 자랐다. 1946년 [[미국 해군사관학교]]를 졸업하고 [[미국 해군]] 잠수함에 승선했다. 카터는 군 복무를 마치고 고향으로 돌아와 가족의 땅콩 재배 사업을 되살렸다. 카터는 인종 분리 정책에 반대하며 성장하던 [[미국의 흑인 민권 운동|민권 운동]]을 지지했고, 민주당 내에서 활동가가 되었다. 1963년부터 1967년까지 조지아주 상원 의원으로 재직하였고, 1971년부터 1975년까지 조지아 주지사로 재직했다. 조지아 주 밖에서는 잘 알려지지 않은 [[다크호스]] 후보였던 카터는 [[1976년 민주당 전당대회|민주당 후보]]로 지명되어 [[1976년 미국 대통령 선거|1976년 대선]]에서 [[공화당 (미국)|공화당]]의 현직 대통령인 [[제럴드 포드]]를 상대로 신승했다.
+
+카터는 취임 둘째 날 베트남 전쟁에서 병역을 기피한 모든 사람들을 사면했다. [[미국 에너지부|에너지부]]와 [[미국 교육부|교육부]]를 설립했으며, 에너지 절약, 가격 통제, 신기술을 포함한 국가 에너지 정책을 만들었다. [[스태그플레이션]]에 대응하는 동시에 카터는 [[캠프 데이비드 협정]], [[파나마 운하 조약]], 제2차 [[전략 무기 제한 협상]]을 성공적으로 추진했다. 하지만 임기 말에는 [[주이란 미국 대사관 인질 사건|이란 인질 사태]], [[1979년 석유 파동|에너지 위기]], [[스리마일섬 원자력 발전소 사고|스리마일 섬 사고]], [[니카라과 혁명]], 그리고 [[소련–아프가니스탄 전쟁|소련의 아프가니스탄 침공]] 등 위기가 이어졌다. 아프가니스탄 침공에 대응하여 카터는 [[데탕트]] 정책을 종식시키고 [[카터 독트린]]을 선포했으며, [[미국의 소련에 대한 곡물 금수조치|소련에 곡물 금수조치]]를 부과하고, [[1980년 하계 올림픽|1980년 모스크바 하계 올림픽]]에 대한 [[1980년 하계 올림픽 보이콧|다국적 보이콧]]을 주도하여 [[냉전]]을 확대했다. 카터는 [[1980년 민주당 전당대회]]에서 도전자 [[에드워드 M. 케네디]]를 물리쳤지만, [[1980년 미국 대통령 선거]]에서는 공화당 후보인 [[로널드 레이건]]에게 큰 차로 패배했다. [[미국 연방 대법원|연방대법원]] [[미국의 연방 대법원 대법관|대법관]]을 임명하지 못하고 임기를 마친 유일한 대통령이다.
+
+카터 대통령은 대통령직에서 물러난 뒤 인권 증진을 위해 [[카터 센터]]를 설립하고 비영리 주택 기구인 [[해비타트 운동]]의 주요 직책을 맡았으며, 2002년에 관련된 업적을 인정받아 [[노벨 평화상]]을 수상했다. 평화 협상을 중재하고, [[선거 감시|선거를 감시하고]], 전염병을 근절하기 위해 여러 국가들을 여행했다. 정치적 회고록에서 시에 이르기까지 다양한 책을 썼으며, [[이스라엘-팔레스타인 분쟁|이스라엘-팔레스타인 갈등]]에 관한 두 권의 책을 포함하여 세계 문제에 대한 논평도 계속했다. 역사학자와 정치학자들의 여론 조사에서는 대체로 [[역대 미국 대통령 순위|카터 대통령을 평균 이하의 대통령으로 평가]]하지만, 학자와 대중은 미국 역사상 가장 길었던 [[지미 카터의 임기 후 활동|대통령 퇴임 후 기간]]에 대해서는 보다 긍정적인 평가를 내리고 있다.
+
+== 유년 생활 ==
+1924년 10월 1일 어머니가 간호사로 일하던 [[플레인스|조지아주 플레인스]]의 [[와이즈 요양소]]에서 태어났다. {{Sfn|Godbold|2010}} 이로써 카터는 병원에서 태어난 최초의 미국 대통령이 되었다. {{Sfn|Bourne|1997}} 조지아에서는 카터 가문은 여러 세대 동안 면화 농부로 일했다. {{Sfn|Bourne|1997}} 카터가 태어났을 당시 플레인스는 인구 600명이 사는 [[신도시]]였다. 아버지는 [[만물상]]을 운영하고 농장에 투자한 성공적인 지역 사업가로 {{Sfn|Bourne|1997}} [[제1차 세계 대전]] 중에 [[미국 육군 병참대|미국 육군 병참단]]에서 예비군 소위로 복무했다. {{Sfn|Bourne|1997}}
+
+카터의 유아 시절에 그의 가족은 여러 번 이사를 하여 근처 [[아처리 (조지아주)|아처리]]의 비포장 도로에 정착했는데, 그곳은 거의 대부분이 빈곤한 [[아프리카계 미국인]] 가족들로 구성되어 있었다. {{Sfn|Bourne|1997}} {{Sfn|Biven|2002}} [[글로리아 카터 스팬|글로리아]], [[루스 카터 스테이플턴|루스]], [[빌리 카터|빌리]] 세 자녀를 더 낳았다. {{Sfn|Flippen|2011}} 카터는 어린 시절 어머니가 긴 시간 일했기 때문에 종종 집을 비웠지만 부모님과 잘 지냈고, 아버지는 확고한 [[Racial segregation in the United States|인종 분리 지지자]] 였지만 지미가 흑인 농장 노동자의 아이들과 친구가 되도록 허용했다. {{Sfn|Newton|2016}} 아버지로 부터 1에이커를 받아 그곳에서 땅콩을 재배하고 포장하고 판매하는 등 10대에 기업가의 면모를 보였다. {{Sfn|Hamilton|2005}}
+
+=== 교육 ===
+카터는 1937년부터 1941년까지 플레인스 고등학교에 다녔으며 당시 학교에 12학년이 없었기 때문에 11학년에 졸업했다. {{Sfn|National Park Service|2020}} 그 당시 아처리와 플레인스 지역은 [[Great Depression in the United States|대공황]]으로 인해 빈곤에 빠져 있었지만 가족은 [[뉴딜]] 농업 보조금으로 혜택을 받았고 카터의 아버지는 지역 지도자로 자리를 잡았다. {{Sfn|Hamilton|2005}} {{Sfn|Hayward|2004}} 카터 자신은 독서를 좋아하는 근면한 학생이었다. {{Sfn|Hobkirk|2002}}
+
+카터는 오랫동안 [[미국 해군사관학교]]에 진학하는 것을 꿈꿔왔다. {{Sfn|Hamilton|2005}} 1941년에 그는 조지아주 아메리쿠스 근처에 있는 [[조지아 사우스웨스턴 주립대학교|조지아 사우스웨스턴 주립대학]]에서 공학 학부 과정을 시작했다. {{Sfn|Panton|2022}} 다음해에 카터는 시민권 운동의 상징인 [[Blake Van Leer|블레이크 반 리어]]가 총장으로 재직하고 있던 애틀랜타의 [[조지아 공과대학교|조지아 공과대학]]으로 편입했다. {{Sfn|Rattini|2020}} 조지아 공대에 재학하는 동안 카터는 [[ROTC|예비역 장교 훈련단]]에 참여했다. {{Sfn|Balmer|2014}} 1943년에 그는 미국 대표 [[스티븐 페이스]] 로부터 해군사관학교에 임명되었고, 카터는 1946년에 [[이학사]] 학위를 받았다. {{Sfn|Hobkirk|2002}} {{Sfn|Balmer|2014}} 그는 좋은 학생이었지만 신입생에 공격적이전 사관학교 문화와는 대조적으로 내성적이고 조용한 학생으로 여겨졌다. {{Sfn|Kaufman|Kaufman|2013}} 아카데미에 다니는 동안 카터는 여동생 루스의 친구인 [[로절린 카터|로잘린 스미스]]와 사랑에 빠졌다. {{Sfn|Wertheimer|2004}} 두 사람은 1946년 카터의 졸업 직후 결혼했으며 2023년 11월 19일 그녀가 사망할 때까지 결혼 생활을 이어갔다. {{Sfn|Bourne|1997}} {{Sfn|Barrow|Warren|2023}} 1947년 졸업반 821명의 해군생도 중 60위로 이학 학위를 취득하고 [[Ensign (rank)|소위]]로 임관했다. {{Sfn|Alter|2020}}
+
+== 해군 경력 ==
+[[파일:Graduation_of_Jimmy_Carter_from_U.S._Naval_Academy,_Annapolis,_Maryland,_Rosalynn_Carter_and_Lillian_Carter_Pinning_on_Ensign_Bars_-_DPLA_-_e1b1f2b5b4e38fc82cfe091678fc112a.jpg|대체글=Jimmy Carter similing towards the camera, while Rosalynn Smith and his mother are fixing his Naval Academy uniform|섬네일|1946년 6월 5일 [[아나폴리스 (메릴랜드주)|메릴랜드주 애너폴리스]]에서 열린 [[미국 해군사관학교]] 졸업식에서 어머니와 [[로절린 카터|로잘린 스미스]]랑 함께 있는 카터]]
+1946년부터 1953년까지 카터 부부는 [[미국 함대전력사령부|대서양]] 과 [[미국 태평양 함대|태평양 함대]]에 배치되어 [[버지니아주|버지니아]], [[하와이 준주|하와이]], [[코네티컷주|코네티컷]], [[뉴욕주|뉴욕]], [[캘리포니아주|캘리포니아]]에 거주했다. {{Sfn|Zelizer|2010}} 1948년 잠수함 임무를 위한 장교 훈련을 시작하며 {{USS|폼프렛|SS-391|6}}에서 복무했다. {{Sfn|Thomas|1978}} 1949년에 [[Lieutenant junior grade|중위]]로 진급했고 그해 1월부터 3월까지 서부 태평양과 중국 연안에 대한 순찰에 동승했다. {{Sfn|Nijnatten|2012}} 1951년 카터는 디젤/전기 잠수함인 {{USS|K-1|SSK-1}}에 배치되어 행정 책임자를 포함한 여러 직책을 역임했다. {{Sfn|Jimmy Carter Library and Museum|2004}}
+
+1952년 12월 12일, [[캐나다 원자력공사]]의 [[초크 리버 연구소|초크리버 연구소]]에 있는 실험용 [[NRX]] 원자로에서 사고가 발생하여 원자로가 부분적으로 녹아내렸고, 수백만 리터의 방사성 물이 원자로 건물 지하에 범람해 원자로의 핵심이 파괴되었다. {{Sfn|Frank|1995}} 카터는 다른 미국 및 캐나다 군인들과 합류하여 원자로 정지를 돕기 위해 미국 유지 보수팀을 이끌기 위해 초크리버로 파견되었다. {{Sfn|Martel|2008}} 고장난 원자로를 분해하는 동안 방사능에 노출되는 것을 최소하기 위해 각 팀원이 보호 장비를 착용하고 한 번에 90초씩 개별적으로 원자로 안으로 내려가야 했다. 카터는 나사 하나를 돌리는 일을 맡았다. {{Sfn|Marguet|2022}} 카터는 초크 리버에서의 경험이 원자력에 대한 자신의 견해를 형성했으며 [[중성자탄|중성자 폭탄]] 개발을 중단하게 하는데 영향을 미쳤다고 말했다. {{Sfn|Milnes|2009}}
+
+1953년 3월, 카터는 미국의 두 번째 핵잠수함으로 계획되었던 {{USS|시울프|SSN-575|6}}에 탑승하기 위해{{Sfn|Naval History and Heritage Command|1997}} 스케넥터디에 있는 [[Union College|유니언 칼리지]] 에서 원자력 발전소 운영에 관한 6개월 과정을 시작했다. {{Sfn|Zelizer|2010}} 하지만 시울프의 건조가 시작되기 두 달 전인 7월에 아버지가 [[췌장암]]으로 사망하자 가족의 땅콩 사업을 이어받기 위해 제대하게 된다. {{Sfn|Wead|2005}} {{Sfn|Panton|2022}} 스케넥터디 생활에 익숙해지고 있던 로잘린은 {{Sfn|Wooten|1978}} {{Sfn|Schneider|Schneider|2005}} 플레인스의 소도시 생활로 돌아가는 것이 &quot;엄청난 퇴보&quot;처럼 보였다고 말했다. {{Sfn|Bourne|1997}} 카터는 1953년 10월 9일에 현역에서 물러났다. {{Sfn|Bourne|1997}} {{Sfn|Hayward|2009}} 1961년까지 [[United States Navy Reserve|해군 예비군]]에서 복무했으며 [[대위 (해군)|대위]] 계급으로 군을 떠났다. {{Sfn|Eckstein|2015}} 카터는 장교로서 [[미국 전역 훈장]], [[제2차 세계 대전 승전 훈장]], [[중화민국 봉사 훈장]], [[국가 방위 봉사 훈장]]을 부여받았으며, {{Sfn|Suciu|2020}} 잠수함 장교로서 그는 또한 [[잠수함 휘장]]을 획득했다. {{Sfn|Naval History and Heritage Command|2023}}
+
+
+== 농업 ==
+부채 정산과 부친의 유산이 상속인들 사이에서 분배된 후, 지미는 비교적 적은 재산을 상속받았다. {{Sfn|Mukunda|2022}} 그와 로잘린, 그리고 세 아들은 1년 동안 플레인스의 공공주택에서 생활했다. 카터는 과학 및 기술 분야에 대한 지식이 풍부했던 카터는 가족의 땅콩 재배 사업을 확장하기로 결심한다. {{Sfn|Kaufman|2016}} 해군에서 농업 사업가로의 전환은 쉽지 않았고, 첫해 수확은 가뭄으로 실패하면서 농장을 유지하기 위해 여러 은행에서 대출을 받아야 했다. {{Sfn|Gherman|2004}} 그동안 그는 농업 수업을 들었고, 로잘린은 회계를 배워 사업 장부를 관리했다.{{Sfn|Morris|1996}} 첫해에는 간신히 손익분기점을 맞췄지만, 카터 부부는 사업을 성장시키며 상당한 성공을 거두었다.{{Sfn|Bourne|1997}} {{Sfn|Morris|1996}}
+
+== 초기 정치 경력 (1963–1971) ==
+
+=== 조지아 주 상원의원 (1963–1967) ===
+1954년 [[미국 연방 대법원|미국 대법원이]] [[브라운 대 토피카 교육위원회 재판|브라운 대 교육위원회]] 사건 {{Sfn|Gherman|2004}} 에서 인종 분리 정책에 반하는 판결을 내리자 플레인스에서 인종적 긴장이 고조되자 카터는 인종적 관용과 통합을 지지했지만 적을 만들지 않기 위해 . 1961년까지 카터는 [[침례교|침례교회]] 회원이자 [[섬터군 (조지아주)|섬터군]] 학교 위원회 위원장으로서 인종 통합에 대해 더욱 두드러지게 말하기 시작했다. {{Sfn|Bourne|1997}} {{Sfn|Donica|Piccotti|2018}} 1962년 카터는 선거 15일 전에 [[Georgia State Senate|조지아 주 상원 의원]] 보궐 선거 출마할 것을 발표했다. {{Sfn|Carter|1992}} 정치와 조직에 대한 감각이 뛰어난 로잘린은 선거 운동 과정에서 중요한 역할을 했다. 초기 투표개표 결과 카터가 상대 후보인 호머 무어보다 뒤진 것으로 나타났지만, 이는 나중에 [[키트먼군 (조지아주)|키트먼군]] [[민주당 (미국)|민주당]] 위원장인 조 허스트가 조직한 부정 투표로 인한 결과임이 밝혀졌다.{{Sfn|Carter|1992}} 카터가 선거 결과에 이의를 제기하자 이후 또 다른 선거가 실시되었고 카터는 무어를 상대로 3,013 대 2,182표 차이로 유일한 민주당 후보로 승리했다. {{Sfn|Bourne|1997}}
+
+의원으로 취임했을 때는 [[미국의 흑인 민권 운동|민권 운동]]이 한창 진행 중이었다. 카터는 처음에는 이 문제로 인해 지역이 크게 분열되는 상황에서도 분리주의 동료들을 멀어지게 하지 않기 위해 비교적 조용한 태도를 유지했다. 그러나 그는 몇 가지 논쟁적인 문제에 대해서는 목소리를 냈으며, 문자 해독 시험에 반대하는 연설과 종교 실천을 강요하는 의미가 내포되어 있다고 판단한 조지아주 헌법 개정안에 반대하는 연설을 했다.{{Sfn|Bourne|1997}} 임기 2년 차에 주 민주당 집행위원회에 진출한 카터는 주(州)당의 당규 개정에 참여했다. 이후 연방 및 주 정부 보조금이 역사 유적 복원과 같은 프로젝트에 분배되는 것을 감독하는 서중부 조지아 기획 및 개발 위원회(West Central Georgia Planning and Development Commission) 위원장으로 선출되었다. {{Sfn|Ryan|2006}}
+
+1964년 [[보 캘러웨이]]가 [[미국 하원|미국 하원의원]]으로 선출되자, 카터는 즉시 그에게 도전할 계획을 세우기 시작했다. 두 사람은 이전에 어느 2년제 대학을 주(州)에서 4년제 대학으로 확장할 것인가를 두고 충돌한 바 있었다. 카터는 [[공화당 (미국)|공화당]]으로 당적을 변경한 캘러웨이를 자신이 경멸하는 정치적 요소들을 대표하는 경쟁자로 보았다. {{Sfn|Bourne|1997}} 카터는 주 상원에서 2년 임기의 2번째 임기로 재선되었으며 {{Sfn|Georgia General Assembly|1965}} 임기 말에 교육 위원회 의장을 맡았고 예산 위원회에 참여했다. 주 전체 교육 자금을 확대하고 [[조지아 사우스웨스턴 주립대학교|조지아 사우스웨스턴 주립대학]]에 4년제 프로그램을 도입하는 법안에 기여했다. 그는 지역 계획 업무를 활용해 지역 곳곳에서 연설을 하며 잠재적 유권자들에게 자신을 더 잘 알리려고 노력했다. 카터는 임기 마지막 날 하원 의원 출마를 선언했으나 {{Sfn|Bourne|1997}} 캘러웨이가 대신 주지사 선거에 출마하기로 결정했자 {{Sfn|Bourne|1997}} 카터는 마음을 바꾸어 주지사 선거에 출마하기로 결정했다. {{Sfn|Bourne|1997}}
+
+=== 1966년과 1970년 주지사 선거 출마 ===
+1966년 주지사 선거에서 카터는 민주당 예비선거에서 자유주의 성향의 전 주지사 [[Ellis Arnall|엘리스 아널]] 과 보수주의적 인종 분리주의자인 [[레스터 매덕스|레스터 매독스]]와 경쟁했다. 기자 회견에서 그는 자신의 이념 성향을 &quot;보수적, 온건적, 자유주의적, 중도적&quot;이라고 설명했다. {{Sfn|Bourne|1997}} 그는 3위로 예비선거에서 진 카터는 농업 사업에 복귀하여 다음 캠페인을 신중하게 계획했다. 이 기간은 카터에게 영적인 전환점이었다. 그는 자신을 [[거듭남|거듭난]] 그리스도인으로 선언했고 마지막 아이인 [[에이미 카터|에이미]]가 태어났다. {{Sfn|Bourne|1997}} {{Sfn|Hayward|2009}}
+
+1970년 주지사 선거에서 진보 성향의 전직 주지사 칼 샌더스가 민주당 경선에서 카터의 주요 경쟁자로 떠올랐다. 카터는 인쇄 그래픽과 통계 분석을 활용하는 등 더 현대적인 선거운동을 펼쳤다. 여론에 대응해 그는 이전보다 보수적인 입장을 취하며 자신을 [[포퓰리즘|포퓰리스트]] 후보로 내세웠고, 샌더스의 부유함과 민주당 전국위원회와 의 연계를 비판했다. 또한 샌더스를 부패 혐의로 비난했지만, 언론이 증거를 요구하자 이를 제시하지 못했다. 1970년 주지사 선거에서 자유주의 성향의 전 주지사 [[칼 샌더스]]가 민주당 예비선거에서 카터의 주요 상대가 되었다. {{Sfn|Bourne|1997}} {{Sfn|Hayward|2009}} 카터는 [[마틴 루터 킹 시니어|마틴 루터 킹 주니어]]와 [[앤드루 영|앤드류 영]] 등 주요 흑인 인사들을 만나고 흑인이 소유한 많은 사업체를 방문하는 동시에 월러스를 칭찬하고 조지아에서 연설을 하도록 초대하겠다고 약속하는 등 선거운동 내내 흑인 유권자 뿐만 아니라 앨라배마 주의 유명한 인종차별주의자 [[조지 월리스|조지 월러스]]를 지지했던 유권자를 모두 확보하고자 노력했다. 카터의 인종차별 성향 유권자들에 대한 구애는 시간이 지날수록 더욱 노골적으로 변했으며, 그의 선거운동 고위 보좌관들은 샌더스가 흑인 농구 선수들과 함께 축하하는 사진을 배포하기도 했다. {{Sfn|Bourne|1997}} {{Sfn|Hayward|2009}}
+
+9월 1차 투표에서 카터는 샌더스보다 49% 대 38%로 앞서 결선 투표로 이어졌다. 이후의 캠페인은 더욱 격렬했다. 카터는 초기에는 시민권을 지지했지만, 인종차별에 대한 호소력이 커졌고, 샌더스가 [[마틴 루터 킹 주니어|마틴 루터 킹 목사]] 지지한다고 비판했다. 카터는 60%의 득표율로 결선 투표에서 승리했고, 공화당 후보 [[Hal Suit|핼 슈트]]를 상대로 본선에서 승리했다. 카터는 주지사에 당선된 후 입장을 바꾸어 조지아의 인종 차별 정치에 반대하는 발언을 하기 시작했다. 흑인 주 상원의원인 [[리로이 존슨]]은 카터에 대한 지지를 표명했다. &quot;저는 그가 왜 그런 종류의 극우적 캠페인을 벌였는지 이해합니다. 인종차별주의자가 되지 않고는 이 주에서 이길 수 없다고 믿다.&quot; {{Sfn|Bourne|1997}}
+
+== 조지아 주지사 재임 (1971–1975) ==
+[[파일:Jimmy_Carter_official_portrait_as_Governor.jpg|대체글=A black and white photographic official portrait of a young Carter as the governor of Georgia|섬네일|1971년 조지아 주지사 시절 카터의 공식 사진]]
+카터는 1971년 1월 12일 [[조지아주의 주지사|조지아주의 76대 주지사]]로 취임했다. 취임 연설에서 그는 &quot;인종 차별의 시대는 끝났다&quot;고 선언했고 {{Sfn|Berman|2022}} 군중을 충격에 빠뜨렸으며 경선 기간 동안 그를 지지했던 많은 분리주의자들에게 배신감을 느끼게 했다. 카터는 동료 정치인들과 교류하기를 꺼려했기 때문에 의회에서 인기가 없었다. {{Sfn|Bourne|1997}} {{Sfn|Hayward|2009}} 그는 1972년 1월에 개편 계획을 제출하여 주지사의 권한을 확대했다. 처음에는 의회에서 차가운 반응을 얻었음에도 불구하고 이 계획은 회기 마지막 날 자정에 통과되었다. {{Sfn|Bourne|1997}} 카터는 약 300개의 주 정부 기관을 22개로 통합했지만 그로 인해 주 정부가 비용을 절감했는지 여부는 논란이 있다. {{Sfn|Freeman|1982}} 1971년 7월 8일 [[콜럼버스 (조지아주)|조지아주 콜럼버스]]에서 열린 연설에서 폭력에 문제를 해결하기 위해 조지아 인권 위원회를 설립하겠다는 의사를 밝혔다. {{Sfn|Rome News-Tribune|1971a}}
+
+1971년 7월 13일 기자회견에서 카터는 1972 회계연도 말까지 5,700만 달러의 적자를 방지하기 위해 각 부서장에게 지출을 줄이도록 지시했다고 발표했다. 그는 모든 주 정부 부서가 영향을 받을 것이며, 부서들이 할당된 예산을 완전히 사용할 경우 정부 수입의 5%가 손실될 것으로 추산했다. {{Sfn|Rome News-Tribune|1971b}} 1972년 1월 13일, 그는 주 의회에 유아 발달 프로그램과 교도소 개혁 프로그램에 대한 예산을 지원할 것을 요청했으며, 주 정부 직원 대부분에게 지급될 4,800만 달러(2023년 기준 약 3억 4,963만 달러)의 세금 지원을 제안했다. {{Sfn|Rome News-Tribune|1972a}}
+
+1972년 3월 1일, 카터는 법무부가 하원이나 상원의 재분할 계획을 거부할 경우 총회 특별회의를 소집할 수도 있다고 말했다. {{Sfn|Rome News-Tribune|1972b}} 그는 의회에서 여러 개혁안을 추진해, 조지아의 부유층과 빈곤층의 학교에 동등한 국가 지원금을 제공하고, 정신 장애 아동을 위한 지역 센터를 설립하고, 수감자를 위한 교육 프로그램을 확대했다.{{Sfn|Sidey|2012}} {{Sfn|World Book|2001}} 또한 환경 운동가의 의견을 따라 조지아주 [[Flint River|플린트 강]]에 댐을 건설하는 계획에 거부권을 행사했다. {{Sfn|NBC News|2008}} {{Sfn|Bourne|1997}}
+[[파일:Jimmy_Carter_and_wife_with_Reubin_Askew_and_his_wife.jpg|대체글=Carter shaking hands with Reubin Askew, with Carter's wife smiling while standing in the middle of them|왼쪽|섬네일|1971년 이후 [[미국 무역대표부|미국 무역대표]]가 되는 당시 플로리다 주지사 [[루빈 애스큐]]와 그의 부인을 맞이하는 카터]]
+카터는 인권 문제를 최우선 과제로 삼았으며, 흑인 주 정부 직원 수를 늘리고 조지아 주 의사당에 저명한 흑인 지도자 세 사람, 마틴 루서 킹 주니어, 루시 크래프트 레이니, 헨리 맥닐 터너의 초상화를 추가로 걸었다. 이로 인해 [[쿠 클럭스 클랜]]의 분노를 샀다. {{Sfn|Bourne|1997}} 그는 1973년 1월 31일 플로리다 주지사 루빈 아스큐와의 공동 TV 출연에서 학교 통합을 촉진하기 위한 버싱(busing, 학생들을 다른 학군으로 이동시키는 정책)을 금지하는 헌법 개정을 지지했으며, {{Sfn|Rome News-Tribune|1973a}}1971년 전국 주지사 회의에서 조지 월리스와 함께 반(反)버싱 결의안을 공동 발의했다. {{Sfn|Rome News-Tribune|1971c}} {{Sfn|Bourne|1997}} 1972년 미 연방대법원이 [[퍼맨 대 조지아 사건]]에서 조지아주의 사형제도를 위헌으로 판결한 후, 카터는 판결을 반영한 사형제도 개정안을 승인해 주(州) 내 사형 집행을 재도입했다. 그러나 그는 나중에 &quot;그 당시에는 지금처럼 사형 제도의 부당함을 보지 못했다.&quot; 며 사형제도를 지지한 것을 후회했다. {{Sfn|Pilkington|2013}}
+
+법에 따라 재선이 불가능했던 카터는 대선 출마를 고려하며 전국 정치에 개입했다. 그는 여러 남부 지역 계획 위원회에 임명되었으며, [[1972년 민주당 전당대회]] 대의원이기도 했는데, 당시 자유주의 성향의 미국 상원의원 [[조지 맥거번|조지 맥거번이]] 후보로 지명될 가능성이 컸다. 카터는 보수층과 맥거번에 반대하는 유권자들의 호감을 사려고 노력했다. 그는 당시에는 상당히 알려지지 않았 던 터라 대선 후보가 되는 데 실패했다. {{Sfn|Bourne|1997}} {{Efn|Eagleton was later replaced on the ticket by [[Sargent Shriver]].{{sfn|Bourne|1997|p=230}}}} 8월 3일, 카터는 민주당이 패배하는 것을 막기 위해 [[버밍햄|앨라배마주 버밍햄]]에서 월리스를 만났지만 {{Sfn|Rome News-Tribune|1972c}} 결국 패배하고 말았다. {{Sfn|Bourne|1997}}
+
+카터는 선거 운동원들과 정기적으로 만나 1976년 대선 출마를 위한 준비를 하기로 결정했다. 그는 자신의 인지도를 높이기 위해 [[전국 주지사 협회]] 회장이 되려고 노력했지만 실패했다. [[데이비드 록펠러]]의 지지로 그는 1973년 4월 [[삼극위원회|삼국위원회]] 위원으로 임명되었다. 그 다음해에 그는 [[민주당 전국위원회]]의 의회 및 주지사 선거 캠페인 위원장으로 임명되었다. {{Sfn|Bourne|1997}} 1973년 5월 카터는 [[워터게이트 사건]]을 정치화하지 말라고 자신의 당에 경고했는데, {{Sfn|Rome News-Tribune|1973b}} 그는 이것이 [[리처드 닉슨]] 대통령의 미국인들로부터의 고립과 비밀스러운 의사결정에 기인한다고 말했다. {{Sfn|Rome News-Tribune|1973c}}
+
+== 대통령 재임 ==
+[[파일:Inauguration of Jimmy Carter.jpg|섬네일|왼쪽|380px|취임식을 올리는 카터]]
+1976년 미합중국 제39대 대통령 선거에 [[민주당]] 후보로 출마하여 [[도덕주의]] 정책을 내세워서 많은 지지를 받았으며 [[제럴드 포드]] 대통령을 누르고 당선되었다.
+
+카터 대통령은 에너지 개발을 촉구했으나 [[공화당 (미국)|공화당]]의 반대로 무산되었다.&lt;ref&gt;[http://academic.naver.com/view.nhn?doc_id=9835341 카터 에너지 계획의 내용과 전망 ]&lt;/ref&gt;&lt;ref&gt;[http://academic.naver.com/view.nhn?doc_id=9837242 카터미대통령의 에너지 계획 (카터美大統領의 에너지 計劃) ]&lt;/ref&gt;&lt;ref&gt;[http://academic.naver.com/view.nhn?doc_id=9887138 ... 에너지대책 과 평가]&lt;/ref&gt;&lt;ref&gt;[http://academic.naver.com/view.nhn?doc_id=9887100 카터 대통령의 연설]&lt;/ref&gt;
+
+=== 외교 정책 ===
+[[파일:Sadat Carter Begin, Camp David 1978.gif|섬네일|300px|[[캠프데이비드]]에서 [[안와르 사다트|사다트]]와 [[메나헴 베긴|베긴]]과 함께]]카터는 [[이집트]]와 [[이스라엘]]을 조정하여 캠프 데이비드에서 [[안와르 사다트]] 대통령과 [[메나헴 베긴]] 수상과 함께 중동 평화를 위한 [[캠프데이비드 협정]]을 체결했다. 이것은 공화당과 미국의 유대인 단체의 반발을 일으켰다. 그러나 1979년, 양국 간의 평화조약이 [[백악관]]에서 이루어졌다.
+
+[[소련]]과 제2차 [[전략 무기 제한 협상]](SALT II)에 조인했다.
+
+카터는 [[1970년대]] 후반 당시 [[대한민국]] 등 인권 후진국의 국민들의 인권을 지키기 위해 노력했으며, 취임 이후 계속해서 도덕정치를 내세웠다.
+
+임기 말, [[소련의 아프가니스탄 침공]] 사건으로 인해 [[1980년 하계 올림픽]]에 반공국가들의 [[보이콧]]을 하였다.
+
+그는 [[주이란 미국 대사관 인질 사건]]의 인질 구출 실패로 인한 원인으로, 1980년 제40대 대통령 선거에서 [[공화당 (미국)|공화당]]의 [[로널드 레이건]]에게 패배하며 재선에 실패하였다.
+
+=== 대한민국과의 관계 ===
+
+지미 카터는 [[대한민국]]과의 관계에서도 중요한 영향을 미쳤던 대통령 중 하나다. 인권 문제와 주한미군 철수 문제로 한때 한미 관계가 불편하기도 했다. 1978년 대한민국에 대한 [[조선민주주의 인민공화국]]의 위협에 대비해 [[한미연합사]]를 창설하면서, 1982년까지 3단계에 걸쳐 주한미군을 철수하기로 했다. 그러나 주한미군사령부와 정보기관·의회의 반대에 부딪혀 주한미군은 완전철수 대신 6,000명을 감축하는 데 그쳤다&lt;ref&gt;{{웹 인용 |url=http://article.joins.com/article/article.asp?Total_ID=3372344 |제목=JOINS {{!}} 아시아 첫 인터넷 신문&lt;!-- 봇이 붙인 제목 --&gt; |확인날짜=2008-12-21 |archive-date=2012-07-07 |archive-url=https://archive.today/20120707005625/article.joins.com/article/article.asp?Total_ID=3372344 |url-status= }}&lt;/ref&gt;. 또한 [[박정희]] 정권의 인권 문제 등과의 논란으로 불협화음을 냈으나, 1979년 6월 하순, 대한민국을 방문했는데 관계가 다소 회복되었다.
+1979년~1980년 대한민국의 정치적 격변기 당시의 대통령이었던 그는 이에 대해 애매한 태도를 보였고, 이는 후에 대한민국 내에서 고조되는 반미 운동의 한 원인이 됐다. 10월 26일, [[박정희]] 대통령이 [[김재규]] [[중앙정보부장]]에 의해 [[10·26 사건|살해]]된 것에 대해 그는 이 사건으로 큰 충격을 받았으며, [[사이러스 밴스]] [[미국의 국무장관|국무장관]]을 조문사절로 파견했다. [[12·12 군사 반란]]과 [[5.17 쿠데타]]에 대해 초기에는 강하게 비난했으나, 미국 정부가 [[신군부]]를 설득하는데, 한계가 있었고 결국 묵인하는 듯한 태도를 보이게 됐다.
+
+== 퇴임 이후 ==
+[[파일:Ranjit_Bhaskar_Juba,_jan_9,_2011042_-_Flickr_-_Al_Jazeera_English.jpg|섬네일|왼쪽|2011년 [[남수단 독립 국민투표]]에 업저버 사절단을 지도한 카터]]
+퇴임 이후 민간 자원을 적극 활용한 비영리 기구인 카터 재단을 설립한 뒤 민주주의 실현을 위해 제 3세계의 선거 감시 활동 및 기니 벌레에 의한 드라쿤쿠르스 질병 방재를 위해 힘썼다. 미국의 빈곤층 지원 활동, 사랑의 집짓기 운동, 국제 분쟁 중재 등의 활동도 했다.
+
+카터는 카터 행정부 이후 미국이 북핵 위기, [[코소보 전쟁]], [[이라크 전쟁]]과 같이 미국이 군사적 행동을 최후로 선택하는 전통적 사고를 버리고 군사적 행동을 선행하는 행위에 대해 깊은 유감을 표시 하며 미국의 군사적 활동에 강한 반대 입장을 보이고 있다.
+
+특히 국제 분쟁 조정을 위해 북한의 [[김일성]], 아이티의 세드라스 장군, 팔레인스타인의 [[하마스]], 보스니아의 세르비아계 정권 같이 미국 정부에 대해 협상을 거부하면서 사태의 위기를 초래한 인물 및 단체를 직접 만나 분쟁의 원인을 근본적으로 해결하기 위해 힘썼다. 이 과정에서 미국 행정부와 갈등을 보이기도 했지만, 전직 대통령의 권한과 재야 유명 인사들의 활약으로 해결해 나갔다.
+
+1978년에 채결된 [[캠프데이비드 협정]]의 이행이 지지부진 하자 중동 분쟁 분제를 해결하기 위해 1993년 퇴임 후 직접 이스라엘과 팔레인스타인의 [[오슬로 협정]]을 이끌어 내는 데도 성공했다.
+
+[[파일:Presidents_Obama,_Clinton,_and_Carter.jpg|섬네일|오른쪽|워싱턴 행렬 50주년을 맞는 날 [[빌 클린턴]], [[버락 오바마]] 대통령과 함께 (2013년)]]
+1993년 1차 북핵 위기 당시 북한에 대한 미국의 군사적 행동이 임박했으나, 미국 전직 대통령으로는 처음으로 [[조선민주주의인민공화국|북한]]을 방문하고 미국과 북 양국의 중재에 큰 기여를 해 위기를 해결했다는 평가를 받았다. 또한 이 때는 김영삼 대통령과 김일성 주석의 만남을 주선했다. 하지만 그로부터 수주일 후 김일성이 갑자기 사망하였으므로 [[김일성]]과 [[김영삼]] 정상회담은 이루어지지 못했다.
+
+미국의 관타나모 수용소 문제, 세계의 인권문제에서도 관심이 깊어 [[유엔]]에 유엔인권고등판무관의 제도를 시행하도록 노력하여 독재자들의 인권 유린에 대해 제약을 하고, 국제형사재판소를 만드는데 기여하여 독재자들 같은 인권유린범죄자를 [[법원|재판소]]로 회부하여 국제적인 처벌을 받게 하는 등 인권 신장에 크나 큰 기여를 했다.
+
+2011년 4월 26일부터 29일까지 북한을 3일간 방문했다.
+
+2014년 12월, [[통합진보당]] [[이석기]] 전 의원의 유죄판결에 대해 우려하는 내용의 성명서를 한국 대법원에 발송했다.
+
+2020년에는 28년만에 [[대통령 선거]]에서 고향 조지아 주에서 민주당이 승리하는 기쁨을 맛봤다.
+
+2021년 1월 20일에 행할 예정인 [[조 바이든]]의 대통령 취임식에는 불참을 결정했다. 불참 이유를 명확히 밝히지는 않았지만 [[코로나19]]의 유행에 따른 방역 지침을 지키기 위해서로 보인다고 발혔는데 그 대신, 바이든의 대통령 취임을 축하하는 메시지를 보냈다.
+
+2015년 간 종양이 발견되어 수술을 받아서 좋은 결과가 나오긴 했으나 암이 다른 장기로 전이된 것이 발견되어 수술을 받을 예정이라 한다. 암은 [[흑색종]]으로 진단되었으며 간에서 종양이 2.5cm 절제되었다. 허나 암이 뇌에 전이된 것이 발견되었고, 2015년 8월 20일(현지시간) 오후에 첫 방사능 치료를 했다.
+
+그런데 그가 암을 이겨낸 지 불과 2주 만에 그의 손자인 제레미 카터가 사망했다는 비보를 듣게 되었다. 수면 중 심장마비로 고통없이 사망했으며 심장병에 걸린 원인은 아직 밝혀지지 않았다.
+
+2022년 10월 1일, 98번째 생일을 맞이했으며 고향인 [[조지아주]] 플레인스의 땅콩 축제에 참가했다.
+
+2023년 2월 18일 지미 카터 전 대통령이 연명치료를 중단하고 자택에서 [[호스피스]] 간병에 들어갔다는 지미 카터 센터의 성명이 발표되었다. 피부암의 일종인 [[흑색종]] 진단을 받고 그동안 자택에서 투병 중이었으며 현재는 암세포가 뇌와 간 등으로 전이되어 더 이상의 연명치료를 포기하고 남은 시간은 가족들과 함께 보낼 것이라고 한다. 호스피스 케어는 보통 만성질환이나 불치병으로 투병하는 시한부 환자들이 사망하기 전에 거치는 과정이기에 이제 그의 삶도 오래 남지 않았다고 할 수 있다. 민주당의 동지이자 정치적 후배인 조 바이든 역시 이 소식을 접했다고 한다.
+
+그의 손자인 조시 카터는 8월 19일에 언론과의 인터뷰에서 &quot;할아버지가 '마지막 장'에 들어섰다&quot;라고 말했다. 그러나 카터는 2015년 당시에도 뇌암이 4기까지 진행되었으나 끝내 완치했었고 8년이 지난 현재는 그보다 더 나이가 든 만큼 카터가 곧 사망할 것이라고 속단하기는 이르다.
+
+== 같이 보기 ==
+* [[주한 미군의 철수]]
+* [[한반도 평화협정]]
+
+== 역대 선거 결과 ==
+{| class=&quot;wikitable&quot;
+|-
+!선거명||직책명||대수||정당||득표율||득표수 (선거인단)||결과||당락
+|-
+|[[1970년 조지아 주지사 선거|1970년 선거]]||[[조지아주의 주지사|조지아 주지사]]||76대||[[민주당 (미국)|민주당]]||{{막대|청|5|9|2|8}} 59.28%||620,419표||1위||[[파일:Seal_of_Georgia.svg|25px|조지아 주지사 당선]]
+|-
+|[[1976년 미국 대통령 선거|1976년 선거]]||[[미국의 대통령 목록|미국의 대통령]]||39대||[[민주당 (미국)|민주당]]||{{막대|청|5|0|0|8}} 50.08%||40,831,881표 (297명)||1위||[[파일:Seal_of_the_President_of_the_United_States.svg|25px]]
+|-
+|[[1980년 미국 대통령 선거|1980년 선거]]||[[미국의 대통령 목록|미국의 대통령]]||40대||[[민주당 (미국)|민주당]]||{{막대|청|4|1|0|2}} 41.02%||35,483,820표 (49명)||2위||낙선
+|}
+
+== 각주 ==
+{{각주}}
+
+=== 내용주 ===
+&lt;references group=&quot;lower-alpha&quot; /&gt;
+
+=== 참고 자료 ===
+{{참고 자료 시작|30em}}
+* {{서적 인용|title=His Very Best {{endash}} Jimmy Carter, a Life|last1=Alter|first1=Jonathan|year=2020|publisher=[[Simon &amp; Schuster]]|isbn=978-1-5011-2554-6|ref=harv}}
+* {{서적 인용|title=Redeemer: The Life of Jimmy Carter|url=https://archive.org/details/redeemerlifeofji0000balm|last1=Balmer|first1=Randall|year=2014|publisher=[[Basic Books]]|isbn=978-0-465-02958-7|ref=harv}}
+* {{서적 인용|title=Jimmy Carter's Economy: Policy in an Age of Limits|url=https://archive.org/details/jimmycartersecon00bive_0|last1=Biven|first1=W. Carl|year=2002|publisher=[[University of North Carolina Press]]|isbn=0-8078-6124-3|oclc=53876246|ref=harv}}
+* {{서적 인용|title=Jimmy Carter: A Comprehensive Biography From Plains to Post-Presidency|url=https://archive.org/details/jimmycartercompr00bour|last1=Bourne|first1=Peter G.|year=1997|publisher=[[Charles Scribner's Sons|Scribner]]|isbn=978-0-684-19543-8|lccn=96048593|ol=22339703M|ref=harv}}
+* {{서적 인용|title=The Unfinished Presidency {{endash}} Jimmy Carter's Journey Beyond the White House|last1=Brinkley|first1=Douglas|year=1998|publisher=[[Viking Press]]|isbn=978-0-670-88006-5|lccn=98182755|ol=24739261M|ref=harv}}
+* {{서적 인용|title=Ancestors of Jimmy and Rosalynn Carter|url=https://archive.org/details/ancestorsofjimmy00cart|last1=Carter|first1=Jeff|year=2012|publisher=[[McFarland &amp; Co]]|isbn=978-0-7864-8954-1|oclc=802261814|ref=harv}}
+* {{서적 인용|title=Turning Point: A Candidate, a State, and a Nation Come of Age|last1=Carter|first1=Jimmy|year=1992|publisher=[[Three Rivers Press]]|isbn=978-0-8129-2299-8|ref=harv}}
+* {{서적 인용|title=Jimmy Carter, the Politics of Family, and the Rise of the Religious Right|url=https://archive.org/details/jimmycarterpolit0000flip|last1=Flippen|first1=J. Brooks|year=2011|publisher=[[University of Georgia Press]]|isbn=978-0-8203-3955-9|oclc=724088293|ref=harv}}
+* {{서적 인용|title=Great Events from History II: 1945–1966|url=https://archive.org/details/isbn_0893567531_2|last1=Frank|first1=Northen Magill|year=1995|publisher=[[Salem Press]]|isbn=978-0-89356-753-8|ref=harv}}
+* {{서적 인용|title=The Wayward Welfare State|last1=Freeman|first1=Roger A.|year=1982|publisher=[[Hoover Press]]|isbn=978-0-8179-7493-0|ref=harv}}
+* {{서적 인용|title=Jimmy Carter|url=https://archive.org/details/jimmycarter0000gher|last1=Gherman|first1=Beverly|year=2004|publisher=[[Lerner Publications]]|isbn=0-8225-0816-8|oclc=51861756|ref=harv}}
+* {{서적 인용|title=Jimmy and Rosalynn Carter: the Georgia Years, 1924–1974|url=https://archive.org/details/isbn_9780199753444|last1=Godbold|first1=E. Stanly Jr.|year=2010|publisher=[[Oxford University Press]]|isbn=978-0-19-977962-8|ref=harv}}
+* {{서적 인용|title=Presidential Footprints: Inauguration of John Fitzgerald Kennedy, January 20, 1961|last1=Hambley|first1=Del|year=2008|publisher=Dog Ear Publishing|isbn=978-1-59858-815-6|oclc=678081512|ref=harv}}
+* {{서적 인용|title=Presidents: a Biographical Dictionary|url=https://archive.org/details/isbn_9780816057337|last1=Hamilton|first1=Neil A.|year=2005|edition=2|publisher=[[Facts On File]]|isbn=978-1-4381-0816-2|oclc=234178908|ref=harv}}
+* {{서적 인용|title=The Real Jimmy Carter: How Our Worst Ex-president Undermines American Foreign Policy, Coddles Dictators, and Created the Party of Clinton and Kerry|last1=Hayward|first1=Steven F.|year=2004|publisher=[[Regnery Publishing]]|isbn=978-1-59698-278-9|oclc=836407503|quote=Earl may not have voted for FRD again, but he was not above receiving several New Deal agricultural subsidies as the Depression wore on.|ref=harv}}
+* {{서적 인용|title=The Age of Reagan: the Fall of the Old Liberal Order: 1964–1980|last1=Hayward|first1=Steven F.|year=2009|publisher=[[Crown Publishing Group]]|isbn=978-0-307-45370-9|ref=harv}}
+* {{서적 인용|title=From Colony to Superpower; U.S. Foreign Relations Since 1776|url=https://archive.org/details/fromcolonytosupe00herr|last1=Herring|first1=George C.|year=2008|publisher=[[Oxford University Press]]|isbn=978-0-19-507822-0|lccn=2008007996|ol=19970907M|ref=harv}}
+* {{서적 인용|title=James Earl Carter: Our Thirty-ninth President|url=https://archive.org/details/jamesearlcartero0000hobk|last1=Hobkirk|first1=Lori|year=2002|publisher=The Child's World, Inc.|isbn=1-56766-873-9|oclc=45024331|ref=harv}}
+* {{서적 인용|title=A Companion to Gerald R. Ford and Jimmy Carter|last1=Kaufman|first1=Scott|year=2016|publisher=[[Wiley (publisher)|Wiley]]|isbn=978-1-118-90763-4|oclc=916409068|ref=harv}}
+* {{서적 인용|title=The Presidency of James Earl Carter|last1=Kaufman|first1=Burton I.|last2=Kaufman|first2=Scott|year=2006|edition=2|publisher=[[University Press of Kansas]]|isbn=978-0-7006-1471-4|ol=7763218M|ref=harv}}
+* {{서적 인용|title=Historical Dictionary Of the Carter Era|last1=Kaufman|first1=Diane|last2=Kaufman|first2=Scott|year=2013|publisher=[[Rowman &amp; Littlefield]]|isbn=978-0-8108-7968-3|oclc=834614686|ref=harv}}
+* {{서적 인용|title=A Brief History of Nuclear Reactor Accidents from Leipzig to Fukushima|last1=Marguet|first1=Serge|year=2022|publisher=[[Springer Science+Business Media|Springer]]|isbn=978-3-031-10500-5|oclc=1366112034|ref=harv}}
+* {{서적 인용|title=Memoirs of a Hayseed Physicist|last1=Martel|first1=Peter|year=2008|publisher=Strategic Book|isbn=978-1-60693-341-1|ref=harv}}
+* {{서적 인용|title=Jimmy Carter, American Moralist|url=https://archive.org/details/jimmycarterameri00morr|last1=Morris|first1=Kenneth Earl|year=1996|publisher=[[University of Georgia Press]]|isbn=978-0-8203-1862-2|lccn=96006350|ol=969764M|ref=harv}}
+* {{서적 인용|title=Picking Presidents: How to Make the Most Consequential Decision in the World|last1=Mukunda|first1=Gautam|year=2022|publisher=[[University of California Press]]|isbn=978-0-520-97703-7|oclc=1303569935|ref=harv}}
+* {{서적 인용|title=The Global Water Crisis: a Reference Handbook|last1=Newton|first1=David E.|year=2016|publisher=[[ABC-CLIO]]|isbn=978-1-4408-3981-8|oclc=945976409|ref=harv}}
+* {{서적 인용|title=Tussen liberalisme en conservatisme: de verkiezingscampagnes van Jimmy Carter (1962–1980)|last1=Nijnatten|first1=Frans van|year=2012|publisher=[[Vossiuspers UvA]]|language=nl|trans-title=Between Liberalism and Conservatism: Jimmy Carter's Election Campaigns (1962–1980)|isbn=978-90-5629-698-8|oclc=775137957|ref=harv}}
+* {{서적 인용|title=Historical Dictionary of the United States|last1=Panton|first1=Kenneth J.|year=2022|publisher=[[Rowman &amp; Littlefield]]|isbn=978-1-5381-2419-2|oclc=1295808727|ref=harv}}
+* {{서적 인용|title=Jimmy Carter: U.S. President and Humanitarian|url=https://archive.org/details/jimmycarteruspre0000ryan|last1=Ryan|first1=Bernard Jr.|year=2006|publisher=Ferguson Publishing Company|isbn=978-0-8160-5903-4|ref=harv}}
+* {{서적 인용|title=First Ladies: a Biographical Dictionary|last1=Schneider|first1=Dorothy|last2=Schneider|first2=Carl J.|year=2005|edition=2|publisher=[[Infobase]]|isbn=978-1-4381-0815-5|oclc=234178582|ref=harv}}
+* {{서적 인용|title=Jimmy Carter: From Peanuts to Presidency|last1=Thomas|first1=Sunny|year=1978|publisher=Vesta Publications|isbn=0-919806-61-9|oclc=6041403|ref=harv}}
+* {{서적 인용|title=The Raising of a President: The Mothers and Fathers of Our Nation's Leaders|url=https://archive.org/details/raisingofpreside0000wead|last1=Wead|first1=Doug|year=2005|publisher=[[Atria Books]]|isbn=978-1-4165-1307-0|ref=harv}}
+* {{서적 인용|title=Inventing a Voice: the Rhetoric of American First Ladies of the Twentieth Century|url=https://archive.org/details/inventingvoicerh0000unse|last1=Wertheimer|first1=Molly Meijer|year=2004|publisher=[[Rowman &amp; Littlefield]]|isbn=0-7425-2970-3|oclc=835122766|ref=harv}}
+* {{서적 인용|title=Dasher: The Roots and the Rising of Jimmy Carter|url=https://archive.org/details/dasherrootsrisin0000woot|last1=Wooten|first1=James T.|year=1978|publisher=[[Summit Books]]|isbn=0-671-40004-5|oclc=3481251|ref=harv}}
+* {{서적 인용|title=World Book Encyclopedia (Hardcover) [Jimmy Carter entry]|date=January 2001|publisher=[[World Book]]|isbn=978-0-7166-0101-2|ref={{sfnRef|World Book|2001}}|ref=harv}}
+* {{서적 인용|title=Jimmy Carter|last1=Zelizer|first1=Julian E.|year=2010|publisher=[[Times Books]]|isbn=978-0-8050-8957-8|lccn=2010016818|ol=24804105M|ref=harv}}
+{{참고 자료 끝}}
+
+=== 뉴스 ===
+{{참고 자료 시작|30em}}
+* {{뉴스 인용|url=https://www.phillymag.com/news/2016/04/24/princeton-sprint-football-team/|title=Why This Princeton Football Team Won't Be Suiting Up Next Season|last=Hingston|first=Sandy|date=April 24, 2016|work=[[Philadelphia (magazine)|Philadelphia]]|archive-url=https://web.archive.org/web/20161106124516/https://www.phillymag.com/news/2016/04/24/princeton-sprint-football-team/|archive-date=November 6, 2016|url-status=live|access-date=November 5, 2016}}
+* {{뉴스 인용|url=https://www.washingtonpost.com/archive/local/1996/06/05/the-class-of-the-naval-academy-has-50th-reunion/1631f2ba-b06e-4fe4-9968-1c39efb7d6bc/|title=The Class of the Naval Academy Has 50th Reunion|last=Argetsinger|first=Amy|author-link=Amy Argetsinger|date=June 5, 1996|newspaper=[[The Washington Post]]|access-date=March 4, 2023}}
+* {{뉴스 인용|url=https://apnews.com/article/rosalynn-carter-dead-e4291133392444bc9ad9d1da461d95c1|title=Rosalynn Carter, Outspoken Former First Lady, Dies At 96|last1=Barrow|first1=Bill|last2=Warren|first2=Michael|date=November 20, 2023|work=[[Associated Press]]|access-date=September 24, 2024}}
+* {{뉴스 인용|url=https://ottawariverkeeper.ca/news/when_jimmy_carter_faced_radioactivity_head_on/|title=When Jimmy Carter Faced Radioactivity Head-on|last=Milnes|first=Arthur|date=January 28, 2009|newspaper=[[Ottawa Citizen]]|archive-url=https://web.archive.org/web/20110217161647/https://ottawariverkeeper.ca/news/when_jimmy_carter_faced_radioactivity_head_on|archive-date=February 17, 2011}}
+* {{뉴스 인용|url=https://nationalinterest.org/blog/buzz/why-president-jimmy-carter-got-his-very-own-submarine-137717|title=Why President Jimmy Carter Got His Very Own Submarine|last=Suciu|first=Peter|date=March 27, 2020|newspaper=[[The National Interest]]}}
+* {{잡지 인용|last1=Berman|first1=Eliza|title=A Governor Speaks Out on Race: LIFE's Look at Jimmy Carter, 1971|url=https://www.life.com/history/jimmy-carter-governor-inauguration-discrimination/|access-date=September 24, 2024|magazine=[[Life (magazine)|Life]]|date=2022}}
+* {{뉴스 인용|url=https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19710714&amp;printsec=frontpage|title=Carter Aims to Create Human Relations Panel|date=July 8, 1971|newspaper=[[Rome News-Tribune]]|archive-url=https://web.archive.org/web/20211212140454/https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19710714&amp;printsec=frontpage|archive-date=December 12, 2021|url-status=live|access-date=August 30, 2021|ref={{sfnRef|Rome News-Tribune|1971a}}}}
+* {{뉴스 인용|url=https://news.google.com/newspapers?id=GW5NAAAAIBAJ&amp;sjid=vDUDAAAAIBAJ&amp;pg=3623%2C1460658|title=Gov. Carter Orders Cuts In Georgia Spending|date=July 14, 1971|newspaper=[[Rome News-Tribune]]|archive-url=https://web.archive.org/web/20210901170904/https://news.google.com/newspapers?id=GW5NAAAAIBAJ&amp;sjid=vDUDAAAAIBAJ&amp;pg=3623,1460658|archive-date=September 1, 2021|url-status=live|access-date=August 30, 2021|ref={{sfnRef|Rome News-Tribune|1971b}}}}
+* {{뉴스 인용|url=https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19720113&amp;printsec=frontpage|title=Two Budget Proposals Offered By Gov. Carter to Legislature|date=January 13, 1972|newspaper=[[Rome News-Tribune]]|archive-url=https://web.archive.org/web/20211212140459/https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19720113&amp;printsec=frontpage|archive-date=December 12, 2021|url-status=live|access-date=August 30, 2021|ref={{sfnRef|Rome News-Tribune|1972a}}}}
+* {{뉴스 인용|url=https://news.google.com/newspapers?id=N5pMAAAAIBAJ&amp;sjid=xzUDAAAAIBAJ&amp;pg=2478%2C241190|title=Reappointment Rejection Could Bring Session|date=March 2, 1972|newspaper=[[Rome News-Tribune]]|archive-url=https://web.archive.org/web/20210901170905/https://news.google.com/newspapers?id=N5pMAAAAIBAJ&amp;sjid=xzUDAAAAIBAJ&amp;pg=2478,241190|archive-date=September 1, 2021|url-status=live|access-date=August 30, 2021|ref={{sfnRef|Rome News-Tribune|1972b}}}}
+* {{뉴스 인용|url=https://www.nbcnews.com/id/wbna25889670|title=Jimmy Carter Battles Plan for Dams – Again|date=July 28, 2008|work=[[NBC News]]|archive-url=https://web.archive.org/web/20190801090635/https://www.nbcnews.com/id/25889670/ns/us_news-environment/t/jimmy-carter-battles-plan-dams-again/|archive-date=August 1, 2019|url-status=live|access-date=August 30, 2021|ref={{sfnRef|NBC News|2008}}}}
+* {{뉴스 인용|url=https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19730201&amp;printsec=frontpage|title=Governors Disagree on School Busing|date=February 1, 1973|newspaper=[[Rome News-Tribune]]|archive-url=https://web.archive.org/web/20211212140451/https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19730201&amp;printsec=frontpage|archive-date=December 12, 2021|url-status=live|access-date=August 30, 2021|ref={{sfnRef|Rome News-Tribune|1973a}}}}
+* {{뉴스 인용|url=https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19711107&amp;printsec=frontpage|title=Southern Governors Meeting in Atlanta|date=November 7, 1971|newspaper=[[Rome News-Tribune]]|archive-url=https://web.archive.org/web/20211212140455/https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19711107&amp;printsec=frontpage|archive-date=December 12, 2021|url-status=live|access-date=August 30, 2021|ref={{sfnRef|Rome News-Tribune|1971c}}}}
+* {{뉴스 인용|url=https://www.theguardian.com/world/2013/nov/11/jimmy-carter-supreme-court-death-penalty|title=Jimmy Carter Calls for Fresh Moratorium on Death Penalty|last=Pilkington|first=Ed|date=November 11, 2013|newspaper=[[The Guardian]]|archive-url=https://web.archive.org/web/20230705115637/https://www.theguardian.com/world/2013/nov/11/jimmy-carter-supreme-court-death-penalty|archive-date=July 5, 2023|url-status=live|access-date=August 30, 2021}}
+* {{뉴스 인용|url=https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19720804&amp;printsec=frontpage|title=Carter, Wallace Hold Election Conference|date=August 4, 1972|newspaper=[[Rome News-Tribune]]|archive-url=https://web.archive.org/web/20211011183951/https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19720804&amp;printsec=frontpage|archive-date=October 11, 2021|url-status=live|access-date=August 30, 2021|ref={{sfnRef|Rome News-Tribune|1972c}}}}
+* {{뉴스 인용|url=https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19730513&amp;printsec=frontpage|title=Carter Cautions Democrats to Play it Cool on Watergate|date=May 13, 1973|newspaper=[[Rome News-Tribune]]|archive-url=https://web.archive.org/web/20210817013656/https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19730513&amp;printsec=frontpage|archive-date=August 17, 2021|url-status=live|access-date=August 30, 2021|ref={{sfnRef|Rome News-Tribune|1973b}}}}
+* {{뉴스 인용|url=https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19730514&amp;printsec=frontpage|title=Carter Off on European Tour|date=May 14, 1973|newspaper=[[Rome News-Tribune]]|archive-url=https://web.archive.org/web/20211212140453/https://news.google.com/newspapers?nid=BJbdYPG6LGMC&amp;dat=19730514&amp;printsec=frontpage|archive-date=December 12, 2021|url-status=live|access-date=August 30, 2021|ref={{sfnRef|Rome News-Tribune|1973c}}}}
+{{참고 자료 끝}}
+
+=== 웹사이트 ===
+{{참고 자료 시작|30em}}
+* {{웹 인용|url=https://www.nps.gov/places/plains-high-school.htm|title=Plains High School|date=October 14, 2020|publisher=[[National Park Service]]|archive-url=https://web.archive.org/web/20220717143320/https://www.nps.gov/places/plains-high-school.htm|archive-date=July 17, 2022|url-status=live|access-date=July 17, 2022|ref={{sfnRef|National Park Service|2020}}}}
+* {{웹 인용|url=https://www.gtalumni.org/s/1481/alumni/17/magazine-pages.aspx?sid=1481&amp;gid=21&amp;pgid=18394&amp;cid=40232&amp;ecid=40232&amp;crid=0&amp;calpgid=18390&amp;calcid=40218|title=Jimmy Carter|last=Rattini|first=Kristin Baird|year=2020|publisher=[[Georgia Tech Alumni Association]]|archive-url=https://web.archive.org/web/20231106231900/https://www.gtalumni.org/s/1481/alumni/17/magazine-pages.aspx?sid=1481&amp;gid=21&amp;pgid=18394&amp;cid=40232&amp;ecid=40232&amp;crid=0&amp;calpgid=18390&amp;calcid=40218|archive-date=November 6, 2023|url-status=live|access-date=August 21, 2023}}
+* {{웹 인용|url=https://www.cartercenter.org/news/pr/2023/statement-rosalynn-carter-111923.html|title=Former First Lady Rosalynn Carter Passes Away at Age 96|date=November 19, 2023|publisher=[[Carter Center]]|archive-url=https://web.archive.org/web/20231119201739/https://www.cartercenter.org/news/pr/2023/statement-rosalynn-carter-111923.html|archive-date=November 19, 2023|url-status=live|access-date=November 19, 2023|ref={{sfnRef|Carter Center|2023}}}}
+* {{웹 인용|url=https://www.jimmycarterlibrary.gov/documents/jec/jcnavy.phtml|title=Jimmy Carter's Naval Service|date=November 19, 2004|website=[[Jimmy Carter Library and Museum]]|archive-url=https://web.archive.org/web/20151116012607/https://www.jimmycarterlibrary.gov/documents/jec/jcnavy.phtml|archive-date=November 16, 2015|access-date=November 24, 2015|ref={{sfnRef|Jimmy Carter Library and Museum|2004}}}}
+* {{웹 인용|url=https://www.history.navy.mil/research/histories/biographies-list/bios-c/carter-james-e.html|title=James Earl Carter, Jr.|date=October 19, 1997|work=[[Naval History and Heritage Command]]|archive-url=https://web.archive.org/web/20230220154017/https://www.history.navy.mil/research/histories/biographies-list/bios-c/carter-james-e.html|archive-date=February 20, 2023|url-status=live|access-date=February 20, 2023|ref={{sfnRef|Naval History and Heritage Command|1997}}}}
+* {{웹 인용|url=https://news.usni.org/2015/03/09/from-ensign-to-commander-in-chief-a-look-at-the-presidents-who-served-in-the-u-s-navy-reserve|title=From Ensign to Commander-in-Chief: A Look at the Presidents Who Served in the U.S. Navy Reserve|last=Eckstein|first=Megan|date=March 9, 2015|website=[[USNI News]]|publisher=[[United States Naval Institute]]|archive-url=https://web.archive.org/web/20210816164136/https://news.usni.org/2015/03/09/from-ensign-to-commander-in-chief-a-look-at-the-presidents-who-served-in-the-u-s-navy-reserve|archive-date=August 16, 2021|url-status=live|access-date=August 30, 2021}}
+* {{웹 인용|url=https://www.history.navy.mil/browse-by-topic/people/presidents/carter.html|title=Lieutenant James Earl Carter Jr., USN|date=March 3, 2023|website=[[Naval History and Heritage Command]]|archive-url=https://web.archive.org/web/20210816204427/https://www.history.navy.mil/browse-by-topic/people/presidents/carter.html|archive-date=August 16, 2021|url-status=live|access-date=August 30, 2021|ref={{sfnRef|Naval History and Heritage Command|2023}}}}
+* {{웹 인용|url=https://www.biography.com/us-president/jimmy-carter|title=Jimmy Carter|last1=Donica|first1=Adrienne|last2=Piccotti|first2=Tyler|date=March 27, 2018|website=[[Biography.com]]|archive-url=https://web.archive.org/web/20210606151959/https://www.biography.com/us-president/jimmy-carter|archive-date=June 6, 2021|url-status=live|access-date=December 21, 2020}}
+* {{웹 인용|url=https://dlg.galileo.usg.edu/cgi-bin/govdimag.cgi?path=dbs/1965/ga/s700/_ps1/g4/1965_h66/sess_p1_sno_p1.con/&amp;user=galileo&amp;sessionid=637f8586-1547653717-5036&amp;serverid=DU&amp;instcode=afpl&amp;return=ggpd%3fuserid%3dgalileo%26dbs%3dggpd%26action%3dretrieve%26recno%3d70%26numrecs%3d100%26__rtype%3drecno%26key%3dy-ga-bs700-b-ps1-bg4-b1965-h66-bsess-p1-sno-p1|title=Members Of The General Assembly Of Georgia: State Senate and Hous of Representatives – Term 1965–1966|date=February 1965|publisher=[[Georgia General Assembly]]|archive-url=https://web.archive.org/web/20200216151724/https://dlg.galileo.usg.edu/cgi-bin/govdimag.cgi?path=dbs%2F1965%2Fga%2Fs700%2F_ps1%2Fg4%2F1965_h66%2Fsess_p1_sno_p1.con%2F&amp;user=galileo&amp;sessionid=637f8586-1547653717-5036&amp;serverid=DU&amp;instcode=afpl&amp;return=ggpd%3Fuserid%3Dgalileo&amp;dbs=ggpd&amp;action=retrieve&amp;recno=70&amp;numrecs=100&amp;__rtype=recno&amp;key=y-ga-bs700-b-ps1-bg4-b1965-h66-bsess-p1-sno-p1|archive-date=February 16, 2020|url-status=live|access-date=May 12, 2018|ref={{sfnRef|Georgia General Assembly|1965}}}}
+* {{웹 인용|url=https://www.worldbook.com/content-spotlight/item/1156-lives-and-times-of-american-presidents-1961-present/1156-lives-and-times-of-american-presidents-1961-present?start=5|title=Carter, Jimmy|last=Sidey|first=Hugh S.|date=January 22, 2012|publisher=[[World Book]]|archive-url=https://web.archive.org/web/20120427131522/https://www.worldbook.com/content-spotlight/item/1156-lives-and-times-of-american-presidents-1961-present/1156-lives-and-times-of-american-presidents-1961-present?start=5|archive-date=April 27, 2012}}
+{{참고 자료 끝}}
+* {{글로벌세계대백과}}
+
+== 외부 링크 ==
+* {{위키공용-줄|Jimmy Carter}}
+* {{구텐베르크 저자|Jimmy+Carter}}
+
+{{전임후임
+|전임자 = [[레스터 매덕스]]
+|후임자 = [[조지 버스비]]
+|대수 = 76
+|직책 = [[조지아주의 주지사|조지아 주지사]]
+|임기 = 1971년 1월 12일 ~ 1975년 1월 14일
+}}
+{{미국의 대통령
+|전임자 = [[제럴드 포드]]
+|후임자 = [[로널드 레이건]]
+|대수 = 39
+|임기 = 1977년 1월 20일~1981년 1월 20일
+}}
+{{전임후임
+|전임자 = [[미국의 여성사|미국의 여성들]]
+|후임자 = [[안와르 사다트]]
+|대수 = 50
+|직책 = [[타임 올해의 인물]]
+|임기 = 1976년
+}}
+{{전임후임
+|전임자 = [[제럴드 포드]]
+|후임자 = [[로널드 레이건]]
+|직책 = [[미국]]의 국가 원수
+|임기 = 1977년 1월 20일~1981년 1월 20일
+}}
+
+{{노벨 평화상 수상자}}
+{{2002년 노벨상 수상자}}
+{{필라델피아 자유의 메달 수상자}}
+{{타임 올해의 인물}}
+{{냉전의 인물들}}
+{{전거 통제}}
+{{위키데이터 속성 추적}}
+{{기본정렬:카터, 지미}}
+[[분류:지미 카터| ]]
+[[분류:1924년 출생]]
+[[분류:2024년 사망]]
+[[분류:1976년 미국 대통령 후보]]
+[[분류:1980년 미국 대통령 후보]]
+[[분류:그래미상 수상자]]
+[[분류:노벨 평화상 수상자]]
+[[분류:미국 해군의 장교]]
+[[분류:미국의 침례교도]]
+[[분류:미국의 노벨상 수상자]]
+[[분류:미국의 농부]]
+[[분류:미국의 대통령]]
+[[분류:미국의 역사 (1964-1980)]]
+[[분류:미국의 외교관]]
+[[분류:미국의 인도주의자]]
+[[분류:미국의 제2차 세계 대전 참전 군인]]
+[[분류:미국의 진보주의]]
+[[분류:민주당 (미국)의 정치인]]
+[[분류:스코틀랜드계 미국인]]
+[[분류:아일랜드계 미국인]]
+[[분류:잉글랜드계 미국인]]
+[[분류:영국계 미국인]]
+[[분류:네덜란드계 미국인]]
+[[분류:스위스계 미국인]]
+[[분류:프랑스계 미국인]]
+[[분류:독일계 미국인]]
+[[분류:조지아 공과대학교 동문]]
+[[분류:조지아주의 정치인]]
+[[분류:조지아주지사]]
+[[분류:미국의 회고록 작가]]
+[[분류:에모리 대학교 교수]]
+[[분류:미국 해군사관학교 동문]]
+[[분류:미국 버지니아 종합군사학원 동문]]
+[[분류:미국 미주리 종합군사학원 동문]]
+[[분류:타임 올해의 인물]]
+[[분류:군사 기술자]]
+[[분류:이란 혁명 관련자]]
+[[분류:미국의 민주주의 운동가]]
+[[분류:주이란 미국 대사관 인질 사건]]
+[[분류:조지아주의 민주당 당원]]
+[[분류:조지아주 출신 작가]]
+[[분류:소련-아프가니스탄 전쟁 관련자]]
+[[분류:20세기 미국 사람]]
+[[분류:21세기 미국 사람]]
+[[분류:미국의 백세인]]
+[[분류:미국철학학회 회원]]
+[[분류:조지아주 상원의원]]</text>
+            <sha1>2p5s32ltuxegvkiohitf1p5rktoh1kt</sha1>
+        </revision>
+    </page>
+</mediawiki>
