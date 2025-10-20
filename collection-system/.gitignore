@@ -1,0 +1,64 @@
+# AI Assistant
+.serena/
+.cursor/
+.claude/
+
+# Environment Variables
+.env
+.env.local
+.env.prod
+
+# Gradle
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+bin/
+.gradle/
+gradle-app.setting
+!gradle-wrapper.properties
+
+# IDE - IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+.idea_modules/
+
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+
+# IDE - VS Code
+.vscode/
+
+# Spring Boot
+*.log
+*.log.*
+logs/
+spring.log
+
+# Test
+.testcontainers.properties
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.cache
