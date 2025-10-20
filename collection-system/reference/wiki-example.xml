@@ -1,0 +1,84 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.11/ http://www.mediawiki.org/xml/export-0.11.xsd" version="0.11" xml:lang="ko">
+  <siteinfo>
+    <sitename>위키백과</sitename>
+    <dbname>kowiki</dbname>
+    <base>https://ko.wikipedia.org/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EB%8C%80%EB%AC%B8</base>
+    <generator>MediaWiki 1.45.0-wmf.20</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">미디어</namespace>
+      <namespace key="-1" case="first-letter">특수</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">토론</namespace>
+      <namespace key="2" case="first-letter">사용자</namespace>
+      <namespace key="3" case="first-letter">사용자토론</namespace>
+      <namespace key="4" case="first-letter">위키백과</namespace>
+      <namespace key="5" case="first-letter">위키백과토론</namespace>
+      <namespace key="6" case="first-letter">파일</namespace>
+      <namespace key="7" case="first-letter">파일토론</namespace>
+      <namespace key="8" case="first-letter">미디어위키</namespace>
+      <namespace key="9" case="first-letter">미디어위키토론</namespace>
+      <namespace key="10" case="first-letter">틀</namespace>
+      <namespace key="11" case="first-letter">틀토론</namespace>
+      <namespace key="12" case="first-letter">도움말</namespace>
+      <namespace key="13" case="first-letter">도움말토론</namespace>
+      <namespace key="14" case="first-letter">분류</namespace>
+      <namespace key="15" case="first-letter">분류토론</namespace>
+      <namespace key="100" case="first-letter">포털</namespace>
+      <namespace key="101" case="first-letter">포털토론</namespace>
+      <namespace key="102" case="first-letter">위키프로젝트</namespace>
+      <namespace key="103" case="first-letter">위키프로젝트토론</namespace>
+      <namespace key="118" case="first-letter">초안</namespace>
+      <namespace key="119" case="first-letter">초안토론</namespace>
+      <namespace key="710" case="first-letter">TimedText</namespace>
+      <namespace key="711" case="first-letter">TimedText talk</namespace>
+      <namespace key="828" case="first-letter">모듈</namespace>
+      <namespace key="829" case="first-letter">모듈토론</namespace>
+      <namespace key="1728" case="first-letter">행사</namespace>
+      <namespace key="1729" case="first-letter">행사토론</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>지미 카터</title>
+    <ns>0</ns>
+    <id>5</id>
+    <revision>
+      <id>40301269</id>
+      <parentid>40096343</parentid>
+      <timestamp>2025-07-19T13:30:53Z</timestamp>
+      <contributor>
+        <username>TedBot</username>
+        <id>368112</id>
+      </contributor>
+      <minor />
+      <comment>봇: 문자열 변경 (안를  → 안을 )</comment>
+      <origin>40301269</origin>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="62995" sha1="2p5s32ltuxegvkiohitf1p5rktoh1kt" xml:space="preserve">...</text>
+      <sha1>2p5s32ltuxegvkiohitf1p5rktoh1kt</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>새천년 민주당</title>
+    <ns>0</ns>
+    <id>60</id>
+    <redirect title="민주당 (2000년 대한민국)" />
+    <revision>
+      <id>37329529</id>
+      <parentid>10861007</parentid>
+      <timestamp>2024-06-05T23:48:25Z</timestamp>
+      <contributor>
+        <username>Xqbot</username>
+        <id>56680</id>
+      </contributor>
+      <minor />
+      <comment>[[민주당 (2000년 대한민국)]] 문서를 가리키도록 이중 넘겨주기 고침</comment>
+      <origin>37329529</origin>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="50" sha1="4puo5egkyxg335llxfz2lnmta2sgnk7" xml:space="preserve">#넘겨주기 [[민주당 (2000년 대한민국)]]</text>
+      <sha1>4puo5egkyxg335llxfz2lnmta2sgnk7</sha1>
+    </revision>
+  </page>
+</mediawiki>
