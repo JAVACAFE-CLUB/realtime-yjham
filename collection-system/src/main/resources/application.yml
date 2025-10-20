@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: collection-system
+  profiles:
+    active: local
+  batch:
+    jdbc:
+      initialize-schema: never
+    job:
+      enabled: false
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:init-batch-schema.sql
+      continue-on-error: false
+
+logging:
+  level:
+    com.realtime.collectionsystem: INFO
+  charset:
+    console: UTF-8
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
