@@ -56,6 +56,9 @@ Thumbs.db
 *.db
 *.sqlite
 *.sqlite3
+# Allow data package in source code
+!**/src/main/java/**/data/
+!**/src/test/java/**/data/
 
 # Temporary files
 *.tmp
