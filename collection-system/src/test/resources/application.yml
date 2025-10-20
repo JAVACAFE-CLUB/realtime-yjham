@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: collection-system-test
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+  kafka:
+    bootstrap-servers: localhost:9092
+
+youtube:
+  api:
+    key: test-api-key
+
+logging:
+  level:
+    com.realtime.collectionsystem: DEBUG
+    org.springframework.batch: DEBUG
