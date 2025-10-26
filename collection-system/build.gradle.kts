@@ -18,6 +18,9 @@ dependencies {
     // Jsoup (HTML 파싱)
     implementation("org.jsoup:jsoup:1.17.2")
 
+    // Woodstox (고성능 XML 파싱)
+    implementation("com.fasterxml.woodstox:woodstox-core:6.5.1")
+
     // YouTube Data API
     implementation("com.google.apis:google-api-services-youtube:v3-rev20240814-2.0.0")
     implementation("com.google.auth:google-auth-library-oauth2-http:1.23.0")
