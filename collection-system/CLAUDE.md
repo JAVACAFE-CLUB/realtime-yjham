@@ -22,7 +22,14 @@ This is a **real-time data collection system** built with Spring Boot and Spring
 
 ### Run Tests
 ```bash
+# Run all tests
 .\gradlew test
+
+# Run specific test class
+.\gradlew test --tests DongaNewsCrawlerTest
+
+# Run specific test method
+.\gradlew test --tests DongaNewsCrawlerTest.동아일보_HTML_파싱_테스트
 ```
 
 ### Run Application
@@ -80,9 +87,12 @@ Each module contains:
 - `scheduler/` - @Scheduled job triggers
 
 ### Scheduling
+Jobs are triggered via Spring Events instead of direct scheduler calls:
 - **News**: On startup + every hour (`@EventListener(ApplicationReadyEvent.class)` + `@Scheduled(cron = "0 0 * * * *")`)
 - **Wikipedia**: On startup only (one-time initial load)
 - **YouTube**: On startup + every hour
+
+The scheduler publishes domain-specific events (`NewsCollectionEvent`, `WikiCollectionEvent`, `YoutubeCollectionEvent`) which are handled by job launchers in each module
 
 ### MongoDB Unique Indexes
 - News: `url` field
@@ -136,9 +146,7 @@ spring:
     bootstrap-servers: localhost:9092
 ```
 
-## Tes
-
-ting
+## Testing
 
 Uses **Testcontainers** for integration tests with real MySQL, MongoDB, and Kafka containers.
 
@@ -151,4 +159,7 @@ Sample test data is available in the `reference/` directory for each data source
 3. **Transaction Management**: Uses platform transaction manager for each step's chunk processing
 4. **Job Parameters**: Each scheduled execution uses `timestamp` parameter to create unique job instances
 5. **News Sources**: The news module uses a strategy pattern to handle different RSS feed formats (Kyunghyang, Donga)
+   - **DongaNewsCrawler**: Uses `h2.sub_tit` for titles, `section.news_view` for content, `meta[name=categoryname]` for categories
+   - **KhanNewsCrawler**: Uses `section.art_cont h1` for titles, `#articleBody p.content_text` for content, `meta[property=article:section]` for categories
 6. **WikiDump**: Uses StAX parser for efficient XML processing of large Wikipedia dump files
+7. **Event-Driven Architecture**: Schedulers publish collection events to decouple scheduling from job execution (see `common/event/` package)
