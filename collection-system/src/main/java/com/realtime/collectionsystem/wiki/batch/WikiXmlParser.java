@@ -5,6 +5,7 @@ import com.realtime.collectionsystem.wiki.domain.WikiPage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import com.ctc.wstx.stax.WstxInputFactory;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -26,7 +27,15 @@ public class WikiXmlParser {
 
     public List<WikiPage> parse(InputStream inputStream) throws XMLStreamException {
         List<WikiPage> pages = new ArrayList<>();
-        XMLInputFactory factory = XMLInputFactory.newInstance();
+        // Woodstox 파서 설정 - 대용량 위키피디아 XML 처리 최적화
+        WstxInputFactory factory = new WstxInputFactory();
+        
+        // Woodstox 전용: 큰 텍스트 엔티티 처리 (위키피디아 페이지 본문은 수 MB까지 가능)
+        factory.getConfig().setMaxTextLength(10_000_000);  // 10MB
+        
+        // 성능 최적화
+        factory.setProperty(XMLInputFactory.IS_COALESCING, true);  // 인접한 텍스트 노드 병합
+        
         XMLEventReader reader = factory.createXMLEventReader(inputStream);
 
         WikiPageBuilder builder = null;

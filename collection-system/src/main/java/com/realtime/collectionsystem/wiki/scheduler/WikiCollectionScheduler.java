@@ -18,7 +18,7 @@ public class WikiCollectionScheduler {
     private final JobLauncher jobLauncher;
     private final Job wikiCollectionJob;
 
-    // @EventListener(ApplicationReadyEvent.class)
+    @EventListener(ApplicationReadyEvent.class)
     public void runOnStartup() {
         log.info("위키피디아 수집 배치 시작 (초기 실행)");
         runJob();

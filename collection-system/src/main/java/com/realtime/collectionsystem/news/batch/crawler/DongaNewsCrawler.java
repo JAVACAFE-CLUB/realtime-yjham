@@ -31,51 +31,65 @@ public class DongaNewsCrawler implements NewsCrawler {
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
                     .get();
 
-            // 제목 추출 - 다양한 셀렉터 시도
+            // 제목 추출 - h2.sub_tit 사용
             String title = "";
-            if (doc.selectFirst(".article_title h1") != null) {
-                title = doc.selectFirst(".article_title h1").text();
-            } else if (doc.selectFirst("h1.title") != null) {
-                title = doc.selectFirst("h1.title").text();
-            } else if (doc.selectFirst("h1") != null) {
-                title = doc.selectFirst("h1").text();
+            Element titleElement = doc.selectFirst("h2.sub_tit");
+            if (titleElement != null) {
+                title = titleElement.text();
+            }
+            if (title.isEmpty() && doc.selectFirst("title") != null) {
+                // fallback: title 태그에서 추출 (｜동아일보 제거)
+                title = doc.selectFirst("title").text().replace("｜동아일보", "").trim();
             }
 
-            // 본문 추출 - 다양한 셀렉터 시도
-            Elements paragraphs = doc.select(".article_txt p");
-            if (paragraphs.isEmpty()) {
-                paragraphs = doc.select(".article_body p");
-            }
-            if (paragraphs.isEmpty()) {
-                paragraphs = doc.select("#article_body p");
-            }
+            // 본문 추출 - .news_view section 내의 직접 텍스트 노드
+            Element newsView = doc.selectFirst("section.news_view");
+            String text = "";
             
-            StringBuilder textBuilder = new StringBuilder();
-            for (Element p : paragraphs) {
-                String pText = p.text();
+            if (newsView != null) {
+                // HTML에서 광고, 스크립트, 이미지 등 불필요한 요소 제거
+                newsView.select("script, style, figure, .view_ad06, .view_m_adA, .view_m_adK").remove();
+                
+                // 텍스트 추출 (개행 유지)
+                String rawText = newsView.html();
+                // br 태그를 개행으로 변환하고 HTML 태그 제거
+                rawText = rawText.replaceAll("<br[^>]*>", "\n");
+                Document tempDoc = Jsoup.parse(rawText);
+                text = tempDoc.text();
+                
                 // 불필요한 텍스트 필터링
-                if (!pText.contains("무단전재") && 
-                    !pText.contains("재배포 금지") &&
-                    pText.length() > 10) {
-                    textBuilder.append(pText).append("\n");
+                StringBuilder textBuilder = new StringBuilder();
+                for (String line : text.split("\n")) {
+                    String trimmed = line.trim();
+                    if (!trimmed.isEmpty() && 
+                        !trimmed.contains("무단전재") && 
+                        !trimmed.contains("재배포 금지") &&
+                        !trimmed.contains("BYLINE") &&
+                        trimmed.length() > 10) {
+                        textBuilder.append(trimmed).append("\n");
+                    }
                 }
+                text = textBuilder.toString().trim();
             }
-            String text = textBuilder.toString().trim();
 
-            // 카테고리 추출
+            // 카테고리 추출 - meta 태그에서 추출
             String category = "";
-            Element categoryElement = doc.selectFirst(".location");
-            if (categoryElement == null) {
-                categoryElement = doc.selectFirst(".category");
-            }
-            if (categoryElement != null) {
-                category = categoryElement.text();
+            Element categoryMeta = doc.selectFirst("meta[name=categoryname]");
+            if (categoryMeta != null) {
+                String categoryContent = categoryMeta.attr("content");
+                // 콤마로 구분된 카테고리 중 첫 번째만 사용
+                if (categoryContent != null && !categoryContent.isEmpty()) {
+                    category = categoryContent.split(",")[0].trim();
+                }
             }
 
             // 작성일 추출
             Element metaDate = doc.selectFirst("meta[property=dd:published_time]");
             if (metaDate == null) {
                 metaDate = doc.selectFirst("meta[property=article:published_time]");
+            }
+            if (metaDate == null) {
+                metaDate = doc.selectFirst("meta[property=og:pubdate]");
             }
             String dateString = metaDate != null ? metaDate.attr("content") : null;
 

@@ -1,6 +1,6 @@
 package com.realtime.collectionsystem.news;
 
-import com.realtime.collectionsystem.news.batch.DongaNewsCrawler;
+import com.realtime.collectionsystem.news.batch.crawler.DongaNewsCrawler;
 import com.realtime.collectionsystem.news.domain.NewsArticle;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,11 +18,33 @@ class DongaNewsCrawlerTest {
         File htmlFile = new File("reference/donga-news.html");
         Document doc = Jsoup.parse(htmlFile, "UTF-8");
 
-        String title = doc.selectFirst(".article_title h1") != null
-                ? doc.selectFirst(".article_title h1").text()
-                : "";
+        // 제목 추출 - h2.sub_tit 사용
+        String title = "";
+        var titleElement = doc.selectFirst("h2.sub_tit");
+        if (titleElement != null) {
+            title = titleElement.text();
+        }
+
+        // 본문 추출 - section.news_view
+        var newsView = doc.selectFirst("section.news_view");
+        String text = "";
+        if (newsView != null) {
+            newsView.select("script, style, figure, .view_ad06, .view_m_adA, .view_m_adK").remove();
+            text = newsView.text();
+        }
+
+        // 카테고리 추출 - meta[name=categoryname]
+        String category = "";
+        var categoryMeta = doc.selectFirst("meta[name=categoryname]");
+        if (categoryMeta != null) {
+            String categoryContent = categoryMeta.attr("content");
+            if (categoryContent != null && !categoryContent.isEmpty()) {
+                category = categoryContent.split(",")[0].trim();
+            }
+        }
 
         assertThat(title).isNotBlank();
+        assertThat(text).isNotBlank();
     }
 
     @Test
@@ -33,17 +55,17 @@ class DongaNewsCrawlerTest {
                 .get();
 
         System.out.println("=== 제목 후보 ===");
-        System.out.println(".article_title h1: " + (doc.selectFirst(".article_title h1") != null ? doc.selectFirst(".article_title h1").text() : "없음"));
-        System.out.println("h1: " + (doc.selectFirst("h1") != null ? doc.selectFirst("h1").text() : "없음"));
-        System.out.println(".title: " + (doc.selectFirst(".title") != null ? doc.selectFirst(".title").text() : "없음"));
-        
+        System.out.println("h2.sub_tit: " + (doc.selectFirst("h2.sub_tit") != null ? doc.selectFirst("h2.sub_tit").text() : "없음"));
+        System.out.println("title 태그: " + (doc.selectFirst("title") != null ? doc.selectFirst("title").text() : "없음"));
+
         System.out.println("\n=== 본문 후보 ===");
-        System.out.println(".article_txt p 개수: " + doc.select(".article_txt p").size());
-        System.out.println(".article_body p 개수: " + doc.select(".article_body p").size());
-        System.out.println("#article_body p 개수: " + doc.select("#article_body p").size());
-        
+        System.out.println("section.news_view 있음: " + (doc.selectFirst("section.news_view") != null));
+
         System.out.println("\n=== 카테고리 후보 ===");
-        System.out.println(".category: " + (doc.selectFirst(".category") != null ? doc.selectFirst(".category").text() : "없음"));
-        System.out.println(".location: " + (doc.selectFirst(".location") != null ? doc.selectFirst(".location").text() : "없음"));
+        System.out.println("meta[name=categoryname]: " + (doc.selectFirst("meta[name=categoryname]") != null ? doc.selectFirst("meta[name=categoryname]").attr("content") : "없음"));
+
+        System.out.println("\n=== 날짜 후보 ===");
+        System.out.println("meta[property=dd:published_time]: " + (doc.selectFirst("meta[property=dd:published_time]") != null ? doc.selectFirst("meta[property=dd:published_time]").attr("content") : "없음"));
+        System.out.println("meta[property=article:published_time]: " + (doc.selectFirst("meta[property=article:published_time]") != null ? doc.selectFirst("meta[property=article:published_time]").attr("content") : "없음"));
     }
 }

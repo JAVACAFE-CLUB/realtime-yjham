@@ -1,5 +1,6 @@
 package com.realtime.collectionsystem.wiki.batch;
 
+import com.realtime.collectionsystem.common.event.WikiCollectionEvent;
 import com.realtime.collectionsystem.wiki.domain.WikiPage;
 import com.realtime.collectionsystem.wiki.repository.WikiPageRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,12 @@ public class WikiKafkaWriter implements ItemWriter<WikiPage> {
     public void write(Chunk<? extends WikiPage> chunk) {
         for (WikiPage page : chunk.getItems()) {
             try {
-                kafkaTemplate.send(TOPIC, page);
+                WikiCollectionEvent event = WikiCollectionEvent.builder()
+                        .title(page.getTitle())
+                        .collectedDate(page.getCollectedDate())
+                        .build();
+                
+                kafkaTemplate.send(TOPIC, event);
                 page.markAsPublished();
                 log.debug("Kafka 발행 성공: {}", page.getTitle());
             } catch (Exception e) {

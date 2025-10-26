@@ -1,5 +1,6 @@
 package com.realtime.collectionsystem.news.batch.writer;
 
+import com.realtime.collectionsystem.common.event.NewsCollectionEvent;
 import com.realtime.collectionsystem.news.domain.NewsArticle;
 import com.realtime.collectionsystem.news.repository.NewsArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,14 @@ public class NewsKafkaWriter implements ItemWriter<NewsArticle> {
     public void write(Chunk<? extends NewsArticle> chunk) {
         for (NewsArticle article : chunk.getItems()) {
             try {
-                Message<NewsArticle> message = MessageBuilder
-                        .withPayload(article)
+                NewsCollectionEvent event = NewsCollectionEvent.builder()
+                        .url(article.getUrl())
+                        .source(article.getSource())
+                        .collectedDate(article.getCollectedDate())
+                        .build();
+                
+                Message<NewsCollectionEvent> message = MessageBuilder
+                        .withPayload(event)
                         .setHeader(KafkaHeaders.TOPIC, TOPIC)
                         .setHeader(MEDIA_HEADER, article.getSource())
                         .build();

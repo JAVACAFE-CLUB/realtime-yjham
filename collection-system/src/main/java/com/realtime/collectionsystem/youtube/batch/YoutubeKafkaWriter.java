@@ -1,5 +1,6 @@
 package com.realtime.collectionsystem.youtube.batch;
 
+import com.realtime.collectionsystem.common.event.YoutubeCollectionEvent;
 import com.realtime.collectionsystem.youtube.domain.YoutubeVideo;
 import com.realtime.collectionsystem.youtube.repository.YoutubeVideoRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,12 @@ public class YoutubeKafkaWriter implements ItemWriter<YoutubeVideo> {
     public void write(Chunk<? extends YoutubeVideo> chunk) {
         for (YoutubeVideo video : chunk.getItems()) {
             try {
-                kafkaTemplate.send(TOPIC, video);
+                YoutubeCollectionEvent event = YoutubeCollectionEvent.builder()
+                        .videoId(video.getVideoId())
+                        .collectedDate(video.getCollectedDate())
+                        .build();
+                
+                kafkaTemplate.send(TOPIC, event);
                 video.markAsPublished();
                 log.debug("Kafka 발행 성공: {}", video.getVideoId());
             } catch (Exception e) {
