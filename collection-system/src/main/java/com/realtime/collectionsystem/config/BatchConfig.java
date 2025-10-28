@@ -1,4 +1,4 @@
-package com.realtime.collectionsystem.data;
+package com.realtime.collectionsystem.config;
 
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.context.annotation.Configuration;

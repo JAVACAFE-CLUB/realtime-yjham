@@ -1,4 +1,4 @@
-package com.realtime.collectionsystem.data;
+package com.realtime.collectionsystem.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
