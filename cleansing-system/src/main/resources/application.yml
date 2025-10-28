@@ -1,1 +1,15 @@
-spring.application.name=cleansing-system
+server:
+  port: 8083
+spring:
+  application:
+    name: cleansing-system
+  profiles:
+    active: local
+
+logging:
+  level:
+    com.realtime.cleansingsystem: INFO
+  charset:
+    console: UTF-8
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

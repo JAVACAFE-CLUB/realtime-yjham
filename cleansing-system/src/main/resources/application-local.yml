@@ -1,0 +1,43 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      # 원본 데이터 조회 (collection-system에서 저장)
+      database: collection
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    # Consumer 설정 (collection-system에서 메시지 수신)
+    consumer:
+      group-id: cleansing-system-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+
+    # Producer 설정 (indexing-system으로 메시지 발행)
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+# MongoDB 정제 데이터 저장용 데이터베이스
+cleansing:
+  mongodb:
+    database: cleansing
+
+# Kafka 토픽
+kafka:
+  topics:
+    # 입력 토픽 (collection-system에서 수신)
+    input:
+      news: news-collect-topic
+      wiki: wiki-collect-topic
+      youtube: youtube-collect-topic
+    # 출력 토픽 (indexing-system으로 발행)
+    output:
+      news: news-cleanse-topic
+      wiki: wiki-cleanse-topic
+      youtube: youtube-cleanse-topic
