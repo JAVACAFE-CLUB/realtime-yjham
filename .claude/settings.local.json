@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(../gradlew test --tests InfrastructureConnectionTest)",
+      "Bash(../gradlew test --tests InfrastructureConnectionTest --info)",
+      "Bash(../gradlew clean test:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

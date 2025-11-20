@@ -1,0 +1,33 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Prometheus 자체 모니터링
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Collection Module
+  - job_name: 'collection-module'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['collection-module:8081']
+
+  # Processing Module
+  - job_name: 'processing-module'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['processing-module:8082']
+
+  # Indexing Module
+  - job_name: 'indexing-module'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['indexing-module:8083']
+
+  # Serving Module
+  - job_name: 'serving-module'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['serving-module:8080']
