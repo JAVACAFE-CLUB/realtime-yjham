@@ -6,3 +6,4 @@ grpcio-tools==1.60.0
 transformers==4.35.0
 torch==2.1.0
 sentencepiece==0.1.99
+numpy<2.0

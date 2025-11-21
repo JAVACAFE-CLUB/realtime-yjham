@@ -3,7 +3,8 @@
     "allow": [
       "Bash(../gradlew test --tests InfrastructureConnectionTest)",
       "Bash(../gradlew test --tests InfrastructureConnectionTest --info)",
-      "Bash(../gradlew clean test:*)"
+      "Bash(../gradlew clean test:*)",
+      "Bash(powershell.exe -Command \"Start-Sleep -Seconds 30\")"
     ],
     "deny": [],
     "ask": []
