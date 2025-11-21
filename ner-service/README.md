@@ -5,7 +5,7 @@
 ## 기술 스택
 
 - Python 3.9
-- Hugging Face Transformers (KLUE RoBERTa 모델)
+- Hugging Face Transformers (KoBERT NER 모델)
 - PyTorch
 - gRPC
 

@@ -27,10 +27,10 @@ class NERAnalyzer:
         """
         logger.info("NER 모델 초기화 시작")
         try:
-            # KLUE RoBERTa 기반 NER 모델 사용
+            # KoBERT NER 모델 사용 (NER로 fine-tune된 모델)
             self.ner = pipeline(
                 "token-classification",
-                model="klue/roberta-base",
+                model="monologg/kobert-base-v1-finetuned-ner",
                 aggregation_strategy="simple"
             )
             logger.info("NER 모델 초기화 완료")
