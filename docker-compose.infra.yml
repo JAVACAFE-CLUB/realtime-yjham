@@ -129,6 +129,24 @@ services:
       timeout: 5s
       retries: 5
 
+  # NER Service (Python)
+  ner-service:
+    build:
+      context: ./ner-service
+      dockerfile: Dockerfile
+    container_name: realtime-ner-service
+    ports:
+      - "50051:50051"
+    networks:
+      - realtime-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import grpc; channel = grpc.insecure_channel('localhost:50051'); channel.close()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
   # Prometheus
   prometheus:
     image: prom/prometheus:v2.48.0

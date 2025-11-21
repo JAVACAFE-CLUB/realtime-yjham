@@ -1,0 +1,13 @@
+# gRPC
+grpcio==1.60.0
+grpcio-tools==1.60.0
+
+# NER
+pororo==0.4.2
+
+# PyTorch (Pororo 의존성)
+torch==2.1.0
+
+# 기타 의존성
+numpy==1.24.3
+transformers==4.35.0
