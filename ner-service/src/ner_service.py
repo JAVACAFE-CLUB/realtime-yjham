@@ -1,24 +1,27 @@
 """
 한국어 개체명 인식(NER) 서비스
-Hugging Face Transformers 기반
+GLiNER Korean 기반
 """
 import logging
 from typing import List, Dict
-from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification
+from gliner import GLiNER
 
 logger = logging.getLogger(__name__)
 
 
 class NERAnalyzer:
     """
-    Hugging Face Transformers 기반 개체명 인식 분석기
+    GLiNER Korean 기반 개체명 인식 분석기
     """
 
-    # 표준 NER 태그를 우리 타입으로 매핑
-    TAG_MAPPING = {
-        'PER': 'PERSON',      # Person
-        'LOC': 'LOCATION',    # Location
-        'ORG': 'ORGANIZATION' # Organization
+    # GLiNER 레이블을 우리 타입으로 매핑
+    ENTITY_LABELS = ["PERSON", "LOCATION", "ORGANIZATION"]
+
+    # GLiNER 레이블 매핑 (필요시)
+    LABEL_MAPPING = {
+        'PERSON': 'PERSON',
+        'LOCATION': 'LOCATION',
+        'ORGANIZATION': 'ORGANIZATION'
     }
 
     def __init__(self):
@@ -27,18 +30,8 @@ class NERAnalyzer:
         """
         logger.info("NER 모델 초기화 시작")
         try:
-            # 다국어 BERT NER 모델 사용
-            model_name = "dslim/bert-base-NER"
-
-            tokenizer = AutoTokenizer.from_pretrained(model_name)
-            model = AutoModelForTokenClassification.from_pretrained(model_name)
-
-            self.ner = pipeline(
-                "ner",
-                model=model,
-                tokenizer=tokenizer,
-                aggregation_strategy="simple"
-            )
+            # GLiNER Korean 모델 로드
+            self.model = GLiNER.from_pretrained("taeminlee/gliner_ko")
             logger.info("NER 모델 초기화 완료")
         except Exception as e:
             logger.error(f"NER 모델 초기화 실패: {e}")
@@ -58,24 +51,20 @@ class NERAnalyzer:
             return []
 
         try:
-            # Hugging Face NER 수행
-            ner_results = self.ner(text)
+            # GLiNER로 NER 수행
+            ner_results = self.model.predict_entities(text, self.ENTITY_LABELS)
 
-            # 결과 파싱 및 필터링
+            # 결과 변환
             entities = []
             for entity in ner_results:
-                # entity_group에서 태그 추출 (예: "B-PS" -> "PS")
-                entity_label = entity['entity_group']
-
-                # B-, I- 접두사 제거
-                if '-' in entity_label:
-                    entity_label = entity_label.split('-')[-1]
+                entity_text = entity.get("text", "")
+                entity_label = entity.get("label", "")
 
                 # 매핑된 타입 확인
-                if entity_label in self.TAG_MAPPING:
+                if entity_label in self.LABEL_MAPPING:
                     entities.append({
-                        'keyword': entity['word'].strip(),
-                        'type': self.TAG_MAPPING[entity_label]
+                        'keyword': entity_text.strip(),
+                        'type': self.LABEL_MAPPING[entity_label]
                     })
 
             logger.debug(f"텍스트 분석 완료: {len(entities)}개 개체명 추출")

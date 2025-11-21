@@ -5,8 +5,8 @@
 ## 기술 스택
 
 - Python 3.9
-- Hugging Face Transformers (BERT NER 모델)
-- PyTorch
+- GLiNER Korean (한국어 NER 모델)
+- mecab-ko (한국어 형태소 분석기)
 - gRPC
 
 ## 기능
@@ -188,8 +188,8 @@ python test_client.py
 
 ## 주의사항
 
-- 첫 실행 시 BERT NER 모델 다운로드로 인해 시작 시간이 오래 걸릴 수 있습니다
+- 첫 실행 시 GLiNER-ko 모델 다운로드로 인해 시작 시간이 오래 걸릴 수 있습니다
 - GPU가 있는 환경에서는 자동으로 GPU를 사용합니다
 - 메모리: 최소 2GB 권장
-- 모델: dslim/bert-base-NER (약 420MB)
-- 한국어 텍스트에 대한 NER 성능은 제한적일 수 있습니다
+- 모델: taeminlee/gliner_ko (한국어 전용)
+- 모델 성능: F1 점수 75.99% (konne dev set)

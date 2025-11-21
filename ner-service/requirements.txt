@@ -2,8 +2,7 @@
 grpcio==1.60.0
 grpcio-tools==1.60.0
 
-# NER - Hugging Face Transformers
-transformers==4.35.0
-torch==2.1.0
-sentencepiece==0.1.99
+# NER - GLiNER Korean
+gliner
+python-mecab-ko
 numpy<2.0

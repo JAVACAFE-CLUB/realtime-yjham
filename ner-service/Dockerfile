@@ -5,7 +5,30 @@ WORKDIR /app
 # 시스템 패키지 업데이트 및 필요한 라이브러리 설치
 RUN apt-get update && apt-get install -y \
     build-essential \
+    curl \
+    git \
+    automake \
+    autoconf \
     && rm -rf /var/lib/apt/lists/*
+
+# mecab 및 mecab-ko-dic 설치
+RUN apt-get update && apt-get install -y \
+    mecab \
+    libmecab-dev \
+    mecab-ipadic-utf8 \
+    && rm -rf /var/lib/apt/lists/*
+
+# mecab-ko-dic 설치
+RUN cd /tmp && \
+    curl -LO https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-2.1.1-20180720.tar.gz && \
+    tar -zxvf mecab-ko-dic-2.1.1-20180720.tar.gz && \
+    cd mecab-ko-dic-2.1.1-20180720 && \
+    ./autogen.sh && \
+    ./configure && \
+    make && \
+    make install && \
+    cd / && \
+    rm -rf /tmp/mecab-ko-dic-*
 
 # Python 의존성 설치
 COPY requirements.txt .

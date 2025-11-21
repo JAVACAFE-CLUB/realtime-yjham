@@ -38,7 +38,7 @@ serving-module (Java)
 - Cache: Redis (공유 캐시), Caffeine (로컬 캐시)
 - Rate Limiting: Bucket4j
 - RPC: gRPC (Java ↔ Python)
-- NER: Hugging Face Transformers (BERT NER)
+- NER: GLiNER Korean (taeminlee/gliner_ko)
 - Monitoring: Prometheus + Grafana + Micrometer
 - Container: Docker, Docker Compose
 
