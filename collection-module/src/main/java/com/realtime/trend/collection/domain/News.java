@@ -49,6 +49,11 @@ public class News {
     private String publisher;
 
     /**
+     * 기자명
+     */
+    private String author;
+
+    /**
      * 카테고리
      */
     private String category;
@@ -86,6 +91,7 @@ public class News {
                 .content(this.content)
                 .publishedAt(this.publishedAt)
                 .publisher(this.publisher)
+                .author(this.author)
                 .category(this.category)
                 .tags(this.tags)
                 .collectedAt(this.collectedAt)
