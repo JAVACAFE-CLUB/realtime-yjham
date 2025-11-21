@@ -4,7 +4,7 @@ Hugging Face Transformers 기반
 """
 import logging
 from typing import List, Dict
-from transformers import pipeline
+from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification
 
 logger = logging.getLogger(__name__)
 
@@ -14,11 +14,11 @@ class NERAnalyzer:
     Hugging Face Transformers 기반 개체명 인식 분석기
     """
 
-    # KLUE NER 태그를 우리 타입으로 매핑
+    # 표준 NER 태그를 우리 타입으로 매핑
     TAG_MAPPING = {
-        'PS': 'PERSON',      # Person
-        'LC': 'LOCATION',    # Location
-        'OG': 'ORGANIZATION' # Organization
+        'PER': 'PERSON',      # Person
+        'LOC': 'LOCATION',    # Location
+        'ORG': 'ORGANIZATION' # Organization
     }
 
     def __init__(self):
@@ -27,10 +27,16 @@ class NERAnalyzer:
         """
         logger.info("NER 모델 초기화 시작")
         try:
-            # KoBERT NER 모델 사용 (NER로 fine-tune된 모델)
+            # 다국어 BERT NER 모델 사용
+            model_name = "dslim/bert-base-NER"
+
+            tokenizer = AutoTokenizer.from_pretrained(model_name)
+            model = AutoModelForTokenClassification.from_pretrained(model_name)
+
             self.ner = pipeline(
-                "token-classification",
-                model="monologg/kobert-base-v1-finetuned-ner",
+                "ner",
+                model=model,
+                tokenizer=tokenizer,
                 aggregation_strategy="simple"
             )
             logger.info("NER 모델 초기화 완료")

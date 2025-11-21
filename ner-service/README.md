@@ -5,7 +5,7 @@
 ## 기술 스택
 
 - Python 3.9
-- Hugging Face Transformers (KoBERT NER 모델)
+- Hugging Face Transformers (BERT NER 모델)
 - PyTorch
 - gRPC
 
@@ -188,7 +188,8 @@ python test_client.py
 
 ## 주의사항
 
-- 첫 실행 시 KLUE RoBERTa 모델 다운로드로 인해 시작 시간이 오래 걸릴 수 있습니다
+- 첫 실행 시 BERT NER 모델 다운로드로 인해 시작 시간이 오래 걸릴 수 있습니다
 - GPU가 있는 환경에서는 자동으로 GPU를 사용합니다
 - 메모리: 최소 2GB 권장
-- 모델: KLUE RoBERTa Base (약 450MB)
+- 모델: dslim/bert-base-NER (약 420MB)
+- 한국어 텍스트에 대한 NER 성능은 제한적일 수 있습니다
