@@ -7,7 +7,7 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: realtime-trend
+      database: realtime-trend-test
       username: admin
       password: admin123
       authentication-database: admin

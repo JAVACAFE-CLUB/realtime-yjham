@@ -2,15 +2,19 @@ spring:
   application:
     name: collection-module
 
+  # DataSource 설정 (Spring Batch Job 메타데이터용)
+  datasource:
+    url: jdbc:h2:mem:batch
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
   # MongoDB 설정
   data:
     mongodb:
       host: localhost
       port: 27017
       database: realtime-trend
-      username: admin
-      password: admin123
-      authentication-database: admin
 
   # Kafka 설정
   kafka:
@@ -42,6 +46,12 @@ management:
     export:
       prometheus:
         enabled: true
+
+# YouTube API 설정
+youtube:
+  api:
+    key: AIzaSyC3PXjnVuoIeXk6Qd0rsnjbigX73NPDHoQ
+    max-results: 50
 
 # 로깅
 logging:
