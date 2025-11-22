@@ -32,6 +32,8 @@ class HtmlCrawlerTest {
         when(khanParser.getPublisher()).thenReturn("경향신문");
         when(kmibParser.getPublisher()).thenReturn("국민일보");
         crawler = new HtmlCrawler(List.of(khanParser, kmibParser));
+        // @PostConstruct 메서드 수동 호출
+        crawler.init();
     }
 
     @Nested

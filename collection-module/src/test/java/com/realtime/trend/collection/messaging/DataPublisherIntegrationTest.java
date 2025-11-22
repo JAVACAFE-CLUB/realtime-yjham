@@ -67,7 +67,7 @@ class DataPublisherIntegrationTest {
             News news = createTestNews("https://example.com/news/" + UUID.randomUUID());
 
             // when
-            dataPublisher.publish(NEWS_TOPIC, news.getUrl(), news);
+            dataPublisher.publishSync(NEWS_TOPIC, news.getUrl(), news);
 
             // then
             await()
@@ -92,7 +92,7 @@ class DataPublisherIntegrationTest {
             News news = createTestNews(expectedKey);
 
             // when
-            dataPublisher.publish(NEWS_TOPIC, news.getUrl(), news);
+            dataPublisher.publishSync(NEWS_TOPIC, news.getUrl(), news);
 
             // then
             await()
@@ -120,7 +120,7 @@ class DataPublisherIntegrationTest {
             YouTubeVideo video = createTestYouTubeVideo("video-" + UUID.randomUUID());
 
             // when
-            dataPublisher.publish(YOUTUBE_TOPIC, video.getVideoId(), video);
+            dataPublisher.publishSync(YOUTUBE_TOPIC, video.getVideoId(), video);
 
             // then
             await()
@@ -145,7 +145,7 @@ class DataPublisherIntegrationTest {
             YouTubeVideo video = createTestYouTubeVideo(expectedKey);
 
             // when
-            dataPublisher.publish(YOUTUBE_TOPIC, video.getVideoId(), video);
+            dataPublisher.publishSync(YOUTUBE_TOPIC, video.getVideoId(), video);
 
             // then
             await()
