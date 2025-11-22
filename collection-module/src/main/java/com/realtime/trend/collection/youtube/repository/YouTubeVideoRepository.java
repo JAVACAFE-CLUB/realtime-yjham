@@ -1,6 +1,6 @@
 package com.realtime.trend.collection.youtube.repository;
 
-import com.realtime.trend.collection.messaging.PublishStatus;
+import com.realtime.trend.collection.core.domain.PublishStatus;
 import com.realtime.trend.collection.youtube.domain.YouTubeVideo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

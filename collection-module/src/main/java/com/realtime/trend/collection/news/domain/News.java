@@ -1,6 +1,7 @@
 package com.realtime.trend.collection.news.domain;
 
-import com.realtime.trend.collection.messaging.PublishStatus;
+import com.realtime.trend.collection.core.domain.Publishable;
+import com.realtime.trend.collection.core.domain.PublishStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -18,7 +19,7 @@ import java.util.List;
 @Getter
 @Builder
 @ToString
-public class News {
+public class News implements Publishable {
 
     @Id
     private String id;
@@ -81,9 +82,12 @@ public class News {
      */
     private LocalDateTime publishedToKafkaAt;
 
-    /**
-     * 발행 상태를 PUBLISHED로 변경
-     */
+    @Override
+    public String getIdentifier() {
+        return this.url;
+    }
+
+    @Override
     public News markAsPublished() {
         return News.builder()
                 .id(this.id)

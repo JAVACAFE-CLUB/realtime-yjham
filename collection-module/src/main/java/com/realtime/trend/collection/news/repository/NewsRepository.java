@@ -1,6 +1,6 @@
 package com.realtime.trend.collection.news.repository;
 
-import com.realtime.trend.collection.messaging.PublishStatus;
+import com.realtime.trend.collection.core.domain.PublishStatus;
 import com.realtime.trend.collection.news.domain.News;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
