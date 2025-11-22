@@ -25,9 +25,11 @@ public class CollectionMetrics {
     private static final String METRIC_COMPENSATING_SUCCESS = "collection.compensating.success";
     private static final String METRIC_COMPENSATING_FAILED = "collection.compensating.failed";
     private static final String METRIC_PUBLISH_DURATION = "collection.publish.duration";
-    private static final String METRIC_BATCH_DURATION = "collection.batch.duration";
     private static final String METRIC_SAVE_FAILED = "collection.items.save_failed";
+    private static final String METRIC_JOB_DURATION = "collection.job.duration";
+    private static final String METRIC_JOB_SKIPPED = "collection.job.skipped";
     private static final String TAG_SOURCE = "source";
+    private static final String TAG_JOB_TYPE = "job_type";
 
     private final MeterRegistry meterRegistry;
 
@@ -38,10 +40,11 @@ public class CollectionMetrics {
     private final Map<String, Counter> compensatingSuccessCounters = new ConcurrentHashMap<>();
     private final Map<String, Counter> compensatingFailedCounters = new ConcurrentHashMap<>();
     private final Map<String, Counter> saveFailedCounters = new ConcurrentHashMap<>();
+    private final Map<String, Counter> jobSkippedCounters = new ConcurrentHashMap<>();
 
     // 타이머 캐시
     private final Map<String, Timer> publishTimers = new ConcurrentHashMap<>();
-    private final Map<String, Timer> batchTimers = new ConcurrentHashMap<>();
+    private final Map<String, Timer> jobDurationTimers = new ConcurrentHashMap<>();
 
     public CollectionMetrics(MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
@@ -97,10 +100,17 @@ public class CollectionMetrics {
     }
 
     /**
-     * 배치 실행 시간 기록
+     * Job 실행 시간 기록
      */
-    public void recordBatchDuration(String sourceName, long durationMs) {
-        getBatchTimer(sourceName).record(durationMs, TimeUnit.MILLISECONDS);
+    public void recordJobDuration(String sourceName, String jobType, long durationMs) {
+        getJobDurationTimer(sourceName, jobType).record(durationMs, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * 동시 실행으로 인한 Job 스킵 카운터 증가
+     */
+    public void incrementJobSkipped(String sourceName, String jobType) {
+        getJobSkippedCounter(sourceName, jobType).increment();
     }
 
     // Counter 헬퍼 메서드
@@ -160,11 +170,24 @@ public class CollectionMetrics {
                         .register(meterRegistry));
     }
 
-    private Timer getBatchTimer(String sourceName) {
-        return batchTimers.computeIfAbsent(sourceName, name ->
-                Timer.builder(METRIC_BATCH_DURATION)
-                        .description("배치 Job 실행 소요 시간")
-                        .tag(TAG_SOURCE, name)
+    private Timer getJobDurationTimer(String sourceName, String jobType) {
+        String key = sourceName + "-" + jobType;
+        return jobDurationTimers.computeIfAbsent(key, k ->
+                Timer.builder(METRIC_JOB_DURATION)
+                        .description("Job 실행 소요 시간")
+                        .tag(TAG_SOURCE, sourceName)
+                        .tag(TAG_JOB_TYPE, jobType)
                         .register(meterRegistry));
     }
+
+    private Counter getJobSkippedCounter(String sourceName, String jobType) {
+        String key = sourceName + "-" + jobType;
+        return jobSkippedCounters.computeIfAbsent(key, k ->
+                Counter.builder(METRIC_JOB_SKIPPED)
+                        .description("동시 실행으로 인해 스킵된 Job 수")
+                        .tag(TAG_SOURCE, sourceName)
+                        .tag(TAG_JOB_TYPE, jobType)
+                        .register(meterRegistry));
+    }
+
 }

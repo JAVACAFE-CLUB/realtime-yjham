@@ -22,27 +22,7 @@ public class GenericDataPublisher {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    /**
-     * 데이터를 Kafka 토픽으로 발행
-     *
-     * @param topic 토픽명
-     * @param key   메시지 키
-     * @param value 메시지 값
-     */
-    public void publish(String topic, String key, Object value) {
-        CompletableFuture<SendResult<String, Object>> future =
-                kafkaTemplate.send(topic, key, value);
-
-        future.whenComplete((result, ex) -> {
-            if (ex == null) {
-                log.debug("[{}] 발행 성공: {} - offset: {}",
-                        topic, key, result.getRecordMetadata().offset());
-            } else {
-                log.error("[{}] 발행 실패: {}", topic, key, ex);            }
-        });
-    }
-
-    /**
+        /**
      * 데이터를 Kafka 토픽으로 동기 발행 (결과 대기)
      *
      * @param topic   토픽명
