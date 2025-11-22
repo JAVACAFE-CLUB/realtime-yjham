@@ -1,3 +1,6 @@
+server:
+  port: 8083
+
 spring:
   application:
     name: indexing-module
@@ -11,7 +14,7 @@ spring:
       port: ${REDIS_PORT:6379}
 
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     consumer:
       group-id: indexing-group
       auto-offset-reset: earliest
@@ -23,28 +26,38 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
-# Kafka †= $
+# Kafka ÔøΩ= $
 kafka:
   topics:
     processed-news: processed-news
     processed-youtube: processed-youtube
     aggregated-keywords: aggregated-keywords
 
-# Elasticsearch xq§ $
+# Elasticsearch xqÔøΩ $
 elasticsearch:
   index:
     keywords: keywords
   retention-days: 30
 
-# Redis ê‹ $
+# Redis ÔøΩÔøΩ $
 cache:
   ttl-minutes: 10
   key-prefix: "keywords:today"
 
-# —ƒ $
+# ÔøΩÔøΩ $
 aggregation:
   top-count: 100
   cron: "0 */5 * * * *"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
 
 logging:
   level:

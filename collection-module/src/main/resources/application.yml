@@ -12,13 +12,11 @@ spring:
   # MongoDB 설정
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      database: realtime-trend
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/realtime-trend}
 
   # Kafka 설정
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

@@ -4,7 +4,9 @@
       "Bash(../gradlew test --tests InfrastructureConnectionTest)",
       "Bash(../gradlew test --tests InfrastructureConnectionTest --info)",
       "Bash(../gradlew clean test:*)",
-      "Bash(powershell.exe -Command \"Start-Sleep -Seconds 30\")"
+      "Bash(powershell.exe -Command \"Start-Sleep -Seconds 30\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

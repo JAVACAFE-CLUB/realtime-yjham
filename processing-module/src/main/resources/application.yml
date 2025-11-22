@@ -1,9 +1,12 @@
+server:
+  port: 8082
+
 spring:
   application:
     name: processing-module
 
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     consumer:
       group-id: processing-group
       auto-offset-reset: earliest
@@ -15,13 +18,13 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
-# NER gRPC D¤ $
+# NER gRPC Dï¿½ $
 ner:
   grpc:
     host: ${NER_SERVICE_HOST:localhost}
     port: ${NER_SERVICE_PORT:50051}
 
-# Kafka  = $
+# Kafka ï¿½= $
 kafka:
   topics:
     raw-news: raw-news
@@ -31,13 +34,23 @@ kafka:
     dlq-news: raw-news-dlq
     dlq-youtube: raw-youtube-dlq
 
-# ˜¬ $
+# ï¿½ï¿½ $
 processing:
   min-content-length: 100
   retry:
     max-attempts: 3
     initial-interval: 1000
     multiplier: 2.0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
 
 logging:
   level:

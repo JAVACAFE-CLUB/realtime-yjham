@@ -18,7 +18,7 @@ spring:
     caffeine:
       spec: maximumSize=100,expireAfterWrite=5m
 
-# Redis Ü $
+# Redis ï¿½ï¿½ $
 cache:
   redis:
     ttl-minutes: 10
@@ -29,10 +29,20 @@ rate-limit:
   requests-per-minute: 100
   requests-per-hour: 1000
 
-# Elasticsearch xq¤ $
+# Elasticsearch xqï¿½ $
 elasticsearch:
   index:
     keywords: keywords
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
 
 logging:
   level:
