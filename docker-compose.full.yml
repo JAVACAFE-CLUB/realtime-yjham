@@ -105,12 +105,12 @@ services:
   # Application Services
   # ============================================
 
-  # NER Service (Python)
-  ner-service:
+  # Extraction Module (Python NER)
+  extraction-module:
     build:
-      context: ./ner-service
+      context: ./extraction-module
       dockerfile: Dockerfile
-    container_name: realtime-ner-service
+    container_name: realtime-extraction-module
     ports:
       - "50051:50051"
     networks:
@@ -155,11 +155,11 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9093
-      - GRPC_CLIENT_NER_SERVICE_ADDRESS=static://ner-service:50051
+      - GRPC_CLIENT_NER_SERVICE_ADDRESS=static://extraction-module:50051
     depends_on:
       kafka:
         condition: service_healthy
-      ner-service:
+      extraction-module:
         condition: service_healthy
     networks:
       - realtime-network

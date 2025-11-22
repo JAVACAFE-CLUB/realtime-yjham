@@ -22,7 +22,7 @@ services:
     image: mongo-express:1.0.2
     container_name: realtime-mongo-express
     ports:
-      - "8082:8081"
+      - "9081:8081"
     environment:
       ME_CONFIG_MONGODB_URL: mongodb://mongodb:27017/
       ME_CONFIG_BASICAUTH: false
@@ -80,7 +80,7 @@ services:
     image: provectuslabs/kafka-ui:latest
     container_name: realtime-kafka-ui
     ports:
-      - "8083:8080"
+      - "9082:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: realtime-kafka
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9093
@@ -134,7 +134,7 @@ services:
     image: redis/redisinsight:latest
     container_name: realtime-redis-insight
     ports:
-      - "5540:5540"
+      - "9083:5540"
     depends_on:
       - redis
     networks:
@@ -146,7 +146,7 @@ services:
     image: docker.elastic.co/kibana/kibana:8.11.0
     container_name: realtime-kibana
     ports:
-      - "5601:5601"
+      - "9084:5601"
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     depends_on:
@@ -155,12 +155,12 @@ services:
       - realtime-network
     restart: unless-stopped
 
-  # NER Service (Python)
-  ner-service:
+  # Extraction Module (Python NER)
+  extraction-module:
     build:
-      context: ./ner-service
+      context: ./extraction-module
       dockerfile: Dockerfile
-    container_name: realtime-ner-service
+    container_name: realtime-extraction-module
     ports:
       - "50051:50051"
     networks:

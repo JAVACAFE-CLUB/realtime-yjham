@@ -1,4 +1,4 @@
-# NER Service
+# Extraction Module
 
 한국어 개체명 인식(Named Entity Recognition) gRPC 서비스
 
@@ -36,17 +36,17 @@ python src/server.py
 
 ```bash
 # 이미지 빌드
-docker build -t ner-service .
+docker build -t extraction-module .
 
 # 컨테이너 실행
-docker run -p 50051:50051 ner-service
+docker run -p 50051:50051 extraction-module
 ```
 
 ### Docker Compose 실행
 
 ```bash
 # 프로젝트 루트에서 실행
-docker compose -f docker-compose.infra.yml up -d ner-service
+docker compose -f docker-compose.infra.yml up -d extraction-module
 ```
 
 ## gRPC API

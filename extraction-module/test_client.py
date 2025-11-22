@@ -1,5 +1,5 @@
 """
-NER Service 테스트 클라이언트
+Extraction Module 테스트 클라이언트
 """
 import sys
 sys.path.append('./src/generated')
@@ -89,16 +89,16 @@ def main():
     """
     메인 함수
     """
-    print("\n🔍 NER Service 테스트 시작\n")
+    print("\n🔍 Extraction Module 테스트 시작\n")
 
     # 연결 테스트
     try:
         with grpc.insecure_channel('localhost:50051') as channel:
             grpc.channel_ready_future(channel).result(timeout=5)
-        print("✅ NER Service 연결 성공\n")
+        print("✅ Extraction Module 연결 성공\n")
     except grpc.FutureTimeoutError:
-        print("❌ NER Service 연결 실패")
-        print("서버가 실행 중인지 확인하세요: docker ps | grep ner-service")
+        print("❌ Extraction Module 연결 실패")
+        print("서버가 실행 중인지 확인하세요: docker ps | grep extraction-module")
         return
 
     # 테스트 실행
