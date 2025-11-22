@@ -86,9 +86,4 @@ public class NewsDataSource implements DataSource<News> {
     public News save(News entity) {
         return newsRepository.save(entity);
     }
-
-    @Override
-    public Class<News> getEntityType() {
-        return News.class;
-    }
 }

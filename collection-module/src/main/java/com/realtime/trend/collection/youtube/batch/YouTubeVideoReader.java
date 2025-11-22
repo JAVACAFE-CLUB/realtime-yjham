@@ -41,7 +41,11 @@ public class YouTubeVideoReader implements ItemReader<YouTubeVideo> {
     }
 
     private void initialize() {
-        List<YouTubeVideo> videos = youTubeApiClient.fetchTrendingVideos();
+        List<YouTubeVideo> videos = youTubeApiClient.fetchTrendingVideos()
+                .orElseGet(() -> {
+                    log.warn("YouTube API 호출 실패 - 빈 목록으로 진행");
+                    return List.of();
+                });
         this.videoIterator = videos.iterator();
         log.info("YouTube 동영상 수집 완료: {}개", videos.size());
     }

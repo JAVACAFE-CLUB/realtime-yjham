@@ -26,7 +26,6 @@ public class RssItemReader implements ItemReader<RssItem>, ItemStream {
     private final RssReader rssReader;
     private final Map<String, String> feeds;
     private Iterator<RssItem> itemIterator;
-    private boolean initialized = false;
 
     public RssItemReader(RssReader rssReader, RssFeedProperties properties) {
         this.rssReader = rssReader;
@@ -36,15 +35,9 @@ public class RssItemReader implements ItemReader<RssItem>, ItemStream {
 
     @Override
     public RssItem read() {
-        if (!initialized) {
-            initialize();
-            initialized = true;
-        }
-
         if (itemIterator != null && itemIterator.hasNext()) {
             return itemIterator.next();
         }
-
         return null;
     }
 
@@ -75,7 +68,6 @@ public class RssItemReader implements ItemReader<RssItem>, ItemStream {
      * 상태 초기화 (재사용 대비)
      */
     public void reset() {
-        this.initialized = false;
         this.itemIterator = null;
     }
 
@@ -83,8 +75,9 @@ public class RssItemReader implements ItemReader<RssItem>, ItemStream {
 
     @Override
     public void open(@NonNull ExecutionContext executionContext) throws ItemStreamException {
-        log.debug("RssItemReader open 호출");
+        log.debug("RssItemReader open 호출 - 초기화 시작");
         reset();
+        initialize();
     }
 
     @Override

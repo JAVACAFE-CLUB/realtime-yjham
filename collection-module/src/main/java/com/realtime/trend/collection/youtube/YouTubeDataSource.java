@@ -85,9 +85,4 @@ public class YouTubeDataSource implements DataSource<YouTubeVideo> {
     public YouTubeVideo save(YouTubeVideo entity) {
         return youTubeVideoRepository.save(entity);
     }
-
-    @Override
-    public Class<YouTubeVideo> getEntityType() {
-        return YouTubeVideo.class;
-    }
 }

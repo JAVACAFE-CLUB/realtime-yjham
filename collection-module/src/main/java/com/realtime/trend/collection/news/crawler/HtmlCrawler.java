@@ -32,13 +32,13 @@ public class HtmlCrawler {
      * 초당 허용 요청 수
      */
     @Value("${collection.news.crawler.requests-per-second:2}")
-    private int requestsPerSecond;
+    private int requestsPerSecond = 2;
 
     /**
      * Rate Limiter 대기 타임아웃 (밀리초)
      */
     @Value("${collection.news.crawler.timeout-ms:10000}")
-    private int timeoutMs;
+    private int timeoutMs = 10000;
 
     public HtmlCrawler(List<NewsArticleParser> parsers) {
         this.parsers = parsers;
@@ -46,6 +46,13 @@ public class HtmlCrawler {
 
     @PostConstruct
     public void init() {
+        // 파서 맵 초기화
+        this.parserMap = new HashMap<>();
+        for (NewsArticleParser parser : parsers) {
+            parserMap.put(parser.getPublisher(), parser);
+        }
+        log.info("파서 초기화 완료: {}개 - {}", parserMap.size(), parserMap.keySet());
+
         // Resilience4j RateLimiter 설정
         RateLimiterConfig config = RateLimiterConfig.custom()
                 .limitRefreshPeriod(Duration.ofSeconds(1))
@@ -59,19 +66,6 @@ public class HtmlCrawler {
     }
 
     /**
-     * 언론사별 파서 맵 초기화
-     */
-    private void initializeParserMap() {
-        if (parserMap == null) {
-            parserMap = new HashMap<>();
-            for (NewsArticleParser parser : parsers) {
-                parserMap.put(parser.getPublisher(), parser);
-            }
-            log.info("파서 초기화 완료: {}개", parserMap.size());
-        }
-    }
-
-    /**
      * URL에서 기사 크롤링
      *
      * @param url       기사 URL
@@ -79,8 +73,6 @@ public class HtmlCrawler {
      * @return 크롤링된 기사 정보
      */
     public NewsArticle crawl(String url, String publisher) {
-        initializeParserMap();
-
         NewsArticleParser parser = parserMap.get(publisher);
         if (parser == null) {
             log.error("지원하지 않는 언론사: {}", publisher);
