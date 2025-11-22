@@ -1,107 +1,135 @@
-# Realtime Trend System
+﻿# 실시간 트렌드 분석 시스템
 
-실시간 트렌드 분석 시스템 - 뉴스와 YouTube 데이터를 수집하여 오늘의 키워드를 제공하는 API
+뉴스(RSS)와 YouTube 데이터를 수집하고, NER(개체명 인식)을 통해 키워드를 추출하여 실시간 트렌드 키워드를 제공하는 시스템입니다.
 
-## 프로젝트 구조
+## 아키텍처
 
 ```
-realtime-trend-system/
-├── collection-module/         # 데이터 수집 모듈 (Spring Batch)
-├── processing-module/         # 데이터 전처리 모듈 (Kafka Consumer)
-├── indexing-module/           # Elasticsearch 색인 모듈
-├── serving-module/            # REST API 제공 모듈
-├── docker-compose.infra.yml   # 인프라 구성 (개발용)
-├── docker-compose.full.yml    # 전체 시스템 (향후 추가)
-└── monitoring/                # Prometheus & Grafana 설정
+[뉴스 RSS / YouTube API]
+         |
+         v
+  collection-module (MongoDB) ---> Kafka (raw-news, raw-youtube)
+         |
+         v
+  processing-module <--gRPC--> extraction-module (GLiNER-ko)
+         |
+         v
+  Kafka (processed-news, processed-youtube)
+         |
+         v
+  indexing-module ---> Elasticsearch + Redis
+         |
+         v
+  serving-module ---> REST API
 ```
 
-## 시작하기
+## 모듈 구조
 
-### 1. 요구사항
+| 모듈 | 포트 | 설명 |
+|------|------|------|
+| serving-module | 8080 | 트렌드 키워드 조회 REST API (캐싱, Rate Limiting) |
+| collection-module | 8081 | 뉴스(RSS), YouTube 데이터 수집 (Spring Batch) |
+| processing-module | 8082 | Kafka 메시지 소비, NER gRPC 서비스로 키워드 추출 |
+| indexing-module | 8083 | Elasticsearch 인덱싱, 트렌드 키워드 집계, Redis 캐싱 |
+| extraction-module | 50051 | Python gRPC 서비스, GLiNER-ko 모델로 한국어 NER |
 
+## 기술 스택
+
+- **Backend**: Java 21, Spring Boot 3.2.5
+- **데이터 저장**: MongoDB, Elasticsearch, Redis
+- **메시지 브로커**: Apache Kafka
+- **NER 서비스**: Python, GLiNER-ko, gRPC
+- **모니터링**: Prometheus, Grafana
+
+## 빠른 시작
+
+### 1. 사전 요구사항
+
+- Docker & Docker Compose
 - Java 21
-- Docker Desktop (Windows)
-- Gradle 8.x
+- Gradle
 
-### 2. 인프라 시작 (PowerShell 또는 CMD에서 실행)
+### 2. 환경 변수 설정
 
-```powershell
-# 프로젝트 루트 디렉토리에서 실행
+프로젝트 루트에 `.env` 파일 생성:
+
+```env
+YOUTUBE_API_KEY=<your_youtube_api_key>
+GRAFANA_ADMIN_USER=admin
+GRAFANA_ADMIN_PASSWORD=<secure_password>
+```
+
+### 3. 인프라 실행
+
+```bash
+# 인프라 서비스 시작 (MongoDB, Kafka, Elasticsearch, Redis, NER 등)
 docker compose -f docker-compose.infra.yml up -d
-```
 
-### 3. 인프라 상태 확인
-
-```powershell
-docker compose -f docker-compose.infra.yml ps
-```
-
-모든 서비스가 `healthy` 상태가 될 때까지 기다립니다 (약 1-2분 소요).
-
-### 4. 인프라 서비스 접속 정보
-
-| 서비스 | 접속 정보 | 계정 |
-|--------|-----------|------|
-| MongoDB | `localhost:27017` | admin / admin123 |
-| Kafka | `localhost:9092` | - |
-| Elasticsearch | `http://localhost:9200` | - |
-| Redis | `localhost:6379` | - |
-| Prometheus | `http://localhost:9090` | - |
-| Grafana | `http://localhost:3000` | admin / admin123 |
-
-### 5. 인프라 연결 테스트
-
-#### MongoDB 테스트
-```powershell
-docker exec -it realtime-mongodb mongosh -u admin -p admin123
-# MongoDB shell에서
-> use realtime-trend
-> show collections
-> exit
-```
-
-#### Kafka 테스트
-```powershell
-# 토픽 목록 확인
-docker exec -it realtime-kafka kafka-topics --bootstrap-server localhost:9092 --list
-```
-
-#### Elasticsearch 테스트
-```powershell
-# 브라우저에서 http://localhost:9200 접속
-# 또는
-curl http://localhost:9200
-```
-
-#### Redis 테스트
-```powershell
-docker exec -it realtime-redis redis-cli ping
-# PONG 응답이 오면 정상
-```
-
-### 6. 인프라 중지
-
-```powershell
+# 인프라 중지
 docker compose -f docker-compose.infra.yml down
-```
 
-### 7. 인프라 초기화 (데이터 삭제)
-
-```powershell
+# 인프라 중지 및 볼륨 삭제
 docker compose -f docker-compose.infra.yml down -v
 ```
 
-## 개발 가이드
+### 4. 애플리케이션 실행
 
-### 프로젝트 빌드
+#### 개별 모듈 실행 (개발 환경)
 
 ```bash
-./gradlew build
+./gradlew :collection-module:bootRun     # 포트 8081
+./gradlew :processing-module:bootRun     # 포트 8082
+./gradlew :indexing-module:bootRun       # 포트 8083
+./gradlew :serving-module:bootRun        # 포트 8080
 ```
 
-### 테스트 실행
+#### 전체 시스템 실행 (Docker)
 
 ```bash
+docker compose -f docker-compose.full.yml up -d
+```
+
+## API 사용법
+
+### 데이터 수집 트리거
+
+```bash
+# 뉴스 수집 시작
+curl -X POST http://localhost:8081/api/jobs/news
+
+# YouTube 수집 시작
+curl -X POST http://localhost:8081/api/jobs/youtube
+```
+
+### 트렌드 키워드 조회
+
+```bash
+# 오늘의 트렌드 키워드 조회
+curl "http://localhost:8080/api/keywords/today?limit=10&source=all&type=all"
+```
+
+## 인프라 포트
+
+| 서비스 | 포트 | 설명 |
+|--------|------|------|
+| MongoDB | 27017 | 문서 저장소 |
+| Kafka | 9092 | 메시지 브로커 |
+| Elasticsearch | 9200 | 검색/인덱싱 |
+| Redis | 6379 | 캐싱 |
+| Extraction Module | 50051 | NER gRPC 서비스 |
+| Mongo Express | 9081 | MongoDB UI |
+| Kafka UI | 9082 | Kafka 모니터링 UI |
+| Redis Insight | 9083 | Redis UI |
+| Kibana | 9084 | Elasticsearch UI |
+| Prometheus | 9090 | 메트릭 수집 |
+| Grafana | 3000 | 모니터링 대시보드 |
+
+## 빌드 및 테스트
+
+```bash
+# 전체 빌드
+./gradlew build
+
 # 전체 테스트
 ./gradlew test
 
@@ -109,70 +137,28 @@ docker compose -f docker-compose.infra.yml down -v
 ./gradlew :collection-module:test
 ```
 
-### 모듈별 실행
+## Kafka 토픽
 
-인프라가 실행 중이어야 합니다.
+| 토픽 | 설명 |
+|------|------|
+| raw-news | 수집된 원본 뉴스 데이터 |
+| raw-youtube | 수집된 원본 YouTube 데이터 |
+| processed-news | 키워드가 추출된 뉴스 데이터 |
+| processed-youtube | 키워드가 추출된 YouTube 데이터 |
+| raw-news-dlq | 뉴스 처리 실패 데이터 (Dead Letter Queue) |
+| raw-youtube-dlq | YouTube 처리 실패 데이터 (Dead Letter Queue) |
+| aggregated-keywords | 집계된 트렌드 키워드 |
 
-#### Collection Module (포트: 8081)
-```bash
-./gradlew :collection-module:bootRun
+## 프로젝트 구조
+
 ```
-
-#### Processing Module (포트: 8082)
-```bash
-./gradlew :processing-module:bootRun
+realtime-trend-system/
+├── collection-module/     # 데이터 수집 모듈
+├── processing-module/     # 키워드 추출 모듈
+├── indexing-module/       # 인덱싱/집계 모듈
+├── serving-module/        # REST API 모듈
+├── extraction-module/     # Python NER 서비스
+├── monitoring/            # Prometheus, Grafana 설정
+├── docker-compose.infra.yml   # 인프라 Docker 설정
+└── docker-compose.full.yml    # 전체 시스템 Docker 설정
 ```
-
-#### Indexing Module (포트: 8083)
-```bash
-./gradlew :indexing-module:bootRun
-```
-
-#### Serving Module (포트: 8080)
-```bash
-./gradlew :serving-module:bootRun
-```
-
-## Phase 0 완료 항목
-
-- [x] docker-compose.infra.yml 작성
-  - MongoDB, Kafka, Elasticsearch, Redis, Prometheus, Grafana
-- [x] 공통 의존성 설정 (build.gradle.kts)
-  - Spring Boot, Spring Batch, Kafka, MongoDB, Redis, Elasticsearch
-  - Testcontainers, Micrometer
-- [x] gRPC 프로토콜 정의 (ner.proto)
-  - NERService: Analyze, AnalyzeBatch
-  - EntityType: PERSON, LOCATION, ORGANIZATION
-- [x] 공통 도메인 모델 작성
-  - News: 뉴스 데이터 모델
-  - YouTubeVideo: YouTube 동영상 데이터 모델
-  - PublishStatus: Kafka 발행 상태
-- [x] 기본 설정 파일 작성
-  - application.yml (Collection Module)
-
-## 다음 단계
-
-**Phase 1: Collection Module 개발**
-- RSS 수집 구현
-- HTML 크롤링 구현
-- YouTube API 연동
-- Spring Batch Job 구현
-- MongoDB 저장 및 Kafka 발행
-- 테스트 코드 작성
-
-## 기술 스택
-
-- **Language**: Java 21, Python 3.8+
-- **Framework**: Spring Boot 3.2.5, Spring Batch
-- **Build Tool**: Gradle 8.x (Kotlin DSL)
-- **Message Queue**: Apache Kafka 7.5.0
-- **Database**: MongoDB 7.0
-- **Search Engine**: Elasticsearch 8.11.0
-- **Cache**: Redis 7.2, Caffeine
-- **RPC**: gRPC 1.59.0
-- **Monitoring**: Prometheus 2.48.0, Grafana 10.2.0
-- **Container**: Docker, Docker Compose
-
-## 참고
-
-- 자세한 설계 내용은 [CLAUDE.md](./CLAUDE.md) 참조
