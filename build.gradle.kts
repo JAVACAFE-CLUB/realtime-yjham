@@ -1,7 +1,7 @@
 plugins {
     id("java")
-    id("org.springframework.boot") version "3.2.5" apply false
-    id("io.spring.dependency-management") version "1.1.4" apply false
+    id("org.springframework.boot") version "3.3.7" apply false
+    id("io.spring.dependency-management") version "1.1.7" apply false
     id("com.google.protobuf") version "0.9.4" apply false
 }
 
@@ -57,11 +57,11 @@ subprojects {
         // 테스트
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testImplementation("org.springframework.kafka:spring-kafka-test")
-        testImplementation("org.testcontainers:testcontainers:1.19.3")
-        testImplementation("org.testcontainers:junit-jupiter:1.19.3")
-        testImplementation("org.testcontainers:mongodb:1.19.3")
-        testImplementation("org.testcontainers:kafka:1.19.3")
-        testImplementation("org.testcontainers:elasticsearch:1.19.3")
+        testImplementation("org.testcontainers:testcontainers:1.20.4")
+        testImplementation("org.testcontainers:junit-jupiter:1.20.4")
+        testImplementation("org.testcontainers:mongodb:1.20.4")
+        testImplementation("org.testcontainers:kafka:1.20.4")
+        testImplementation("org.testcontainers:elasticsearch:1.20.4")
     }
 
     tasks.withType<Test> {

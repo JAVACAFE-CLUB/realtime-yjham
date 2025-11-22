@@ -13,5 +13,5 @@ dependencies {
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
 
     // Rate Limiting
-    implementation("com.bucket4j:bucket4j-core:8.7.0")
+    implementation("com.bucket4j:bucket4j_jdk17-core:8.15.0")
 }
