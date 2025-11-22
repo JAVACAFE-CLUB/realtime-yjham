@@ -33,4 +33,5 @@ dependencies {
 
     // 테스트
     testImplementation("org.springframework.batch:spring-batch-test")
+    testImplementation(project(":test-support"))
 }
