@@ -1,17 +1,13 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
-option java_package = "com.realtime.trend.ner";
-option java_outer_classname = "NerProto";
-
 package ner;
 
-// NER Service 정의
+// NER 서비스 정의
 service NERService {
   // 단일 텍스트 분석
   rpc Analyze(TextRequest) returns (NERResponse);
 
-  // 배치 분석 (여러 텍스트 한번에 처리)
+  // 배치 텍스트 분석
   rpc AnalyzeBatch(BatchTextRequest) returns (BatchNERResponse);
 }
 
@@ -20,33 +16,23 @@ message TextRequest {
   string text = 1;
 }
 
-// 단일 텍스트 응답
-message NERResponse {
-  repeated Entity entities = 1;
-}
-
-// 배치 요청
+// 배치 텍스트 요청
 message BatchTextRequest {
   repeated string texts = 1;
+}
+
+// 개체명 정보
+message Entity {
+  string keyword = 1;    // 추출된 키워드
+  string type = 2;       // PERSON, LOCATION, ORGANIZATION
+}
+
+// 단일 응답
+message NERResponse {
+  repeated Entity entities = 1;
 }
 
 // 배치 응답
 message BatchNERResponse {
   repeated NERResponse responses = 1;
-}
-
-// 개체명 (Entity)
-message Entity {
-  string text = 1;        // 개체명 텍스트 (예: "삼성전자")
-  EntityType type = 2;    // 개체명 타입
-  int32 start_pos = 3;    // 원문에서의 시작 위치
-  int32 end_pos = 4;      // 원문에서의 종료 위치
-}
-
-// 개체명 타입
-enum EntityType {
-  UNKNOWN = 0;           // 알 수 없음
-  PERSON = 1;            // 인물
-  LOCATION = 2;          // 장소
-  ORGANIZATION = 3;      // 조직
 }

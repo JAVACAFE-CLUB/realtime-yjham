@@ -5,6 +5,9 @@ plugins {
 }
 
 dependencies {
+    // Spring Kafka
+    implementation("org.springframework.kafka:spring-kafka")
+
     // gRPC
     implementation("io.grpc:grpc-netty-shaded:1.59.0")
     implementation("io.grpc:grpc-protobuf:1.59.0")
@@ -16,6 +19,9 @@ dependencies {
 
     // HTML 정제
     implementation("org.jsoup:jsoup:1.17.1")
+
+    // Test
+    testImplementation("org.springframework.kafka:spring-kafka-test")
 }
 
 protobuf {
