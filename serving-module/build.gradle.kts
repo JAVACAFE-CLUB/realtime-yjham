@@ -1,8 +1,17 @@
 dependencies {
+    // Web
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
     // Elasticsearch
     implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
 
+    // Redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
+    // Cache - Caffeine
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
+
     // Rate Limiting
     implementation("com.bucket4j:bucket4j-core:8.7.0")
-    implementation("com.bucket4j:bucket4j-redis:8.7.0")
 }
