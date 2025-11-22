@@ -25,9 +25,19 @@ public class RateLimitConfig {
     }
 
     private Bucket createBucket(String clientIp) {
+        Bandwidth minuteLimit = Bandwidth.builder()
+                .capacity(requestsPerMinute)
+                .refillGreedy(requestsPerMinute, Duration.ofMinutes(1))
+                .build();
+
+        Bandwidth hourLimit = Bandwidth.builder()
+                .capacity(requestsPerHour)
+                .refillGreedy(requestsPerHour, Duration.ofHours(1))
+                .build();
+
         return Bucket.builder()
-                .addLimit(Bandwidth.simple(requestsPerMinute, Duration.ofMinutes(1)))
-                .addLimit(Bandwidth.simple(requestsPerHour, Duration.ofHours(1)))
+                .addLimit(minuteLimit)
+                .addLimit(hourLimit)
                 .build();
     }
 
