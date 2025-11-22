@@ -25,7 +25,8 @@ public class CollectionScheduler {
     private final JobLauncher jobLauncher;
     private final Job newsCollectionJob;
     private final Job youtubeCollectionJob;
-    private final Job compensatingTransactionJob;
+    private final Job newsCompensatingJob;
+    private final Job youtubeCompensatingJob;
 
     /**
      * 뉴스 수집 Job 실행 (20분마다)
@@ -66,22 +67,42 @@ public class CollectionScheduler {
     }
 
     /**
-     * 보상 트랜잭션 Job 실행 (1시간마다)
-     * PENDING 상태인 데이터를 Kafka로 재발행
+     * 뉴스 보상 트랜잭션 Job 실행 (1시간마다)
+     * PENDING 상태인 뉴스 데이터를 Kafka로 재발행
      */
     @Scheduled(cron = "0 0 * * * *")
-    public void runCompensatingTransaction() {
+    public void runNewsCompensatingTransaction() {
         try {
-            log.info("보상 트랜잭션 Job 시작");
+            log.info("뉴스 보상 트랜잭션 Job 시작");
             JobParameters jobParameters = new JobParametersBuilder()
                     .addLocalDateTime("timestamp", LocalDateTime.now())
                     .toJobParameters();
 
-            jobLauncher.run(compensatingTransactionJob, jobParameters);
-            log.info("보상 트랜잭션 Job 완료");
+            jobLauncher.run(newsCompensatingJob, jobParameters);
+            log.info("뉴스 보상 트랜잭션 Job 완료");
 
         } catch (Exception e) {
-            log.error("보상 트랜잭션 Job 실행 실패", e);
+            log.error("뉴스 보상 트랜잭션 Job 실행 실패", e);
+        }
+    }
+
+    /**
+     * YouTube 보상 트랜잭션 Job 실행 (1시간마다)
+     * PENDING 상태인 YouTube 데이터를 Kafka로 재발행
+     */
+    @Scheduled(cron = "0 5 * * * *")
+    public void runYoutubeCompensatingTransaction() {
+        try {
+            log.info("YouTube 보상 트랜잭션 Job 시작");
+            JobParameters jobParameters = new JobParametersBuilder()
+                    .addLocalDateTime("timestamp", LocalDateTime.now())
+                    .toJobParameters();
+
+            jobLauncher.run(youtubeCompensatingJob, jobParameters);
+            log.info("YouTube 보상 트랜잭션 Job 완료");
+
+        } catch (Exception e) {
+            log.error("YouTube 보상 트랜잭션 Job 실행 실패", e);
         }
     }
 }
