@@ -18,18 +18,15 @@ spring:
     caffeine:
       spec: maximumSize=100,expireAfterWrite=5m
 
-# Redis �� $
 cache:
   redis:
     ttl-minutes: 10
     key-prefix: "keywords:today"
 
-# Rate Limiting $
 rate-limit:
   requests-per-minute: 100
   requests-per-hour: 1000
 
-# Elasticsearch xq� $
 elasticsearch:
   index:
     keywords: keywords
