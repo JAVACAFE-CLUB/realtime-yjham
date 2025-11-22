@@ -1,3 +1,6 @@
+env:
+  filename: ../.env
+
 spring:
   application:
     name: collection-module
@@ -22,6 +25,8 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       acks: all
       retries: 3
+      properties:
+        spring.json.add.type.headers: false
 
   # Batch 설정
   batch:
@@ -48,7 +53,7 @@ management:
 # YouTube API 설정
 youtube:
   api:
-    key: AIzaSyC3PXjnVuoIeXk6Qd0rsnjbigX73NPDHoQ
+    key: ${env.YOUTUBE_API_KEY:}
     max-results: 50
 
 # 로깅

@@ -40,6 +40,11 @@ logs/
 **/application-local.yml
 **/application-secret.yml
 
+# Environment files (contains secrets)
+.env
+.env.local
+.env.*.local
+
 # Docker
 .docker/
 
@@ -47,3 +52,6 @@ logs/
 data/
 wikidump/
 *.xml
+
+# claude
+.claude

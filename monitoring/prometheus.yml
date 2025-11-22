@@ -18,13 +18,13 @@ scrape_configs:
   - job_name: 'processing-module'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['processing-module:8082']
+      - targets: ['processing-module:8084']
 
   # Indexing Module
   - job_name: 'indexing-module'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['indexing-module:8083']
+      - targets: ['indexing-module:8085']
 
   # Serving Module
   - job_name: 'serving-module'

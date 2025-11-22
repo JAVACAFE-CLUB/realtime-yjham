@@ -3,6 +3,7 @@ package com.realtime.trend.collection.batch.news;
 import com.realtime.trend.collection.service.crawler.RssItem;
 import com.realtime.trend.collection.service.crawler.RssReader;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
+@StepScope
 public class RssItemReader implements ItemReader<RssItem> {
 
     private static final Map<String, String> RSS_FEEDS = Map.of(

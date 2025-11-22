@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +29,12 @@ public class ElasticsearchKeywordService {
         this.elasticsearchClient = elasticsearchClient;
     }
 
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
     public List<KeywordItem> getKeywords(String source, String type, int limit) {
         try {
-            LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
-            LocalDateTime endOfDay = LocalDate.now().atTime(LocalTime.MAX);
+            String startOfDay = LocalDate.now().atStartOfDay().format(DATE_FORMATTER);
+            String endOfDay = LocalDate.now().atTime(23, 59, 59).format(DATE_FORMATTER);
 
             SearchResponse<Void> response = elasticsearchClient.search(s -> s
                     .index(indexName)
@@ -42,8 +44,8 @@ public class ElasticsearchKeywordService {
                                 b.must(m -> m
                                         .range(r -> r
                                                 .field("collectedAt")
-                                                .gte(co.elastic.clients.json.JsonData.of(startOfDay.toString()))
-                                                .lte(co.elastic.clients.json.JsonData.of(endOfDay.toString()))
+                                                .gte(co.elastic.clients.json.JsonData.of(startOfDay))
+                                                .lte(co.elastic.clients.json.JsonData.of(endOfDay))
                                         )
                                 );
 

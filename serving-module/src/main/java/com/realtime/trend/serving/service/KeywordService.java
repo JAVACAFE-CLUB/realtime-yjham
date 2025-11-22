@@ -48,9 +48,9 @@ public class KeywordService {
         // 1. Redis 캐시 조회
         List<KeywordItem> keywords = getFromRedis(source, type);
 
-        // 2. 캐시 미스 시 Elasticsearch 직접 조회
-        if (keywords == null) {
-            log.debug("Redis 캐시 미스, Elasticsearch 조회");
+        // 2. 캐시 미스 또는 빈 데이터 시 Elasticsearch 직접 조회
+        if (keywords == null || keywords.isEmpty()) {
+            log.debug("Redis 캐시 미스 또는 빈 데이터, Elasticsearch 조회");
             keywords = elasticsearchService.getKeywords(source, type, limit);
 
             // Redis에 캐싱

@@ -3,6 +3,7 @@
 GLiNER Korean 기반
 """
 import logging
+import re
 from typing import List, Dict
 from gliner import GLiNER
 
@@ -24,6 +25,14 @@ class NERAnalyzer:
         'ORGANIZATION': 'ORGANIZATION'
     }
 
+    # 필터링할 단일 성씨 목록
+    SINGLE_SURNAMES = {'이', '김', '박', '최', '정', '강', '조', '윤', '장', '임',
+                       '한', '오', '서', '신', '권', '황', '안', '송', '류', '전',
+                       '홍', '고', '문', '양', '손', '배', '백', '허', '유', '남'}
+
+    # 최소 키워드 길이
+    MIN_KEYWORD_LENGTH = 2
+
     def __init__(self):
         """
         NER 모델 초기화
@@ -36,6 +45,45 @@ class NERAnalyzer:
         except Exception as e:
             logger.error(f"NER 모델 초기화 실패: {e}")
             raise
+
+    def _is_valid_keyword(self, keyword: str, entity_type: str) -> bool:
+        """
+        키워드 유효성 검사
+
+        Args:
+            keyword: 검사할 키워드
+            entity_type: 개체 타입 (PERSON, LOCATION, ORGANIZATION)
+
+        Returns:
+            유효한 키워드인지 여부
+        """
+        # 빈 문자열 제외
+        if not keyword or not keyword.strip():
+            return False
+
+        keyword = keyword.strip()
+
+        # 최소 길이 검사
+        if len(keyword) < self.MIN_KEYWORD_LENGTH:
+            return False
+
+        # 단일 알파벳 제외 (A, B, C 등)
+        if re.match(r'^[A-Za-z]$', keyword):
+            return False
+
+        # 숫자로만 구성된 키워드 제외
+        if keyword.isdigit():
+            return False
+
+        # PERSON 타입일 때 단일 성씨만 있는 경우 제외
+        if entity_type == 'PERSON' and keyword in self.SINGLE_SURNAMES:
+            return False
+
+        # 특수문자로만 구성된 키워드 제외
+        if re.match(r'^[^\w가-힣]+$', keyword):
+            return False
+
+        return True
 
     def analyze(self, text: str) -> List[Dict[str, str]]:
         """
@@ -54,18 +102,22 @@ class NERAnalyzer:
             # GLiNER로 NER 수행
             ner_results = self.model.predict_entities(text, self.ENTITY_LABELS)
 
-            # 결과 변환
+            # 결과 변환 및 필터링
             entities = []
             for entity in ner_results:
-                entity_text = entity.get("text", "")
+                entity_text = entity.get("text", "").strip()
                 entity_label = entity.get("label", "")
 
                 # 매핑된 타입 확인
                 if entity_label in self.LABEL_MAPPING:
-                    entities.append({
-                        'keyword': entity_text.strip(),
-                        'type': self.LABEL_MAPPING[entity_label]
-                    })
+                    mapped_type = self.LABEL_MAPPING[entity_label]
+
+                    # 유효성 검사
+                    if self._is_valid_keyword(entity_text, mapped_type):
+                        entities.append({
+                            'keyword': entity_text,
+                            'type': mapped_type
+                        })
 
             logger.debug(f"텍스트 분석 완료: {len(entities)}개 개체명 추출")
             return entities
