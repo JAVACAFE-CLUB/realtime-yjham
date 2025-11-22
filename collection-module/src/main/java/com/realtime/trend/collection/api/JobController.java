@@ -1,21 +1,16 @@
 package com.realtime.trend.collection.api;
 
+import com.realtime.trend.collection.core.scheduler.DynamicCollectionScheduler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- * 배치 Job 수동 실행 컨트롤러 (테스트용)
+ * 배치 Job 수동 실행 컨트롤러
  */
 @Slf4j
 @RestController
@@ -23,36 +18,25 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class JobController {
 
-    private final JobLauncher jobLauncher;
-    private final Job newsCollectionJob;
-    private final Job youtubeCollectionJob;
-    private final Job newsCompensatingJob;
-    private final Job youtubeCompensatingJob;
+    private final DynamicCollectionScheduler scheduler;
+
+    /**
+     * 등록된 데이터 소스 목록 조회
+     */
+    @GetMapping("/sources")
+    public Map<String, Object> getRegisteredSources() {
+        Map<String, Object> response = new HashMap<>();
+        List<String> sources = scheduler.getRegisteredSources();
+        response.put("sources", sources);
+        return response;
+    }
 
     /**
      * 뉴스 수집 Job 즉시 실행
      */
     @PostMapping("/news")
     public Map<String, Object> runNewsCollection() {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            log.info("뉴스 수집 Job 수동 실행 시작");
-            JobParameters jobParameters = new JobParametersBuilder()
-                    .addLocalDateTime("timestamp", LocalDateTime.now())
-                    .toJobParameters();
-
-            jobLauncher.run(newsCollectionJob, jobParameters);
-
-            response.put("success", true);
-            response.put("message", "뉴스 수집 Job이 실행되었습니다.");
-            log.info("뉴스 수집 Job 수동 실행 완료");
-
-        } catch (Exception e) {
-            log.error("뉴스 수집 Job 실행 실패", e);
-            response.put("success", false);
-            response.put("message", "뉴스 수집 Job 실행 실패: " + e.getMessage());
-        }
-        return response;
+        return runCollectionJob("news");
     }
 
     /**
@@ -60,25 +44,7 @@ public class JobController {
      */
     @PostMapping("/youtube")
     public Map<String, Object> runYoutubeCollection() {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            log.info("YouTube 수집 Job 수동 실행 시작");
-            JobParameters jobParameters = new JobParametersBuilder()
-                    .addLocalDateTime("timestamp", LocalDateTime.now())
-                    .toJobParameters();
-
-            jobLauncher.run(youtubeCollectionJob, jobParameters);
-
-            response.put("success", true);
-            response.put("message", "YouTube 수집 Job이 실행되었습니다.");
-            log.info("YouTube 수집 Job 수동 실행 완료");
-
-        } catch (Exception e) {
-            log.error("YouTube 수집 Job 실행 실패", e);
-            response.put("success", false);
-            response.put("message", "YouTube 수집 Job 실행 실패: " + e.getMessage());
-        }
-        return response;
+        return runCollectionJob("youtube");
     }
 
     /**
@@ -86,25 +52,7 @@ public class JobController {
      */
     @PostMapping("/compensating/news")
     public Map<String, Object> runNewsCompensatingTransaction() {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            log.info("뉴스 보상 트랜잭션 Job 수동 실행 시작");
-            JobParameters jobParameters = new JobParametersBuilder()
-                    .addLocalDateTime("timestamp", LocalDateTime.now())
-                    .toJobParameters();
-
-            jobLauncher.run(newsCompensatingJob, jobParameters);
-
-            response.put("success", true);
-            response.put("message", "뉴스 보상 트랜잭션 Job이 실행되었습니다.");
-            log.info("뉴스 보상 트랜잭션 Job 수동 실행 완료");
-
-        } catch (Exception e) {
-            log.error("뉴스 보상 트랜잭션 Job 실행 실패", e);
-            response.put("success", false);
-            response.put("message", "뉴스 보상 트랜잭션 Job 실행 실패: " + e.getMessage());
-        }
-        return response;
+        return runCompensatingJob("news");
     }
 
     /**
@@ -112,23 +60,45 @@ public class JobController {
      */
     @PostMapping("/compensating/youtube")
     public Map<String, Object> runYoutubeCompensatingTransaction() {
+        return runCompensatingJob("youtube");
+    }
+
+    /**
+     * 범용 수집 Job 실행
+     */
+    @PostMapping("/{sourceName}")
+    public Map<String, Object> runCollectionJob(@PathVariable String sourceName) {
         Map<String, Object> response = new HashMap<>();
         try {
-            log.info("YouTube 보상 트랜잭션 Job 수동 실행 시작");
-            JobParameters jobParameters = new JobParametersBuilder()
-                    .addLocalDateTime("timestamp", LocalDateTime.now())
-                    .toJobParameters();
-
-            jobLauncher.run(youtubeCompensatingJob, jobParameters);
-
+            log.info("{} 수집 Job 수동 실행 시작", sourceName);
+            scheduler.runCollectionJob(sourceName);
             response.put("success", true);
-            response.put("message", "YouTube 보상 트랜잭션 Job이 실행되었습니다.");
-            log.info("YouTube 보상 트랜잭션 Job 수동 실행 완료");
-
+            response.put("message", sourceName + " 수집 Job이 실행되었습니다.");
+            log.info("{} 수집 Job 수동 실행 완료", sourceName);
         } catch (Exception e) {
-            log.error("YouTube 보상 트랜잭션 Job 실행 실패", e);
+            log.error("{} 수집 Job 실행 실패", sourceName, e);
             response.put("success", false);
-            response.put("message", "YouTube 보상 트랜잭션 Job 실행 실패: " + e.getMessage());
+            response.put("message", sourceName + " 수집 Job 실행 실패: " + e.getMessage());
+        }
+        return response;
+    }
+
+    /**
+     * 범용 보상 트랜잭션 Job 실행
+     */
+    @PostMapping("/compensating/{sourceName}")
+    public Map<String, Object> runCompensatingJob(@PathVariable String sourceName) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            log.info("{} 보상 트랜잭션 Job 수동 실행 시작", sourceName);
+            scheduler.runCompensatingJob(sourceName);
+            response.put("success", true);
+            response.put("message", sourceName + " 보상 트랜잭션 Job이 실행되었습니다.");
+            log.info("{} 보상 트랜잭션 Job 수동 실행 완료", sourceName);
+        } catch (Exception e) {
+            log.error("{} 보상 트랜잭션 Job 실행 실패", sourceName, e);
+            response.put("success", false);
+            response.put("message", sourceName + " 보상 트랜잭션 Job 실행 실패: " + e.getMessage());
         }
         return response;
     }
