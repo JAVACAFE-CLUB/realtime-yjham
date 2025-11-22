@@ -45,10 +45,18 @@ public class GenericItemWriter<T extends Publishable<T>> implements ItemWriter<T
 
                 if (published) {
                     // 3. 발행 성공 시 PUBLISHED 상태로 변경
-                    T publishedItem = savedItem.markAsPublished();
-                    dataSource.save(publishedItem);
-                    metrics.incrementPublished(dataSource.getSourceName());
-                    log.debug("[{}] 발행 완료: {}", dataSource.getSourceName(), publishedItem.getIdentifier());
+                    try {
+                        T publishedItem = savedItem.markAsPublished();
+                        dataSource.save(publishedItem);
+                        metrics.incrementPublished(dataSource.getSourceName());
+                        log.debug("[{}] 발행 완료: {}", dataSource.getSourceName(), publishedItem.getIdentifier());
+                    } catch (Exception statusUpdateException) {
+                        // Kafka 발행은 성공했지만 상태 변경 실패
+                        // 보상 트랜잭션에서 멱등성 체크로 중복 발행 방지
+                        log.error("[{}] Kafka 발행 성공했으나 상태 변경 실패 (보상 트랜잭션에서 처리): {}",
+                                dataSource.getSourceName(), savedItem.getIdentifier(), statusUpdateException);
+                        metrics.incrementPublished(dataSource.getSourceName());
+                    }
                 } else {
                     // Kafka 발행 실패 시 PENDING 상태 유지 (보상 트랜잭션에서 재시도)
                     metrics.incrementFailed(dataSource.getSourceName());

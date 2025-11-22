@@ -1,6 +1,7 @@
 package com.realtime.trend.collection.core.batch;
 
 import com.realtime.trend.collection.core.domain.Publishable;
+import com.realtime.trend.collection.core.domain.PublishStatus;
 import com.realtime.trend.collection.core.messaging.GenericDataPublisher;
 import com.realtime.trend.collection.core.metrics.CollectionMetrics;
 import com.realtime.trend.collection.core.source.DataSource;
@@ -44,6 +45,12 @@ public class GenericCompensatingWriter<T extends Publishable<T>> implements Item
     }
 
     private void processItem(T item) {
+        // 이미 발행된 상태면 스킵 (멱등성 보장)
+        if (item.getPublishStatus() == PublishStatus.PUBLISHED) {
+            log.debug("[{}] 이미 발행된 아이템 스킵: {}", dataSource.getSourceName(), item.getIdentifier());
+            return;
+        }
+
         // 최대 재시도 횟수 초과 체크
         if (item.getRetryCount() >= maxRetryCount) {
             handleMaxRetryExceeded(item);

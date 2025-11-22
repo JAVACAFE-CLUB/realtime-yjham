@@ -1,12 +1,8 @@
 package com.realtime.trend.collection.core.source;
 
 import com.realtime.trend.collection.core.domain.Publishable;
-import com.realtime.trend.collection.core.domain.PublishStatus;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.data.mongodb.repository.MongoRepository;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -82,9 +78,4 @@ public interface DataSource<T extends Publishable<T>> {
      * 엔티티 저장
      */
     T save(T entity);
-
-    /**
-     * 엔티티 타입 클래스
-     */
-    Class<T> getEntityType();
 }
