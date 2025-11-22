@@ -3,12 +3,12 @@ package com.realtime.trend.collection.news.batch;
 import com.realtime.trend.collection.news.crawler.RssItem;
 import com.realtime.trend.collection.news.crawler.RssReader;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,20 +18,17 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-@StepScope
 public class RssItemReader implements ItemReader<RssItem> {
 
-    private static final Map<String, String> RSS_FEEDS = Map.of(
-            "경향신문", "https://www.khan.co.kr/rss/rssdata/total_news.xml",
-            "국민일보", "https://www.kmib.co.kr/rss/data/kmibRssAll.xml"
-    );
-
     private final RssReader rssReader;
+    private final Map<String, String> feeds;
     private Iterator<RssItem> itemIterator;
     private boolean initialized = false;
 
-    public RssItemReader(RssReader rssReader) {
+    public RssItemReader(RssReader rssReader, RssFeedProperties properties) {
         this.rssReader = rssReader;
+        this.feeds = properties.getFeeds();
+        log.info("RSS 피드 설정 로드: {}개 언론사 - {}", feeds.size(), feeds.keySet());
     }
 
     @Override
@@ -45,7 +42,7 @@ public class RssItemReader implements ItemReader<RssItem> {
             return itemIterator.next();
         }
 
-        return null; // 더 이상 읽을 아이템이 없음
+        return null;
     }
 
     /**
@@ -54,7 +51,7 @@ public class RssItemReader implements ItemReader<RssItem> {
     private void initialize() {
         List<RssItem> allItems = new ArrayList<>();
 
-        for (Map.Entry<String, String> entry : RSS_FEEDS.entrySet()) {
+        for (Map.Entry<String, String> entry : feeds.entrySet()) {
             String publisher = entry.getKey();
             String feedUrl = entry.getValue();
 
@@ -64,11 +61,18 @@ public class RssItemReader implements ItemReader<RssItem> {
                 log.info("RSS 수집 완료: {} - {}개 기사", publisher, items.size());
             } catch (Exception e) {
                 log.error("RSS 수집 실패: {}", publisher, e);
-                // 특정 언론사 실패 시 다른 언론사는 계속 수집
             }
         }
 
         this.itemIterator = allItems.iterator();
         log.info("전체 RSS 수집 완료: {}개 기사", allItems.size());
+    }
+
+    /**
+     * 상태 초기화 (재사용 대비)
+     */
+    public void reset() {
+        this.initialized = false;
+        this.itemIterator = null;
     }
 }

@@ -3,7 +3,6 @@ package com.realtime.trend.collection.youtube.batch;
 import com.realtime.trend.collection.youtube.client.YouTubeApiClient;
 import com.realtime.trend.collection.youtube.domain.YouTubeVideo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,6 @@ import java.util.List;
  */
 @Slf4j
 @Component
-@StepScope
 public class YouTubeVideoReader implements ItemReader<YouTubeVideo> {
 
     private final YouTubeApiClient youTubeApiClient;
@@ -46,5 +44,13 @@ public class YouTubeVideoReader implements ItemReader<YouTubeVideo> {
         List<YouTubeVideo> videos = youTubeApiClient.fetchTrendingVideos();
         this.videoIterator = videos.iterator();
         log.info("YouTube 동영상 수집 완료: {}개", videos.size());
+    }
+
+    /**
+     * 상태 초기화 (StepScope 재사용 대비)
+     */
+    public void reset() {
+        this.initialized = false;
+        this.videoIterator = null;
     }
 }

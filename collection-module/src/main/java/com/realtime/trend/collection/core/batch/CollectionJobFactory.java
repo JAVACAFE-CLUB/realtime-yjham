@@ -2,6 +2,7 @@ package com.realtime.trend.collection.core.batch;
 
 import com.realtime.trend.collection.core.domain.Publishable;
 import com.realtime.trend.collection.core.messaging.GenericDataPublisher;
+import com.realtime.trend.collection.core.metrics.CollectionMetrics;
 import com.realtime.trend.collection.core.source.DataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class CollectionJobFactory {
     private final JobRepository jobRepository;
     private final PlatformTransactionManager transactionManager;
     private final GenericDataPublisher publisher;
+    private final CollectionMetrics metrics;
 
     private static final int CHUNK_SIZE = 10;
 
@@ -67,7 +69,7 @@ public class CollectionJobFactory {
 
         ItemReader<?> reader = dataSource.createCollectionReader();
         ItemProcessor<?, T> processor = dataSource.createProcessor();
-        GenericItemWriter<T> writer = new GenericItemWriter<>(dataSource, publisher);
+        GenericItemWriter<T> writer = new GenericItemWriter<>(dataSource, publisher, metrics);
 
         if (processor != null) {
             return new StepBuilder(stepName, jobRepository)
@@ -89,7 +91,7 @@ public class CollectionJobFactory {
         String stepName = dataSource.getSourceName() + "CompensatingStep";
 
         ItemReader<T> reader = dataSource.createCompensatingReader();
-        GenericCompensatingWriter<T> writer = new GenericCompensatingWriter<>(dataSource, publisher);
+        GenericCompensatingWriter<T> writer = new GenericCompensatingWriter<>(dataSource, publisher, metrics);
 
         return new StepBuilder(stepName, jobRepository)
                 .<T, T>chunk(CHUNK_SIZE, transactionManager)

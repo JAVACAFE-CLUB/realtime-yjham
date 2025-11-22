@@ -65,6 +65,7 @@ public class YouTubeDataSource implements DataSource<YouTubeVideo> {
 
     @Override
     public ItemReader<YouTubeVideo> createCollectionReader() {
+        youTubeVideoReader.reset();  // 상태 초기화
         return youTubeVideoReader;
     }
 

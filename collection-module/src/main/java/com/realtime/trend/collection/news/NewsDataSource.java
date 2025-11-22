@@ -66,6 +66,7 @@ public class NewsDataSource implements DataSource<News> {
 
     @Override
     public ItemReader<RssItem> createCollectionReader() {
+        rssItemReader.reset();  // 상태 초기화
         return rssItemReader;
     }
 

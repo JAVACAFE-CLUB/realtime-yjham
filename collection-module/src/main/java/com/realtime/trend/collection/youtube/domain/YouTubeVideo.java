@@ -92,6 +92,12 @@ public class YouTubeVideo implements Publishable {
      */
     private LocalDateTime publishedToKafkaAt;
 
+    /**
+     * 재시도 횟수
+     */
+    @Builder.Default
+    private int retryCount = 0;
+
     @Override
     public String getIdentifier() {
         return this.videoId;
@@ -99,6 +105,32 @@ public class YouTubeVideo implements Publishable {
 
     @Override
     public YouTubeVideo markAsPublished() {
+        return copyBuilder()
+                .publishStatus(PublishStatus.PUBLISHED)
+                .publishedToKafkaAt(LocalDateTime.now())
+                .build();
+    }
+
+    @Override
+    public int getRetryCount() {
+        return this.retryCount;
+    }
+
+    @Override
+    public YouTubeVideo incrementRetryCount() {
+        return copyBuilder()
+                .retryCount(this.retryCount + 1)
+                .build();
+    }
+
+    @Override
+    public YouTubeVideo markAsFailed() {
+        return copyBuilder()
+                .publishStatus(PublishStatus.FAILED)
+                .build();
+    }
+
+    private YouTubeVideoBuilder copyBuilder() {
         return YouTubeVideo.builder()
                 .id(this.id)
                 .videoId(this.videoId)
@@ -112,8 +144,8 @@ public class YouTubeVideo implements Publishable {
                 .likeCount(this.likeCount)
                 .commentCount(this.commentCount)
                 .collectedAt(this.collectedAt)
-                .publishStatus(PublishStatus.PUBLISHED)
-                .publishedToKafkaAt(LocalDateTime.now())
-                .build();
+                .publishStatus(this.publishStatus)
+                .publishedToKafkaAt(this.publishedToKafkaAt)
+                .retryCount(this.retryCount);
     }
 }

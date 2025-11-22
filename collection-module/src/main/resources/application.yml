@@ -50,6 +50,19 @@ management:
       prometheus:
         enabled: true
 
+# 수집 설정
+collection:
+  news:
+    enabled: true
+    cron: "0 */10 * * * *"
+    compensating-cron: "0 */30 * * * *"
+    topic: raw-news
+  youtube:
+    enabled: true
+    cron: "0 */15 * * * *"
+    compensating-cron: "0 */30 * * * *"
+    topic: raw-youtube
+
 # YouTube API 설정
 youtube:
   api:

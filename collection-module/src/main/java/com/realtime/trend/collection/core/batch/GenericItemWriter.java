@@ -2,8 +2,8 @@ package com.realtime.trend.collection.core.batch;
 
 import com.realtime.trend.collection.core.domain.Publishable;
 import com.realtime.trend.collection.core.messaging.GenericDataPublisher;
+import com.realtime.trend.collection.core.metrics.CollectionMetrics;
 import com.realtime.trend.collection.core.source.DataSource;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
@@ -15,11 +15,17 @@ import org.springframework.batch.item.ItemWriter;
  * @param <T> Publishable을 구현한 엔티티 타입
  */
 @Slf4j
-@RequiredArgsConstructor
 public class GenericItemWriter<T extends Publishable> implements ItemWriter<T> {
 
     private final DataSource<T> dataSource;
     private final GenericDataPublisher publisher;
+    private final CollectionMetrics metrics;
+
+    public GenericItemWriter(DataSource<T> dataSource, GenericDataPublisher publisher, CollectionMetrics metrics) {
+        this.dataSource = dataSource;
+        this.publisher = publisher;
+        this.metrics = metrics;
+    }
 
     @Override
     public void write(Chunk<? extends T> chunk) {
@@ -28,21 +34,27 @@ public class GenericItemWriter<T extends Publishable> implements ItemWriter<T> {
                 // 1. MongoDB 저장 (PENDING 상태)
                 T savedItem = dataSource.save(item);
                 log.debug("[{}] 저장 완료: {}", dataSource.getSourceName(), savedItem.getIdentifier());
+                metrics.incrementCollected(dataSource.getSourceName());
 
-                // 2. Kafka 발행 시도
-                try {
-                    publisher.publish(dataSource.getTopicName(), savedItem.getIdentifier(), savedItem);
+                // 2. Kafka 동기 발행 시도
+                long startTime = System.currentTimeMillis();
+                boolean published = publisher.publishSync(
+                        dataSource.getTopicName(), savedItem.getIdentifier(), savedItem);
+                long duration = System.currentTimeMillis() - startTime;
+                metrics.recordPublishTime(dataSource.getSourceName(), duration);
 
+                if (published) {
                     // 3. 발행 성공 시 PUBLISHED 상태로 변경
                     @SuppressWarnings("unchecked")
                     T publishedItem = (T) savedItem.markAsPublished();
                     dataSource.save(publishedItem);
+                    metrics.incrementPublished(dataSource.getSourceName());
                     log.debug("[{}] 발행 완료: {}", dataSource.getSourceName(), publishedItem.getIdentifier());
-
-                } catch (Exception e) {
+                } else {
                     // Kafka 발행 실패 시 PENDING 상태 유지 (보상 트랜잭션에서 재시도)
+                    metrics.incrementFailed(dataSource.getSourceName());
                     log.warn("[{}] Kafka 발행 실패 (PENDING 상태 유지): {}",
-                            dataSource.getSourceName(), savedItem.getIdentifier(), e);
+                            dataSource.getSourceName(), savedItem.getIdentifier());
                 }
 
             } catch (Exception e) {

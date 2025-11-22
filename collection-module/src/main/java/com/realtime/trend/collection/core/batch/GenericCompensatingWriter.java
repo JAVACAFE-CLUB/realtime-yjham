@@ -2,8 +2,8 @@ package com.realtime.trend.collection.core.batch;
 
 import com.realtime.trend.collection.core.domain.Publishable;
 import com.realtime.trend.collection.core.messaging.GenericDataPublisher;
+import com.realtime.trend.collection.core.metrics.CollectionMetrics;
 import com.realtime.trend.collection.core.source.DataSource;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
@@ -15,29 +15,59 @@ import org.springframework.batch.item.ItemWriter;
  * @param <T> Publishable을 구현한 엔티티 타입
  */
 @Slf4j
-@RequiredArgsConstructor
 public class GenericCompensatingWriter<T extends Publishable> implements ItemWriter<T> {
+
+    private static final int DEFAULT_MAX_RETRY_COUNT = 5;
 
     private final DataSource<T> dataSource;
     private final GenericDataPublisher publisher;
+    private final CollectionMetrics metrics;
+    private final int maxRetryCount;
+
+    public GenericCompensatingWriter(DataSource<T> dataSource, GenericDataPublisher publisher, CollectionMetrics metrics) {
+        this(dataSource, publisher, metrics, DEFAULT_MAX_RETRY_COUNT);
+    }
+
+    public GenericCompensatingWriter(DataSource<T> dataSource, GenericDataPublisher publisher, 
+                                     CollectionMetrics metrics, int maxRetryCount) {
+        this.dataSource = dataSource;
+        this.publisher = publisher;
+        this.metrics = metrics;
+        this.maxRetryCount = maxRetryCount;
+    }
 
     @Override
     public void write(Chunk<? extends T> chunk) {
         for (T item : chunk) {
-            try {
-                // Kafka 재발행 시도
-                publisher.publish(dataSource.getTopicName(), item.getIdentifier(), item);
+            // 최대 재시도 횟수 초과 체크
+            if (item.getRetryCount() >= maxRetryCount) {
+                @SuppressWarnings("unchecked")
+                T failedItem = (T) item.markAsFailed();
+                dataSource.save(failedItem);
+                metrics.incrementCompensatingFailed(dataSource.getSourceName());
+                log.error("[{}] 최대 재시도 횟수({}) 초과 - FAILED 처리: {}",
+                        dataSource.getSourceName(), maxRetryCount, item.getIdentifier());
+                continue;
+            }
 
+            // Kafka 동기 재발행 시도
+            boolean published = publisher.publishSync(
+                    dataSource.getTopicName(), item.getIdentifier(), item);
+
+            if (published) {
                 // 발행 성공 시 PUBLISHED 상태로 변경
                 @SuppressWarnings("unchecked")
                 T publishedItem = (T) item.markAsPublished();
                 dataSource.save(publishedItem);
+                metrics.incrementCompensatingSuccess(dataSource.getSourceName());
                 log.info("[{}] 보상 트랜잭션 성공: {}", dataSource.getSourceName(), item.getIdentifier());
-
-            } catch (Exception e) {
-                // 발행 실패 시 PENDING 상태 유지 (다음 실행에서 재시도)
-                log.warn("[{}] 보상 트랜잭션 실패 (재시도 예정): {}",
-                        dataSource.getSourceName(), item.getIdentifier(), e);
+            } else {
+                // 발행 실패 시 재시도 횟수 증가
+                @SuppressWarnings("unchecked")
+                T retriedItem = (T) item.incrementRetryCount();
+                dataSource.save(retriedItem);
+                log.warn("[{}] 보상 트랜잭션 실패 (재시도 {}/{}): {}",
+                        dataSource.getSourceName(), retriedItem.getRetryCount(), maxRetryCount, item.getIdentifier());
             }
         }
     }

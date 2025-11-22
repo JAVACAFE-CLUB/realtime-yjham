@@ -12,5 +12,10 @@ public enum PublishStatus {
     /**
      * 발행 완료
      */
-    PUBLISHED
+    PUBLISHED,
+
+    /**
+     * 발행 실패 (최대 재시도 초과)
+     */
+    FAILED
 }

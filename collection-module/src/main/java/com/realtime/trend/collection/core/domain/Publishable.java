@@ -27,4 +27,25 @@ public interface Publishable {
      * 발행 완료 상태로 변경된 새 인스턴스 반환
      */
     Publishable markAsPublished();
+
+    /**
+     * 재시도 횟수 반환
+     */
+    default int getRetryCount() {
+        return 0;
+    }
+
+    /**
+     * 재시도 횟수 증가된 새 인스턴스 반환
+     */
+    default Publishable incrementRetryCount() {
+        return this;
+    }
+
+    /**
+     * 실패 상태로 변경된 새 인스턴스 반환
+     */
+    default Publishable markAsFailed() {
+        return this;
+    }
 }

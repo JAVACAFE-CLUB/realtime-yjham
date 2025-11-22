@@ -82,6 +82,12 @@ public class News implements Publishable {
      */
     private LocalDateTime publishedToKafkaAt;
 
+    /**
+     * 재시도 횟수
+     */
+    @Builder.Default
+    private int retryCount = 0;
+
     @Override
     public String getIdentifier() {
         return this.url;
@@ -89,6 +95,32 @@ public class News implements Publishable {
 
     @Override
     public News markAsPublished() {
+        return copyBuilder()
+                .publishStatus(PublishStatus.PUBLISHED)
+                .publishedToKafkaAt(LocalDateTime.now())
+                .build();
+    }
+
+    @Override
+    public int getRetryCount() {
+        return this.retryCount;
+    }
+
+    @Override
+    public News incrementRetryCount() {
+        return copyBuilder()
+                .retryCount(this.retryCount + 1)
+                .build();
+    }
+
+    @Override
+    public News markAsFailed() {
+        return copyBuilder()
+                .publishStatus(PublishStatus.FAILED)
+                .build();
+    }
+
+    private NewsBuilder copyBuilder() {
         return News.builder()
                 .id(this.id)
                 .url(this.url)
@@ -100,8 +132,8 @@ public class News implements Publishable {
                 .category(this.category)
                 .tags(this.tags)
                 .collectedAt(this.collectedAt)
-                .publishStatus(PublishStatus.PUBLISHED)
-                .publishedToKafkaAt(LocalDateTime.now())
-                .build();
+                .publishStatus(this.publishStatus)
+                .publishedToKafkaAt(this.publishedToKafkaAt)
+                .retryCount(this.retryCount);
     }
 }
