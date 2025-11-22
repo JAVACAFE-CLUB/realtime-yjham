@@ -7,6 +7,7 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -61,10 +62,14 @@ public class GenericDataPublisher {
             return true;
 
         } catch (TimeoutException e) {
-            log.error("[{}] 발행 타임아웃: {}", topic, key, e);
+            log.error("[{}] 발행 타임아웃: {}", topic, key);
             return false;
-        } catch (Exception e) {
-            log.error("[{}] 발행 실패: {}", topic, key, e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.error("[{}] 발행 중단: {}", topic, key, e);
+            return false;
+        } catch (ExecutionException e) {
+            log.error("[{}] 발행 실패: {}", topic, key, e.getCause());
             return false;
         }
     }

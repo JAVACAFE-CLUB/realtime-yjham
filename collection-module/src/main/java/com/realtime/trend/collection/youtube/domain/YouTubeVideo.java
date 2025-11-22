@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 @Builder
 @ToString
-public class YouTubeVideo implements Publishable {
+public class YouTubeVideo implements Publishable<YouTubeVideo> {
 
     @Id
     private String id;

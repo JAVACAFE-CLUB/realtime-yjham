@@ -1,15 +1,19 @@
 package com.realtime.trend.collection.news.crawler;
 
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
+import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import jakarta.annotation.PostConstruct;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * HTML 크롤러
@@ -22,26 +26,36 @@ public class HtmlCrawler {
 
     private final List<NewsArticleParser> parsers;
     private Map<String, NewsArticleParser> parserMap;
+    private RateLimiter rateLimiter;
 
     /**
-     * 요청 간 최소 딜레이 (밀리초)
+     * 초당 허용 요청 수
      */
-    @Value("${collection.news.crawler.delay-ms:500}")
-    private long delayMs;
+    @Value("${collection.news.crawler.requests-per-second:2}")
+    private int requestsPerSecond;
 
     /**
-     * 연결 타임아웃 (밀리초)
+     * Rate Limiter 대기 타임아웃 (밀리초)
      */
     @Value("${collection.news.crawler.timeout-ms:10000}")
     private int timeoutMs;
 
-    /**
-     * 마지막 요청 시각
-     */
-    private final AtomicLong lastRequestTime = new AtomicLong(0);
-
     public HtmlCrawler(List<NewsArticleParser> parsers) {
         this.parsers = parsers;
+    }
+
+    @PostConstruct
+    public void init() {
+        // Resilience4j RateLimiter 설정
+        RateLimiterConfig config = RateLimiterConfig.custom()
+                .limitRefreshPeriod(Duration.ofSeconds(1))
+                .limitForPeriod(requestsPerSecond)
+                .timeoutDuration(Duration.ofMillis(timeoutMs))
+                .build();
+
+        RateLimiterRegistry registry = RateLimiterRegistry.of(config);
+        this.rateLimiter = registry.rateLimiter("htmlCrawler");
+        log.info("RateLimiter 초기화 완료: 초당 {}회 요청 허용", requestsPerSecond);
     }
 
     /**
@@ -75,7 +89,10 @@ public class HtmlCrawler {
 
         try {
             // Rate Limiting 적용
-            applyRateLimit();
+            if (!acquireRateLimitPermission()) {
+                log.warn("Rate limit 초과로 요청 스킵: {}", url);
+                return null;
+            }
 
             // HTML 가져오기
             Document doc = Jsoup.connect(url)
@@ -101,28 +118,17 @@ public class HtmlCrawler {
     }
 
     /**
-     * Rate Limiting 적용
-     * 마지막 요청 이후 지정된 딜레이가 지나지 않았으면 대기
+     * Rate Limiting 적용 (Resilience4j RateLimiter 사용)
+     * 설정된 초당 요청 수를 초과하면 대기
+     *
+     * @return true if permission acquired, false otherwise
      */
-    private void applyRateLimit() {
-        if (delayMs <= 0) {
-            return;
+    private boolean acquireRateLimitPermission() {
+        try {
+            return rateLimiter.acquirePermission();
+        } catch (Exception e) {
+            log.warn("RateLimiter permission 획득 실패", e);
+            return false;
         }
-
-        long now = System.currentTimeMillis();
-        long lastTime = lastRequestTime.get();
-        long elapsed = now - lastTime;
-
-        if (elapsed < delayMs) {
-            try {
-                long sleepTime = delayMs - elapsed;
-                log.trace("Rate limiting: {}ms 대기", sleepTime);
-                Thread.sleep(sleepTime);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-
-        lastRequestTime.set(System.currentTimeMillis());
     }
 }

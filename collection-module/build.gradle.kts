@@ -24,6 +24,9 @@ dependencies {
     // HTTP Client
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
+    // Resilience4j Rate Limiter
+    implementation("io.github.resilience4j:resilience4j-ratelimiter:2.2.0")
+
     // YouTube API
     implementation("com.google.api-client:google-api-client:2.2.0")
     implementation("com.google.apis:google-api-services-youtube:v3-rev20231011-2.0.0")

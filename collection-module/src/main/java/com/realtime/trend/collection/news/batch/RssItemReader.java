@@ -3,12 +3,15 @@ package com.realtime.trend.collection.news.batch;
 import com.realtime.trend.collection.news.crawler.RssItem;
 import com.realtime.trend.collection.news.crawler.RssReader;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemStream;
+import org.springframework.batch.item.ItemStreamException;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +21,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class RssItemReader implements ItemReader<RssItem> {
+public class RssItemReader implements ItemReader<RssItem>, ItemStream {
 
     private final RssReader rssReader;
     private final Map<String, String> feeds;
@@ -74,5 +77,24 @@ public class RssItemReader implements ItemReader<RssItem> {
     public void reset() {
         this.initialized = false;
         this.itemIterator = null;
+    }
+
+    // ======== ItemStream 구현 ========
+
+    @Override
+    public void open(@NonNull ExecutionContext executionContext) throws ItemStreamException {
+        log.debug("RssItemReader open 호출");
+        reset();
+    }
+
+    @Override
+    public void update(@NonNull ExecutionContext executionContext) throws ItemStreamException {
+        // checkpoint 저장 (필요시 구현)
+    }
+
+    @Override
+    public void close() throws ItemStreamException {
+        log.debug("RssItemReader close 호출");
+        reset();
     }
 }

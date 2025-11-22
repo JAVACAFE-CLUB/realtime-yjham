@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 @Builder
 @ToString
-public class News implements Publishable {
+public class News implements Publishable<News> {
 
     @Id
     private String id;

@@ -57,11 +57,21 @@ collection:
     cron: "0 */10 * * * *"
     compensating-cron: "0 */30 * * * *"
     topic: raw-news
+    crawler:
+      requests-per-second: 2
+      timeout-ms: 10000
+    rss:
+      # 추가 피드 (형식: "언론사1=URL1,언론사2=URL2")
+      additional-feeds: ""
   youtube:
     enabled: true
     cron: "0 */15 * * * *"
     compensating-cron: "0 */30 * * * *"
     topic: raw-youtube
+  # 보상 트랜잭션 설정
+  compensating:
+    max-retry-count: 5
+    publish-timeout-seconds: 10
 
 # YouTube API 설정
 youtube:

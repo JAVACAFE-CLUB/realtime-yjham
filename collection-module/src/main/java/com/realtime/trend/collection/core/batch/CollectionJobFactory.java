@@ -34,7 +34,7 @@ public class CollectionJobFactory {
     /**
      * 수집 Job 생성
      */
-    public <T extends Publishable> Job createCollectionJob(DataSource<T> dataSource) {
+    public <T extends Publishable<T>> Job createCollectionJob(DataSource<T> dataSource) {
         String jobName = dataSource.getSourceName() + "CollectionJob";
 
         Step step = createCollectionStep(dataSource);
@@ -50,7 +50,7 @@ public class CollectionJobFactory {
     /**
      * 보상 트랜잭션 Job 생성
      */
-    public <T extends Publishable> Job createCompensatingJob(DataSource<T> dataSource) {
+    public <T extends Publishable<T>> Job createCompensatingJob(DataSource<T> dataSource) {
         String jobName = dataSource.getSourceName() + "CompensatingJob";
 
         Step step = createCompensatingStep(dataSource);
@@ -64,7 +64,7 @@ public class CollectionJobFactory {
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends Publishable> Step createCollectionStep(DataSource<T> dataSource) {
+    private <T extends Publishable<T>> Step createCollectionStep(DataSource<T> dataSource) {
         String stepName = dataSource.getSourceName() + "CollectionStep";
 
         ItemReader<?> reader = dataSource.createCollectionReader();
@@ -87,7 +87,7 @@ public class CollectionJobFactory {
         }
     }
 
-    private <T extends Publishable> Step createCompensatingStep(DataSource<T> dataSource) {
+    private <T extends Publishable<T>> Step createCompensatingStep(DataSource<T> dataSource) {
         String stepName = dataSource.getSourceName() + "CompensatingStep";
 
         ItemReader<T> reader = dataSource.createCompensatingReader();

@@ -15,7 +15,7 @@ import org.springframework.batch.item.ItemWriter;
  * @param <T> Publishable을 구현한 엔티티 타입
  */
 @Slf4j
-public class GenericItemWriter<T extends Publishable> implements ItemWriter<T> {
+public class GenericItemWriter<T extends Publishable<T>> implements ItemWriter<T> {
 
     private final DataSource<T> dataSource;
     private final GenericDataPublisher publisher;
@@ -45,8 +45,7 @@ public class GenericItemWriter<T extends Publishable> implements ItemWriter<T> {
 
                 if (published) {
                     // 3. 발행 성공 시 PUBLISHED 상태로 변경
-                    @SuppressWarnings("unchecked")
-                    T publishedItem = (T) savedItem.markAsPublished();
+                    T publishedItem = savedItem.markAsPublished();
                     dataSource.save(publishedItem);
                     metrics.incrementPublished(dataSource.getSourceName());
                     log.debug("[{}] 발행 완료: {}", dataSource.getSourceName(), publishedItem.getIdentifier());
@@ -58,6 +57,7 @@ public class GenericItemWriter<T extends Publishable> implements ItemWriter<T> {
                 }
 
             } catch (Exception e) {
+                metrics.incrementSaveFailed(dataSource.getSourceName());
                 log.error("[{}] 저장 실패: {}", dataSource.getSourceName(), item.getIdentifier(), e);
                 // MongoDB 저장 실패는 해당 아이템만 스킵하고 계속 진행
             }

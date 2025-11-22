@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @param <T> Publishable을 구현한 엔티티 타입
  */
-public interface DataSource<T extends Publishable> {
+public interface DataSource<T extends Publishable<T>> {
 
     /**
      * 소스 이름 (예: "news", "youtube")
