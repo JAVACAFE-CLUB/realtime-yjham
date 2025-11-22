@@ -8,7 +8,6 @@ import com.realtime.trend.serving.dto.KeywordResponse.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +40,6 @@ public class KeywordService {
         this.objectMapper = objectMapper;
     }
 
-    @Cacheable(value = "keywords", key = "#source + ':' + #type + ':' + #limit")
     public KeywordResponse getKeywords(String source, String type, int limit) {
         log.debug("키워드 조회: source={}, type={}, limit={}", source, type, limit);
 

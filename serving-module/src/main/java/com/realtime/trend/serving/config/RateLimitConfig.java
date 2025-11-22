@@ -1,18 +1,19 @@
 package com.realtime.trend.serving.config;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class RateLimitConfig {
 
-    private final Map<String, Bucket> buckets = new ConcurrentHashMap<>();
+    private final Cache<String, Bucket> buckets;
 
     @Value("${rate-limit.requests-per-minute}")
     private int requestsPerMinute;
@@ -20,8 +21,15 @@ public class RateLimitConfig {
     @Value("${rate-limit.requests-per-hour}")
     private int requestsPerHour;
 
+    public RateLimitConfig() {
+        this.buckets = Caffeine.newBuilder()
+                .expireAfterAccess(1, TimeUnit.HOURS)
+                .maximumSize(10000)
+                .build();
+    }
+
     public Bucket resolveBucket(String clientIp) {
-        return buckets.computeIfAbsent(clientIp, this::createBucket);
+        return buckets.get(clientIp, this::createBucket);
     }
 
     private Bucket createBucket(String clientIp) {
