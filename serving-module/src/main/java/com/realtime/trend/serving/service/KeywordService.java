@@ -44,7 +44,7 @@ public class KeywordService {
         log.debug("키워드 조회: source={}, type={}, limit={}", source, type, limit);
 
         // 1. Redis 캐시 조회
-        List<KeywordItem> keywords = getFromRedis(source, type);
+        List<KeywordItem> keywords = getFromRedis(source, type, limit);
 
         // 2. 캐시 미스 또는 빈 데이터 시 Elasticsearch 직접 조회
         if (keywords == null || keywords.isEmpty()) {
@@ -52,12 +52,7 @@ public class KeywordService {
             keywords = elasticsearchService.getKeywords(source, type, limit);
 
             // Redis에 캐싱
-            cacheToRedis(source, type, keywords);
-        }
-
-        // 3. limit 적용
-        if (keywords.size() > limit) {
-            keywords = keywords.subList(0, limit);
+            cacheToRedis(source, type, limit, keywords);
         }
 
         return new KeywordResponse(
@@ -72,8 +67,8 @@ public class KeywordService {
         );
     }
 
-    private List<KeywordItem> getFromRedis(String source, String type) {
-        String cacheKey = buildCacheKey(source, type);
+    private List<KeywordItem> getFromRedis(String source, String type, int limit) {
+        String cacheKey = buildCacheKey(source, type, limit);
         try {
             String json = redisTemplate.opsForValue().get(cacheKey);
             if (json != null) {
@@ -83,22 +78,26 @@ public class KeywordService {
             }
         } catch (JsonProcessingException e) {
             log.error("Redis 캐시 역직렬화 실패: {}", cacheKey, e);
+        } catch (Exception e) {
+            log.warn("Redis 조회 실패, Elasticsearch로 폴백: {}", cacheKey, e);
         }
         return null;
     }
 
-    private void cacheToRedis(String source, String type, List<KeywordItem> keywords) {
-        String cacheKey = buildCacheKey(source, type);
+    private void cacheToRedis(String source, String type, int limit, List<KeywordItem> keywords) {
+        String cacheKey = buildCacheKey(source, type, limit);
         try {
             String json = objectMapper.writeValueAsString(keywords);
             redisTemplate.opsForValue().set(cacheKey, json, Duration.ofMinutes(ttlMinutes));
             log.debug("Redis 캐시 저장: {}", cacheKey);
         } catch (JsonProcessingException e) {
             log.error("Redis 캐시 직렬화 실패: {}", cacheKey, e);
+        } catch (Exception e) {
+            log.warn("Redis 캐시 저장 실패: {}", cacheKey, e);
         }
     }
 
-    private String buildCacheKey(String source, String type) {
-        return String.format("%s:source:%s:type:%s", keyPrefix, source, type);
+    private String buildCacheKey(String source, String type, int limit) {
+        return String.format("%s:source:%s:type:%s:limit:%d", keyPrefix, source, type, limit);
     }
 }

@@ -65,7 +65,7 @@ class KeywordServiceTest {
             String cachedJson = objectMapper.writeValueAsString(cachedKeywords);
 
             given(redisTemplate.opsForValue()).willReturn(valueOperations);
-            given(valueOperations.get("keywords:today:source:news:type:PERSON")).willReturn(cachedJson);
+            given(valueOperations.get("keywords:today:source:news:type:PERSON:limit:10")).willReturn(cachedJson);
 
             // when
             var response = keywordService.getKeywords(source, type, limit);
@@ -103,15 +103,15 @@ class KeywordServiceTest {
             assertThat(response.keywords()).hasSize(2);
             verify(elasticsearchService).getKeywords(source, type, limit);
             verify(valueOperations).set(
-                    eq("keywords:today:source:youtube:type:all"),
+                    eq("keywords:today:source:youtube:type:all:limit:5"),
                     anyString(),
                     eq(Duration.ofMinutes(10))
             );
         }
 
         @Test
-        @DisplayName("limit보다 많은 키워드가 있으면 limit만큼만 반환해야 한다")
-        void whenMoreKeywordsThanLimit_shouldReturnLimitedResults() throws JsonProcessingException {
+        @DisplayName("캐시 키에 limit이 포함되어 정확히 반환되어야 한다")
+        void whenCacheHitWithLimit_shouldReturnExactData() throws JsonProcessingException {
             // given
             String source = "all";
             String type = "all";
@@ -119,14 +119,12 @@ class KeywordServiceTest {
 
             List<KeywordItem> cachedKeywords = List.of(
                     new KeywordItem("키워드1", "PERSON", 100),
-                    new KeywordItem("키워드2", "PERSON", 80),
-                    new KeywordItem("키워드3", "PERSON", 60),
-                    new KeywordItem("키워드4", "PERSON", 40)
+                    new KeywordItem("키워드2", "PERSON", 80)
             );
             String cachedJson = objectMapper.writeValueAsString(cachedKeywords);
 
             given(redisTemplate.opsForValue()).willReturn(valueOperations);
-            given(valueOperations.get(anyString())).willReturn(cachedJson);
+            given(valueOperations.get("keywords:today:source:all:type:all:limit:2")).willReturn(cachedJson);
 
             // when
             var response = keywordService.getKeywords(source, type, limit);
@@ -135,6 +133,7 @@ class KeywordServiceTest {
             assertThat(response.keywords()).hasSize(2);
             assertThat(response.metadata().totalCount()).isEqualTo(2);
             assertThat(response.metadata().limit()).isEqualTo(2);
+            verify(elasticsearchService, never()).getKeywords(anyString(), anyString(), anyInt());
         }
 
         @Test

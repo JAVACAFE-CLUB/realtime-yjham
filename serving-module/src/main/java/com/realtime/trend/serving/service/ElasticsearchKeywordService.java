@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +33,9 @@ public class ElasticsearchKeywordService {
 
     public List<KeywordItem> getKeywords(String source, String type, int limit) {
         try {
-            String startOfDay = LocalDate.now().atStartOfDay().format(DATE_FORMATTER);
-            String endOfDay = LocalDate.now().atTime(23, 59, 59).format(DATE_FORMATTER);
+            LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
+            String startOfDay = today.atStartOfDay().format(DATE_FORMATTER);
+            String endOfDay = today.atTime(23, 59, 59).format(DATE_FORMATTER);
 
             SearchResponse<Void> response = elasticsearchClient.search(s -> s
                     .index(indexName)
