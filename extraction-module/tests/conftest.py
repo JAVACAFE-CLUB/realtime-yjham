@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src', 'generated'))
 
 from config import NERConfig, reset_config
+from domain import Entity, NERResult
 
 
 @pytest.fixture
@@ -42,3 +43,22 @@ def sample_texts():
         "no_entities": "오늘 날씨가 좋습니다.",
         "special_chars": "!@#$%^&*()",
     }
+
+
+@pytest.fixture
+def sample_entities():
+    """테스트용 샘플 엔티티"""
+    return [
+        Entity(keyword="삼성전자", type="ORGANIZATION"),
+        Entity(keyword="서울", type="LOCATION"),
+        Entity(keyword="이재용", type="PERSON"),
+    ]
+
+
+@pytest.fixture
+def sample_ner_result(sample_entities):
+    """테스트용 샘플 NER 결과"""
+    return NERResult(
+        text="삼성전자가 서울에서 신제품을 발표했다. 이재용 회장이 참석했다.",
+        entities=sample_entities
+    )

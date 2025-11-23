@@ -45,8 +45,9 @@ RUN python -m grpc_tools.protoc \
     --grpc_python_out=./src/generated \
     ./proto/ner.proto
 
-# 포트 노출
+# 포트 노출 (gRPC: 50051, Metrics: 9090)
 EXPOSE 50051
+EXPOSE 9090
 
 # 서버 실행
-CMD ["python", "src/server.py"]
+CMD ["python", "src/main.py"]

@@ -1,1 +1,4 @@
-# NER Service Package
+"""
+NER 서비스 패키지
+"""
+__version__ = "1.0.0"

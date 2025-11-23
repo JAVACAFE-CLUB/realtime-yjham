@@ -1,195 +1,140 @@
 # Extraction Module
 
-한국어 개체명 인식(Named Entity Recognition) gRPC 서비스
+한국어 개체명 인식(NER) gRPC 서비스. GLiNER Korean 모델을 사용하여 텍스트에서 인물, 장소, 조직명을 추출합니다.
 
-## 기술 스택
+## 패키지 구조
 
-- Python 3.9
-- GLiNER Korean (한국어 NER 모델)
-- mecab-ko (한국어 형태소 분석기)
-- gRPC
-
-## 기능
-
-- 텍스트에서 개체명 추출
-- 지원 개체명 타입:
-  - PERSON (인물)
-  - LOCATION (장소)
-  - ORGANIZATION (조직)
+```
+extraction-module/
+├── proto/
+│   └── ner.proto              # gRPC 프로토콜 정의
+├── src/
+│   ├── main.py                # 엔트리포인트
+│   ├── config/                # 설정 모듈
+│   │   ├── __init__.py
+│   │   └── settings.py        # NERConfig, ServerConfig
+│   ├── domain/                # 도메인 모듈
+│   │   ├── __init__.py
+│   │   └── entities.py        # Entity, NERResult
+│   ├── service/               # 서비스 모듈
+│   │   ├── __init__.py
+│   │   ├── analyzer.py        # NERAnalyzer
+│   │   └── validator.py       # KeywordValidator
+│   ├── rpc/                  # gRPC 모듈
+│   │   ├── __init__.py
+│   │   ├── server.py          # gRPC 서버
+│   │   ├── servicer.py        # NERServiceServicer
+│   │   └── health.py          # Health Check 서비스
+│   ├── infrastructure/        # 인프라 모듈
+│   │   ├── __init__.py
+│   │   └── metrics.py         # Prometheus 메트릭
+│   └── generated/             # proto 생성 파일
+└── tests/                     # 테스트
+```
 
 ## 설치 및 실행
 
-### 로컬 실행
+### 로컬 환경
 
 ```bash
 # 의존성 설치
 pip install -r requirements.txt
 
-# gRPC 코드 생성
-bash generate_proto.sh
+# proto 파일 컴파일
+python -m grpc_tools.protoc \
+    -I./proto \
+    --python_out=./src/generated \
+    --grpc_python_out=./src/generated \
+    ./proto/ner.proto
 
 # 서버 실행
-python src/server.py
+python src/main.py
 ```
 
-### Docker 실행
+### Docker
 
 ```bash
 # 이미지 빌드
 docker build -t extraction-module .
 
 # 컨테이너 실행
-docker run -p 50051:50051 extraction-module
+docker run -p 50051:50051 -p 9090:9090 extraction-module
 ```
 
-### Docker Compose 실행
+## 환경 변수
 
-```bash
-# 프로젝트 루트에서 실행
-docker compose -f docker-compose.infra.yml up -d extraction-module
-```
+| 변수 | 기본값 | 설명 |
+|------|--------|------|
+| `GRPC_PORT` | 50051 | gRPC 서버 포트 |
+| `GRPC_MAX_WORKERS` | 10 | 최대 워커 스레드 수 |
+| `LOG_LEVEL` | INFO | 로그 레벨 |
+| `NER_MODEL_NAME` | taeminlee/gliner_ko | GLiNER 모델명 |
+| `NER_ENTITY_LABELS` | PERSON,LOCATION,ORGANIZATION | 추출할 개체 타입 |
+| `NER_MIN_KEYWORD_LENGTH` | 2 | 최소 키워드 길이 |
 
 ## gRPC API
 
-### Analyze (단일 텍스트 분석)
+### Analyze
+
+단일 텍스트에서 개체명 추출
 
 ```protobuf
 rpc Analyze(TextRequest) returns (NERResponse);
 ```
 
-**요청:**
-```json
-{
-  "text": "삼성전자가 서울에서 신제품을 발표했다"
-}
-```
+### AnalyzeBatch
 
-**응답:**
-```json
-{
-  "entities": [
-    {"keyword": "삼성전자", "type": "ORGANIZATION"},
-    {"keyword": "서울", "type": "LOCATION"}
-  ]
-}
-```
-
-### AnalyzeBatch (배치 텍스트 분석)
+여러 텍스트 배치 분석 (최적화됨)
 
 ```protobuf
 rpc AnalyzeBatch(BatchTextRequest) returns (BatchNERResponse);
 ```
 
-**요청:**
-```json
-{
-  "texts": [
-    "삼성전자가 서울에서 신제품을 발표했다",
-    "이재용 회장이 미국을 방문했다"
-  ]
-}
-```
-
-**응답:**
-```json
-{
-  "responses": [
-    {
-      "entities": [
-        {"keyword": "삼성전자", "type": "ORGANIZATION"},
-        {"keyword": "서울", "type": "LOCATION"}
-      ]
-    },
-    {
-      "entities": [
-        {"keyword": "이재용", "type": "PERSON"},
-        {"keyword": "미국", "type": "LOCATION"}
-      ]
-    }
-  ]
-}
-```
-
-## 포트
-
-- gRPC: 50051
-
-## 로그
-
-서비스는 표준 출력으로 로그를 출력합니다:
-
-```
-2025-11-21 20:00:00 - __main__ - INFO - NER 모델 초기화 시작
-2025-11-21 20:00:05 - __main__ - INFO - NER 모델 초기화 완료
-2025-11-21 20:00:05 - __main__ - INFO - NER 서버 시작: 포트 50051
-```
-
 ## 테스트
 
-### 테스트 클라이언트 실행
-
 ```bash
-# gRPC 코드 생성
-bash generate_proto.sh
+# 전체 테스트
+pytest
 
-# 테스트 실행 (서버가 실행 중이어야 함)
-python test_client.py
+# 커버리지 리포트
+pytest --cov=src --cov-report=html
 ```
 
-**예상 출력:**
+## 아키텍처
 
 ```
-🔍 NER Service 테스트 시작
-
-✅ NER Service 연결 성공
-
-==========================================================
-단일 텍스트 분석 테스트
-==========================================================
-
-입력 텍스트: 삼성전자가 서울에서 신제품을 발표했다. 이재용 회장이 참석했다.
-
-추출된 개체명 (3개):
-  - 삼성전자 (ORGANIZATION)
-  - 서울 (LOCATION)
-  - 이재용 (PERSON)
-
-==========================================================
-배치 텍스트 분석 테스트
-==========================================================
-
-입력 텍스트 개수: 3
-
-[1] 구글이 미국 캘리포니아에서 개발자 컨퍼런스를 개최했다.
-  추출된 개체명 (3개):
-    - 구글 (ORGANIZATION)
-    - 미국 (LOCATION)
-    - 캘리포니아 (LOCATION)
-
-[2] 손흥민 선수가 영국 토트넘에서 활약하고 있다.
-  추출된 개체명 (3개):
-    - 손흥민 (PERSON)
-    - 영국 (LOCATION)
-    - 토트넘 (ORGANIZATION)
-
-[3] 네이버가 한국에서 새로운 AI 서비스를 출시했다.
-  추출된 개체명 (2개):
-    - 네이버 (ORGANIZATION)
-    - 한국 (LOCATION)
-
-==========================================================
-테스트 결과 요약
-==========================================================
-단일 텍스트 분석: ✅ 성공
-배치 텍스트 분석: ✅ 성공
-
-🎉 모든 테스트 통과!
+┌─────────────────────────────────────────────────────────┐
+│                     gRPC Server                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │              NERServiceServicer                      ││
+│  │  ┌─────────────────────────────────────────────────┐││
+│  │  │                NERAnalyzer                       │││
+│  │  │  ┌───────────────┐  ┌──────────────────────────┐│││
+│  │  │  │ KeywordValidator │ │      GLiNER Model        ││││
+│  │  │  └───────────────┘  └──────────────────────────┘│││
+│  │  └─────────────────────────────────────────────────┘││
+│  └─────────────────────────────────────────────────────┘│
+│  ┌─────────────────────┐  ┌────────────────────────────┐│
+│  │   Health Service     │  │    Prometheus Metrics     ││
+│  └─────────────────────┘  └────────────────────────────┘│
+└─────────────────────────────────────────────────────────┘
 ```
 
-## 주의사항
+## 의존성 주입
 
-- 첫 실행 시 GLiNER-ko 모델 다운로드로 인해 시작 시간이 오래 걸릴 수 있습니다
-- GPU가 있는 환경에서는 자동으로 GPU를 사용합니다
-- 메모리: 최소 2GB 권장
-- 모델: taeminlee/gliner_ko (한국어 전용)
-- 모델 성능: F1 점수 75.99% (konne dev set)
+테스트와 유연성을 위해 의존성 주입을 지원합니다:
+
+```python
+from service import NERAnalyzer, KeywordValidator
+from config import NERConfig
+
+# 커스텀 설정으로 분석기 생성
+config = NERConfig(min_keyword_length=3)
+validator = KeywordValidator(config=config)
+analyzer = NERAnalyzer(config=config, validator=validator)
+
+# 테스트용 모델 주입
+from unittest.mock import Mock
+mock_model = Mock()
+analyzer = NERAnalyzer(model=mock_model)
+```
