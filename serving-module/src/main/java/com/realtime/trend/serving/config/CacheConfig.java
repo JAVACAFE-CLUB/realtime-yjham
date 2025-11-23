@@ -16,6 +16,11 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import java.time.Duration;
 
 @Configuration
@@ -32,11 +37,23 @@ public class CacheConfig implements CachingConfigurer {
 
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+        // 타입 정보를 포함하는 ObjectMapper 설정
+        ObjectMapper cacheObjectMapper = new ObjectMapper();
+        cacheObjectMapper.registerModule(new JavaTimeModule());
+        cacheObjectMapper.activateDefaultTyping(
+                BasicPolymorphicTypeValidator.builder()
+                        .allowIfBaseType(Object.class)
+                        .build(),
+                ObjectMapper.DefaultTyping.NON_FINAL,
+                JsonTypeInfo.As.PROPERTY
+        );
+
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(ttlMinutes))
                 .prefixCacheNameWith(keyPrefix + ":")
                 .serializeKeysWith(SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                .serializeValuesWith(SerializationPair.fromSerializer(
+                        new GenericJackson2JsonRedisSerializer(cacheObjectMapper)))
                 .disableCachingNullValues();
 
         return RedisCacheManager.builder(connectionFactory)

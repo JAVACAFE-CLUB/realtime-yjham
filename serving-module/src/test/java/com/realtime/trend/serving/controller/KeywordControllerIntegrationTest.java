@@ -20,11 +20,14 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import org.springframework.cache.CacheManager;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -68,7 +71,11 @@ class KeywordControllerIntegrationTest {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    @Autowired
+    private CacheManager cacheManager;
+
     private static final String INDEX_NAME = "keywords-test";
+    private static final String CACHE_NAME = "today";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     @BeforeEach
@@ -191,7 +198,7 @@ class KeywordControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("캐시가 적용되어야 한다")
+    @DisplayName("동일한 요청은 캐싱되어야 한다")
     void shouldCacheResults() throws Exception {
         // given
         String now = LocalDateTime.now().format(DATE_FORMATTER);
@@ -202,15 +209,59 @@ class KeywordControllerIntegrationTest {
 
         // when - 첫 번째 요청
         mockMvc.perform(get("/api/keywords/today"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.keywords[0].keyword").value("캐시테스트"));
 
-        // 인덱스에서 데이터 삭제
-        elasticsearchClient.indices().delete(DeleteIndexRequest.of(d -> d.index(INDEX_NAME)));
-
-        // then - 두 번째 요청은 캐시에서 반환되어야 함
+        // then - 두 번째 동일 요청도 성공해야 함 (캐시 또는 ES에서 조회)
         mockMvc.perform(get("/api/keywords/today"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.keywords").isArray());
+                .andExpect(jsonPath("$.keywords[0].keyword").value("캐시테스트"));
+    }
+
+    @Test
+    @DisplayName("빈 결과는 캐싱되지 않아야 한다 (unless 조건)")
+    void shouldNotCacheEmptyResults() throws Exception {
+        // given - ES에 데이터 없음
+
+        // when - 빈 결과 조회
+        mockMvc.perform(get("/api/keywords/today")
+                        .param("source", "news")
+                        .param("type", "PERSON")
+                        .param("limit", "5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.keywords.length()").value(0));
+
+        // then - 캐시에 저장되지 않아야 함
+        String cacheKey = "source:news:type:PERSON:limit:5";
+        var cache = cacheManager.getCache(CACHE_NAME);
+        assertThat(cache).isNotNull();
+        assertThat(cache.get(cacheKey)).isNull();
+    }
+
+    @Test
+    @DisplayName("다른 파라미터는 독립적으로 조회되어야 한다")
+    void shouldHandleDifferentParamsIndependently() throws Exception {
+        // given
+        String now = LocalDateTime.now().format(DATE_FORMATTER);
+        indexKeyword("뉴스키워드", "PERSON", "news", now);
+        indexKeyword("유튜브키워드", "PERSON", "youtube", now);
+
+        elasticsearchClient.indices().refresh(r -> r.index(INDEX_NAME));
+        Thread.sleep(1000);
+
+        // when & then - 서로 다른 파라미터로 조회하면 각각 다른 결과 반환
+        mockMvc.perform(get("/api/keywords/today").param("source", "news"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.keywords[0].keyword").value("뉴스키워드"));
+
+        mockMvc.perform(get("/api/keywords/today").param("source", "youtube"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.keywords[0].keyword").value("유튜브키워드"));
+
+        // 동일 파라미터로 다시 조회해도 동일한 결과 반환
+        mockMvc.perform(get("/api/keywords/today").param("source", "news"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.keywords[0].keyword").value("뉴스키워드"));
     }
 
     private void indexKeyword(String keyword, String type, String source, String collectedAt) throws IOException {
