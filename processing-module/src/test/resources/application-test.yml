@@ -1,0 +1,49 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: processing-module-test
+
+  kafka:
+    bootstrap-servers: ${spring.embedded.kafka.brokers:localhost:9092}
+    consumer:
+      group-id: processing-group-test
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.use.type.headers: false
+        spring.json.value.default.type: java.util.HashMap
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+ner:
+  grpc:
+    host: localhost
+    port: 50051
+
+kafka:
+  topics:
+    raw-news: raw-news-test
+    raw-youtube: raw-youtube-test
+    processed-news: processed-news-test
+    processed-youtube: processed-youtube-test
+    dlq-news: raw-news-dlq-test
+    dlq-youtube: raw-youtube-dlq-test
+
+processing:
+  min-content-length: 50
+  retry:
+    max-attempts: 1
+    initial-interval: 100
+    multiplier: 1.0
+
+logging:
+  level:
+    com.realtime.trend.processing: DEBUG
+    org.springframework.kafka: WARN

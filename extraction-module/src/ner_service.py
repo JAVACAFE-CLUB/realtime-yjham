@@ -4,8 +4,11 @@ GLiNER Korean 기반
 """
 import logging
 import re
-from typing import List, Dict
+from typing import List, Dict, Optional
+
 from gliner import GLiNER
+
+from config import NERConfig, get_ner_config
 
 logger = logging.getLogger(__name__)
 
@@ -15,33 +18,20 @@ class NERAnalyzer:
     GLiNER Korean 기반 개체명 인식 분석기
     """
 
-    # GLiNER 레이블을 우리 타입으로 매핑
-    ENTITY_LABELS = ["PERSON", "LOCATION", "ORGANIZATION"]
-
-    # GLiNER 레이블 매핑 (필요시)
-    LABEL_MAPPING = {
-        'PERSON': 'PERSON',
-        'LOCATION': 'LOCATION',
-        'ORGANIZATION': 'ORGANIZATION'
-    }
-
-    # 필터링할 단일 성씨 목록
-    SINGLE_SURNAMES = {'이', '김', '박', '최', '정', '강', '조', '윤', '장', '임',
-                       '한', '오', '서', '신', '권', '황', '안', '송', '류', '전',
-                       '홍', '고', '문', '양', '손', '배', '백', '허', '유', '남'}
-
-    # 최소 키워드 길이
-    MIN_KEYWORD_LENGTH = 2
-
-    def __init__(self):
+    def __init__(self, config: Optional[NERConfig] = None):
         """
         NER 모델 초기화
+        
+        Args:
+            config: NER 설정 (None이면 기본 설정 사용)
         """
+        self.config = config or get_ner_config()
+        
         logger.info("NER 모델 초기화 시작")
         try:
             # GLiNER Korean 모델 로드
-            self.model = GLiNER.from_pretrained("taeminlee/gliner_ko")
-            logger.info("NER 모델 초기화 완료")
+            self.model = GLiNER.from_pretrained(self.config.model_name)
+            logger.info(f"NER 모델 초기화 완료: {self.config.model_name}")
         except Exception as e:
             logger.error(f"NER 모델 초기화 실패: {e}")
             raise
@@ -64,7 +54,7 @@ class NERAnalyzer:
         keyword = keyword.strip()
 
         # 최소 길이 검사
-        if len(keyword) < self.MIN_KEYWORD_LENGTH:
+        if len(keyword) < self.config.min_keyword_length:
             return False
 
         # 단일 알파벳 제외 (A, B, C 등)
@@ -76,7 +66,7 @@ class NERAnalyzer:
             return False
 
         # PERSON 타입일 때 단일 성씨만 있는 경우 제외
-        if entity_type == 'PERSON' and keyword in self.SINGLE_SURNAMES:
+        if entity_type == 'PERSON' and keyword in self.config.single_surnames:
             return False
 
         # 특수문자로만 구성된 키워드 제외
@@ -100,7 +90,7 @@ class NERAnalyzer:
 
         try:
             # GLiNER로 NER 수행
-            ner_results = self.model.predict_entities(text, self.ENTITY_LABELS)
+            ner_results = self.model.predict_entities(text, self.config.entity_labels)
 
             # 결과 변환 및 필터링
             entities = []
@@ -109,8 +99,8 @@ class NERAnalyzer:
                 entity_label = entity.get("label", "")
 
                 # 매핑된 타입 확인
-                if entity_label in self.LABEL_MAPPING:
-                    mapped_type = self.LABEL_MAPPING[entity_label]
+                if entity_label in self.config.entity_labels:
+                    mapped_type = entity_label
 
                     # 유효성 검사
                     if self._is_valid_keyword(entity_text, mapped_type):

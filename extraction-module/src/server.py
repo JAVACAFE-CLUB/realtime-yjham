@@ -4,6 +4,7 @@ gRPC NER 서버
 import logging
 import sys
 from concurrent import futures
+
 import grpc
 
 # proto 파일에서 생성된 모듈 임포트
@@ -12,9 +13,13 @@ import ner_pb2
 import ner_pb2_grpc
 
 from ner_service import NERAnalyzer
+from config import get_server_config, get_ner_config
+
+# 서버 설정 로드
+server_config = get_server_config()
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=getattr(logging, server_config.log_level.upper(), logging.INFO),
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
@@ -102,18 +107,21 @@ class NERServiceServicer(ner_pb2_grpc.NERServiceServicer):
             return ner_pb2.BatchNERResponse()
 
 
-def serve(port=50051):
+def serve(port: int = None):
     """
     gRPC 서버 시작
 
     Args:
-        port: 서버 포트 (기본값: 50051)
+        port: 서버 포트 (None이면 설정에서 가져옴)
     """
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    config = get_server_config()
+    port = port or config.port
+    
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=config.max_workers))
     ner_pb2_grpc.add_NERServiceServicer_to_server(NERServiceServicer(), server)
     server.add_insecure_port(f'[::]:{port}')
 
-    logger.info(f"NER 서버 시작: 포트 {port}")
+    logger.info(f"NER 서버 시작: 포트 {port}, 워커 수 {config.max_workers}")
     server.start()
     logger.info("NER 서버가 요청을 대기하고 있습니다...")
 
