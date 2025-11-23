@@ -1,7 +1,9 @@
 package com.realtime.trend.serving.controller;
 
 import com.realtime.trend.serving.config.RateLimitConfig;
+import com.realtime.trend.serving.dto.DataSource;
 import com.realtime.trend.serving.dto.KeywordResponse;
+import com.realtime.trend.serving.dto.KeywordType;
 import com.realtime.trend.serving.service.KeywordService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -47,14 +49,14 @@ public class KeywordController {
                     .body(new ErrorResponse("limit은 1-100 사이여야 합니다."));
         }
 
-        if (!isValidSource(source)) {
+        if (!DataSource.isValid(source)) {
             return ResponseEntity.badRequest()
-                    .body(new ErrorResponse("source는 all, news, youtube 중 하나여야 합니다."));
+                    .body(new ErrorResponse("source는 " + DataSource.validValues() + " 중 하나여야 합니다."));
         }
 
-        if (!isValidType(type)) {
+        if (!KeywordType.isValid(type)) {
             return ResponseEntity.badRequest()
-                    .body(new ErrorResponse("type은 all, PERSON, LOCATION, ORGANIZATION 중 하나여야 합니다."));
+                    .body(new ErrorResponse("type은 " + KeywordType.validValues() + " 중 하나여야 합니다."));
         }
 
         log.info("키워드 조회 요청: source={}, type={}, limit={}, ip={}", source, type, limit, clientIp);
@@ -69,15 +71,6 @@ public class KeywordController {
             return xForwardedFor.split(",")[0].trim();
         }
         return request.getRemoteAddr();
-    }
-
-    private boolean isValidSource(String source) {
-        return source.equals("all") || source.equals("news") || source.equals("youtube");
-    }
-
-    private boolean isValidType(String type) {
-        return type.equals("all") || type.equals("PERSON")
-                || type.equals("LOCATION") || type.equals("ORGANIZATION");
     }
 
     public record ErrorResponse(String message) {

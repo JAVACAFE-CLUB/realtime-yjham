@@ -13,11 +13,6 @@ spring:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
 
-  cache:
-    type: caffeine
-    caffeine:
-      spec: maximumSize=100,expireAfterWrite=5m
-
 cache:
   redis:
     ttl-minutes: 10

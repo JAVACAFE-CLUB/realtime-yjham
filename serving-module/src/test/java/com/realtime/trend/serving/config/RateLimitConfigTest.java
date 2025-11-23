@@ -3,7 +3,6 @@ package com.realtime.trend.serving.config;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,9 +13,7 @@ class RateLimitConfigTest {
 
     @BeforeEach
     void setUp() {
-        rateLimitConfig = new RateLimitConfig();
-        ReflectionTestUtils.setField(rateLimitConfig, "requestsPerMinute", 10);
-        ReflectionTestUtils.setField(rateLimitConfig, "requestsPerHour", 100);
+        rateLimitConfig = new RateLimitConfig(10, 100);
     }
 
     @Test

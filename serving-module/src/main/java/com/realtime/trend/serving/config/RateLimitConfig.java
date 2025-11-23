@@ -14,14 +14,15 @@ import java.util.concurrent.TimeUnit;
 public class RateLimitConfig {
 
     private final Cache<String, Bucket> buckets;
+    private final int requestsPerMinute;
+    private final int requestsPerHour;
 
-    @Value("${rate-limit.requests-per-minute}")
-    private int requestsPerMinute;
-
-    @Value("${rate-limit.requests-per-hour}")
-    private int requestsPerHour;
-
-    public RateLimitConfig() {
+    public RateLimitConfig(
+            @Value("${rate-limit.requests-per-minute}") int requestsPerMinute,
+            @Value("${rate-limit.requests-per-hour}") int requestsPerHour
+    ) {
+        this.requestsPerMinute = requestsPerMinute;
+        this.requestsPerHour = requestsPerHour;
         this.buckets = Caffeine.newBuilder()
                 .expireAfterAccess(1, TimeUnit.HOURS)
                 .maximumSize(10000)
