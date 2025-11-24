@@ -17,11 +17,11 @@ dependencies {
     api("org.springframework.boot:spring-boot-testcontainers")
 
     // Testcontainers
-    api("org.testcontainers:testcontainers:1.19.3")
-    api("org.testcontainers:junit-jupiter:1.19.3")
-    api("org.testcontainers:mongodb:1.19.3")
-    api("org.testcontainers:kafka:1.19.3")
-    api("org.testcontainers:elasticsearch:1.19.3")
+    api("org.testcontainers:testcontainers:1.20.4")
+    api("org.testcontainers:junit-jupiter:1.20.4")
+    api("org.testcontainers:mongodb:1.20.4")
+    api("org.testcontainers:kafka:1.20.4")
+    api("org.testcontainers:elasticsearch:1.20.4")
 
     // Kafka Test
     api("org.springframework.kafka:spring-kafka-test")

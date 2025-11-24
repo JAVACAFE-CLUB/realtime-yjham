@@ -103,6 +103,42 @@ public class TestcontainersConfig {
     }
 
     /**
+     * Elasticsearch + Redis 조합 Initializer (serving-module용)
+     */
+    public static class ElasticsearchRedisInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        @Override
+        public void initialize(ConfigurableApplicationContext context) {
+            ELASTICSEARCH.start();
+            REDIS.start();
+
+            TestPropertyValues.of(
+                    "spring.elasticsearch.uris=" + ELASTICSEARCH.getHttpHostAddress(),
+                    "spring.data.redis.host=" + REDIS.getHost(),
+                    "spring.data.redis.port=" + REDIS.getMappedPort(6379)
+            ).applyTo(context.getEnvironment());
+        }
+    }
+
+    /**
+     * Kafka + Elasticsearch + Redis 조합 Initializer (indexing-module용)
+     */
+    public static class KafkaElasticsearchRedisInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        @Override
+        public void initialize(ConfigurableApplicationContext context) {
+            KAFKA.start();
+            ELASTICSEARCH.start();
+            REDIS.start();
+
+            TestPropertyValues.of(
+                    "spring.kafka.bootstrap-servers=" + KAFKA.getBootstrapServers(),
+                    "spring.elasticsearch.uris=" + ELASTICSEARCH.getHttpHostAddress(),
+                    "spring.data.redis.host=" + REDIS.getHost(),
+                    "spring.data.redis.port=" + REDIS.getMappedPort(6379)
+            ).applyTo(context.getEnvironment());
+        }
+    }
+
+    /**
      * 모든 컨테이너가 필요한 테스트용 Initializer
      */
     public static class AllContainersInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
