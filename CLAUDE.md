@@ -30,6 +30,17 @@ docker compose -f docker-compose.infra.yml down -v  # Stop and remove volumes
 docker compose -f docker-compose.full.yml up -d     # Full system with apps
 ```
 
+### extraction-module (Python)
+
+```bash
+cd extraction-module
+pip install -r requirements.txt          # Install dependencies
+pytest                                    # Run all tests
+pytest tests/test_analyzer.py            # Single test file
+python src/main.py                        # Run gRPC server
+./generate_proto.sh                       # Generate protobuf
+```
+
 ## Architecture
 
 ### Module Structure
@@ -41,6 +52,7 @@ docker compose -f docker-compose.full.yml up -d     # Full system with apps
 | processing-module | 8082 | Consumes raw data from Kafka, extracts keywords via NER gRPC service |
 | indexing-module | 8083 | Indexes keywords to Elasticsearch, aggregates trending keywords, caches in Redis |
 | extraction-module | 50051 | Python gRPC service for Korean NER using GLiNER-ko model |
+| test-support | - | Shared test utilities (Testcontainers base classes, fixtures) |
 
 ### Data Flow
 
@@ -72,7 +84,7 @@ docker compose -f docker-compose.full.yml up -d     # Full system with apps
 
 ## Tech Stack
 
-- Java 21, Spring Boot 3.2.5
+- Java 21, Spring Boot 3.3.7
 - MongoDB (document storage)
 - Apache Kafka (message broker)
 - Elasticsearch (search/indexing)
@@ -98,7 +110,17 @@ Package structure: `com.realtime.trend.<module-name>.*`
 
 ## Testing
 
-Uses Testcontainers for integration tests (MongoDB, Kafka, Elasticsearch). Test profile: `application-test.yml`.
+Uses Testcontainers for integration tests. Extend base classes from `test-support` module:
+
+- `AbstractMongoIntegrationTest` - MongoDB only
+- `AbstractKafkaIntegrationTest` - MongoDB + Kafka
+- `AbstractFullIntegrationTest` - Full infrastructure (MongoDB, Kafka, Elasticsearch)
+- `AbstractElasticsearchIntegrationTest` - Elasticsearch only
+- `AbstractRedisIntegrationTest` - Redis only
+- `TestDataFactory` - Test data fixtures
+- `KafkaTestSupport` - Kafka test utilities
+
+Test profile: `application-test.yml`.
 
 ## Infrastructure Ports
 
