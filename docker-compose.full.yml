@@ -102,6 +102,71 @@ services:
       retries: 5
 
   # ============================================
+  # Management UI Services
+  # ============================================
+
+  # Mongo Express (MongoDB UI)
+  mongo-express:
+    image: mongo-express:1.0.2
+    container_name: realtime-mongo-express
+    ports:
+      - "9081:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongodb:27017/
+      ME_CONFIG_BASICAUTH: false
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - realtime-network
+    restart: unless-stopped
+
+  # Kafka UI
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: realtime-kafka-ui
+    ports:
+      - "9082:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: realtime-kafka
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9093
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - realtime-network
+    restart: unless-stopped
+
+  # RedisInsight (Redis UI)
+  redis-insight:
+    image: redis/redisinsight:latest
+    container_name: realtime-redis-insight
+    ports:
+      - "9083:5540"
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - realtime-network
+    restart: unless-stopped
+
+  # Kibana (Elasticsearch UI)
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: realtime-kibana
+    ports:
+      - "9084:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - realtime-network
+    restart: unless-stopped
+
+  # ============================================
   # Application Services
   # ============================================
 
