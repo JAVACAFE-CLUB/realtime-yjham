@@ -220,7 +220,8 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9093
-      - GRPC_CLIENT_NER_SERVICE_ADDRESS=static://extraction-module:50051
+      - NER_SERVICE_HOST=extraction-module
+      - NER_SERVICE_PORT=50051
     depends_on:
       kafka:
         condition: service_healthy
