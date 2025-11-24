@@ -12,5 +12,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-quartz")
 
     // Test
+    testImplementation(project(":test-support"))
     testImplementation("org.springframework.kafka:spring-kafka-test")
 }

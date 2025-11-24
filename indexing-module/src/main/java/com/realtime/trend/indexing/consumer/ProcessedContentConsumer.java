@@ -8,6 +8,9 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -54,21 +57,50 @@ public class ProcessedContentConsumer {
                 ? (String) message.get("processedContent")
                 : (String) message.get("processedDescription");
 
-        var keywordsList = (java.util.List<Map<String, String>>) message.get("keywords");
+        LocalDateTime collectedAt = parseDateTime(message.get("collectedAt"));
+
+        var keywordsList = (List<Map<String, String>>) message.get("keywords");
         var keywords = keywordsList != null
                 ? keywordsList.stream()
                 .map(k -> new ProcessedMessage.ExtractedEntity(k.get("keyword"), k.get("type")))
                 .toList()
-                : java.util.List.<ProcessedMessage.ExtractedEntity>of();
+                : List.<ProcessedMessage.ExtractedEntity>of();
 
         return new ProcessedMessage(
                 id,
                 sourceId,
                 title,
                 processedContent,
-                java.time.LocalDateTime.now(),
+                collectedAt,
                 keywords,
                 source
         );
+    }
+
+    /**
+     * Kafka 메시지의 날짜/시간 값을 파싱합니다.
+     * JSON 역직렬화 시 LocalDateTime이 배열 형태 [year, month, day, hour, minute, second] 또는
+     * ISO-8601 문자열 형태로 올 수 있습니다.
+     */
+    private LocalDateTime parseDateTime(Object value) {
+        if (value == null) {
+            return LocalDateTime.now();
+        }
+        if (value instanceof List<?> list) {
+            return LocalDateTime.of(
+                    ((Number) list.get(0)).intValue(),
+                    ((Number) list.get(1)).intValue(),
+                    ((Number) list.get(2)).intValue(),
+                    ((Number) list.get(3)).intValue(),
+                    ((Number) list.get(4)).intValue(),
+                    list.size() > 5 ? ((Number) list.get(5)).intValue() : 0
+            );
+        }
+        try {
+            return LocalDateTime.parse(value.toString(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        } catch (Exception e) {
+            log.warn("날짜 파싱 실패, 현재 시간 사용: {}", value);
+            return LocalDateTime.now();
+        }
     }
 }
