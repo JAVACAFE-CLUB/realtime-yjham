@@ -1,15 +1,15 @@
-package com.realtime.trend.processing.service;
+package com.realtime.trend.processing.pipeline;
 
 import org.jsoup.Jsoup;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
 
 /**
- * 텍스트 전처리 서비스
+ * 기본 텍스트 전처리 구현
  */
-@Service
-public class TextPreprocessor {
+@Component
+public class DefaultTextProcessor implements TextProcessor {
 
     private static final Pattern URL_PATTERN = Pattern.compile(
             "https?://[\\w\\-._~:/?#\\[\\]@!$&'()*+,;=%]+",
@@ -29,7 +29,8 @@ public class TextPreprocessor {
             "\\s+"
     );
 
-    public String preprocess(String text) {
+    @Override
+    public String process(String text) {
         if (text == null || text.isBlank()) {
             return "";
         }

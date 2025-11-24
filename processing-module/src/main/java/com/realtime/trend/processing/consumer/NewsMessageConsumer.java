@@ -1,11 +1,9 @@
 package com.realtime.trend.processing.consumer;
 
+import com.realtime.trend.processing.config.KafkaTopicProperties;
 import com.realtime.trend.processing.dto.ProcessedNewsMessage;
 import com.realtime.trend.processing.dto.RawNewsMessage;
-import com.realtime.trend.processing.service.ContentProcessingService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import com.realtime.trend.processing.pipeline.ContentProcessingService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -13,32 +11,27 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * 뉴스 메시지 Consumer
+ */
 @Component
-public class NewsConsumer {
-
-    private static final Logger log = LoggerFactory.getLogger(NewsConsumer.class);
+public class NewsMessageConsumer extends AbstractMessageConsumer<RawNewsMessage, ProcessedNewsMessage> {
 
     private final ContentProcessingService contentProcessingService;
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaTopicProperties topicProperties;
 
-    @Value("${kafka.topics.processed-news}")
-    private String processedNewsTopic;
-
-    @Value("${kafka.topics.dlq-news}")
-    private String dlqNewsTopic;
-
-    public NewsConsumer(
+    public NewsMessageConsumer(
             ContentProcessingService contentProcessingService,
-            KafkaTemplate<String, Object> kafkaTemplate
+            KafkaTemplate<String, Object> kafkaTemplate,
+            KafkaTopicProperties topicProperties
     ) {
+        super(kafkaTemplate);
         this.contentProcessingService = contentProcessingService;
-        this.kafkaTemplate = kafkaTemplate;
+        this.topicProperties = topicProperties;
     }
 
     @KafkaListener(
@@ -50,15 +43,15 @@ public class NewsConsumer {
             @Payload Map<String, Object> messageMap,
             @Header(value = KafkaHeaders.RECEIVED_KEY, required = false) String key
     ) {
-        String id = (String) messageMap.get("id");
+        String id = getMessageId(messageMap);
         log.debug("뉴스 메시지 수신: {}", id);
 
         try {
-            RawNewsMessage message = convertToRawNewsMessage(messageMap);
+            RawNewsMessage message = convertToMessage(messageMap);
             Optional<ProcessedNewsMessage> processed = contentProcessingService.processNews(message);
 
             if (processed.isPresent()) {
-                kafkaTemplate.send(processedNewsTopic, key, processed.get());
+                kafkaTemplate.send(getProcessedTopic(), key, processed.get());
                 log.info("뉴스 처리 완료: {} - 키워드 {}개", id, processed.get().keywords().size());
             } else {
                 log.info("뉴스 필터링됨: {}", id);
@@ -71,8 +64,14 @@ public class NewsConsumer {
         }
     }
 
+    @Override
+    protected String getMessageId(Map<String, Object> messageMap) {
+        return (String) messageMap.get("id");
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
-    private RawNewsMessage convertToRawNewsMessage(Map<String, Object> map) {
+    protected RawNewsMessage convertToMessage(Map<String, Object> map) {
         return new RawNewsMessage(
                 (String) map.get("id"),
                 (String) map.get("url"),
@@ -87,27 +86,13 @@ public class NewsConsumer {
         );
     }
 
-    private LocalDateTime parseDateTime(Object value) {
-        if (value == null) return null;
-        if (value instanceof List<?> list) {
-            return LocalDateTime.of(
-                    ((Number) list.get(0)).intValue(),
-                    ((Number) list.get(1)).intValue(),
-                    ((Number) list.get(2)).intValue(),
-                    ((Number) list.get(3)).intValue(),
-                    ((Number) list.get(4)).intValue(),
-                    list.size() > 5 ? ((Number) list.get(5)).intValue() : 0
-            );
-        }
-        return LocalDateTime.parse(value.toString(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    @Override
+    protected String getProcessedTopic() {
+        return topicProperties.processedNews();
     }
 
-    private void sendToDlq(Map<String, Object> message, String key, Exception e) {
-        try {
-            kafkaTemplate.send(dlqNewsTopic, key, message);
-            log.warn("뉴스 DLQ 전송: {}", message.get("id"));
-        } catch (Exception dlqException) {
-            log.error("뉴스 DLQ 전송 실패: {}", message.get("id"), dlqException);
-        }
+    @Override
+    protected String getDlqTopic() {
+        return topicProperties.dlqNews();
     }
 }

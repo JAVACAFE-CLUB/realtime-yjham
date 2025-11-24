@@ -1,9 +1,9 @@
-package com.realtime.trend.processing.grpc;
+package com.realtime.trend.processing.extraction;
 
 import com.realtime.trend.processing.dto.ExtractedEntity;
-import io.grpc.StatusRuntimeException;
 import ner.Ner;
 import ner.NERServiceGrpc;
+import io.grpc.StatusRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -12,17 +12,21 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * gRPC 기반 NER 클라이언트 구현
+ */
 @Component
-public class NerGrpcClient {
+public class GrpcNerClient implements NerClient {
 
-    private static final Logger log = LoggerFactory.getLogger(NerGrpcClient.class);
+    private static final Logger log = LoggerFactory.getLogger(GrpcNerClient.class);
 
     private final NERServiceGrpc.NERServiceBlockingStub nerServiceStub;
 
-    public NerGrpcClient(NERServiceGrpc.NERServiceBlockingStub nerServiceStub) {
+    public GrpcNerClient(NERServiceGrpc.NERServiceBlockingStub nerServiceStub) {
         this.nerServiceStub = nerServiceStub;
     }
 
+    @Override
     public List<ExtractedEntity> analyze(String text) {
         if (text == null || text.isBlank()) {
             return Collections.emptyList();
@@ -44,10 +48,11 @@ public class NerGrpcClient {
 
         } catch (StatusRuntimeException e) {
             log.error("NER 서비스 호출 실패: {}", e.getStatus(), e);
-            throw new RuntimeException("NER 서비스 호출 실패", e);
+            throw new NerClientException("NER 서비스 호출 실패", e);
         }
     }
 
+    @Override
     public List<List<ExtractedEntity>> analyzeBatch(List<String> texts) {
         if (texts == null || texts.isEmpty()) {
             return Collections.emptyList();
@@ -71,7 +76,7 @@ public class NerGrpcClient {
 
         } catch (StatusRuntimeException e) {
             log.error("NER 배치 서비스 호출 실패: {}", e.getStatus(), e);
-            throw new RuntimeException("NER 배치 서비스 호출 실패", e);
+            throw new NerClientException("NER 배치 서비스 호출 실패", e);
         }
     }
 }

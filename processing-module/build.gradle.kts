@@ -21,6 +21,7 @@ dependencies {
     implementation("org.jsoup:jsoup:1.17.1")
 
     // Test
+    testImplementation(project(":test-support"))
     testImplementation("org.springframework.kafka:spring-kafka-test")
 }
 
