@@ -1,13 +1,32 @@
-# Simple JAR copy approach (pre-built locally)
+# Multi-stage build for serving-module
+FROM gradle:8.5-jdk21 AS builder
+
+WORKDIR /app
+
+# Copy gradle wrapper and build files first (for caching)
+COPY gradlew gradlew.bat ./
+COPY gradle ./gradle
+COPY build.gradle.kts settings.gradle.kts ./
+
+# Copy subproject build files
+COPY serving-module/build.gradle.kts ./serving-module/
+COPY test-support/build.gradle.kts ./test-support/
+
+# Copy source code
+COPY serving-module/src ./serving-module/src
+COPY test-support/src ./test-support/src
+
+# Build the application (skip tests)
+RUN gradle :serving-module:bootJar -x test --no-daemon
+
+# Runtime stage
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-# 로컬에서 빌드된 JAR 복사 (./gradlew build 먼저 실행 필요)
-COPY serving-module/build/libs/*-SNAPSHOT.jar app.jar
+# Copy the built JAR
+COPY --from=builder /app/serving-module/build/libs/*-SNAPSHOT.jar app.jar
 
-# 포트 노출
 EXPOSE 8080
 
-# 애플리케이션 실행
 ENTRYPOINT ["java", "-jar", "app.jar"]
