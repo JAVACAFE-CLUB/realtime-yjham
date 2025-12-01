@@ -7,11 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,6 +29,7 @@ public class LoadTestController {
 
 	private final KafkaTemplate<String, Object> kafkaTemplate;
 	private final CollectionMetrics metrics;
+	private final MockDataGenerator mockDataGenerator;
 
 	@Value("${collection.news.topic:raw-news}")
 	private String newsTopic;
@@ -197,48 +196,10 @@ public class LoadTestController {
 	}
 
 	private Map<String, Object> createNewsMessage(int index) {
-		Map<String, Object> message = new HashMap<>();
-		message.put("id", UUID.randomUUID().toString());
-		message.put("url", "https://example.com/news/" + index);
-		message.put("title", "테스트 뉴스 제목 " + index + " - 삼성전자 관련 소식");
-		message.put("content", generateTestContent("news", index));
-		message.put("publishedAt", LocalDateTime.now());
-		message.put("publisher", "테스트 언론사");
-		message.put("author", "테스트 기자");
-		message.put("category", "경제");
-		message.put("tags", List.of("테스트", "뉴스", "경제"));
-		message.put("collectedAt", LocalDateTime.now());
-		return message;
+		return mockDataGenerator.generateNewsMessage(index);
 	}
 
 	private Map<String, Object> createYoutubeMessage(int index) {
-		Map<String, Object> message = new HashMap<>();
-		message.put("id", UUID.randomUUID().toString());
-		message.put("videoId", "video" + index + "abc");
-		message.put("title", "테스트 YouTube 영상 " + index + " - BTS 신곡");
-		message.put("description", generateTestContent("youtube", index));
-		message.put("channelTitle", "테스트 채널");
-		message.put("publishedAt", LocalDateTime.now());
-		message.put("categoryId", "10");
-		message.put("tags", List.of("테스트", "유튜브", "음악"));
-		message.put("viewCount", (long) (Math.random() * 1000000));
-		message.put("likeCount", (long) (Math.random() * 50000));
-		message.put("commentCount", (long) (Math.random() * 10000));
-		message.put("collectedAt", LocalDateTime.now());
-		return message;
-	}
-
-	private String generateTestContent(String type, int index) {
-		String[] keywords = {"삼성전자", "이재용", "반도체", "인공지능", "BTS", "아이유", "넷플릭스", "카카오", "네이버"};
-		StringBuilder content = new StringBuilder();
-		content.append("테스트 컨텐츠 #").append(index).append(". ");
-
-		for (int i = 0; i < 5; i++) {
-			String keyword = keywords[(index + i) % keywords.length];
-			content.append(keyword).append("에 대한 내용입니다. ");
-			content.append("이 문장은 ").append(type).append(" 컨텐츠의 테스트용 문장입니다. ");
-		}
-
-		return content.toString();
+		return mockDataGenerator.generateYoutubeMessage(index);
 	}
 }
