@@ -1,6 +1,7 @@
 package com.realtime.trend.indexing.consumer;
 
 import com.realtime.trend.indexing.dto.ProcessedMessage;
+import com.realtime.trend.indexing.metrics.IndexingMetrics;
 import com.realtime.trend.indexing.service.KeywordIndexingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,6 +27,9 @@ class ProcessedYoutubeConsumerTest {
     @Mock
     private KeywordIndexingService keywordIndexingService;
 
+    @Mock
+    private IndexingMetrics indexingMetrics;
+
     @Captor
     private ArgumentCaptor<ProcessedMessage> messageCaptor;
 
@@ -33,7 +37,7 @@ class ProcessedYoutubeConsumerTest {
 
     @BeforeEach
     void setUp() {
-        processedYoutubeConsumer = new ProcessedYoutubeConsumer(keywordIndexingService);
+        processedYoutubeConsumer = new ProcessedYoutubeConsumer(keywordIndexingService, indexingMetrics);
     }
 
     @Test
