@@ -40,7 +40,8 @@ public class ProcessedNewsConsumer extends AbstractIndexingConsumer {
                 (String) messageMap.get("processedContent"),
                 parseDateTime(messageMap.get("collectedAt")),
                 extractKeywords(messageMap),
-                getSourceType()
+                getSourceType(),
+                (String) messageMap.get("category")
         );
     }
 

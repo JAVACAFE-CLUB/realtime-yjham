@@ -26,6 +26,9 @@ public class KeywordDocument {
     @Field(type = FieldType.Keyword)
     private String sourceId;
 
+    @Field(type = FieldType.Keyword)
+    private String category;
+
     @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second)
     private LocalDateTime collectedAt;
 
@@ -36,13 +39,22 @@ public class KeywordDocument {
     }
 
     public KeywordDocument(String keyword, String type, String source, String sourceId,
-                           LocalDateTime collectedAt, String originalText) {
+                           String category, LocalDateTime collectedAt, String originalText) {
         this.keyword = keyword;
         this.type = type;
         this.source = source;
         this.sourceId = sourceId;
+        this.category = category;
         this.collectedAt = collectedAt;
         this.originalText = originalText;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getId() {

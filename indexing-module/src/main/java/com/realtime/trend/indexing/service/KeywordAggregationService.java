@@ -33,7 +33,7 @@ public class KeywordAggregationService {
         this.elasticsearchClient = elasticsearchClient;
     }
 
-    public List<KeywordAggregation> aggregateKeywords(String source, String type) {
+    public List<KeywordAggregation> aggregateKeywords(String source, String type, String category) {
         try {
             LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
             LocalDateTime endOfDay = LocalDate.now().atTime(LocalTime.MAX);
@@ -57,6 +57,9 @@ public class KeywordAggregationService {
                                 if (type != null && !type.equals("all")) {
                                     b.must(m -> m.term(t -> t.field("type").value(type)));
                                 }
+                                if (category != null && !category.equals("all")) {
+                                    b.must(m -> m.term(t -> t.field("category").value(category)));
+                                }
 
                                 return b;
                             })
@@ -69,6 +72,12 @@ public class KeywordAggregationService {
                             .aggregations("type_info", sa -> sa
                                     .terms(st -> st
                                             .field("type")
+                                            .size(1)
+                                    )
+                            )
+                            .aggregations("category_info", sa -> sa
+                                    .terms(st -> st
+                                            .field("category")
                                             .size(1)
                                     )
                             )
@@ -98,18 +107,33 @@ public class KeywordAggregationService {
                     keywordType = typeInfoBuckets.get(0).key().stringValue();
                 }
 
-                results.add(new KeywordAggregation(keyword, keywordType, count));
+                String keywordCategory = "OTHER";
+                var categoryInfoBuckets = bucket.aggregations()
+                        .get("category_info")
+                        .sterms()
+                        .buckets()
+                        .array();
+
+                if (!categoryInfoBuckets.isEmpty()) {
+                    keywordCategory = categoryInfoBuckets.get(0).key().stringValue();
+                }
+
+                results.add(new KeywordAggregation(keyword, keywordType, keywordCategory, count));
             }
 
-            log.debug("키워드 집계 완료: source={}, type={}, count={}",
-                    source, type, results.size());
+            log.debug("키워드 집계 완료: source={}, type={}, category={}, count={}",
+                    source, type, category, results.size());
 
             return results;
 
         } catch (Exception e) {
-            log.error("키워드 집계 실패: source={}, type={}", source, type, e);
+            log.error("키워드 집계 실패: source={}, type={}, category={}", source, type, category, e);
             return List.of();
         }
+    }
+
+    public List<KeywordAggregation> aggregateKeywords(String source, String type) {
+        return aggregateKeywords(source, type, "all");
     }
 
     public Map<String, List<KeywordAggregation>> aggregateAll() {

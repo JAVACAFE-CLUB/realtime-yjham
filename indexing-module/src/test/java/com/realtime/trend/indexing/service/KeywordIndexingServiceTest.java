@@ -1,6 +1,7 @@
 package com.realtime.trend.indexing.service;
 
 import com.realtime.trend.indexing.document.KeywordDocument;
+import com.realtime.trend.indexing.domain.CategoryMapper;
 import com.realtime.trend.indexing.dto.ProcessedMessage;
 import com.realtime.trend.indexing.repository.KeywordRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,10 +31,12 @@ class KeywordIndexingServiceTest {
     private ArgumentCaptor<List<KeywordDocument>> documentsCaptor;
 
     private KeywordIndexingService keywordIndexingService;
+    private CategoryMapper categoryMapper;
 
     @BeforeEach
     void setUp() {
-        keywordIndexingService = new KeywordIndexingService(keywordRepository);
+        categoryMapper = new CategoryMapper();
+        keywordIndexingService = new KeywordIndexingService(keywordRepository, categoryMapper);
         ReflectionTestUtils.setField(keywordIndexingService, "retentionDays", 7);
     }
 
@@ -53,7 +56,8 @@ class KeywordIndexingServiceTest {
                 "삼성전자 관련 뉴스 내용",
                 collectedAt,
                 keywords,
-                "news"
+                "news",
+                "경제"
         );
 
         // when
@@ -83,7 +87,8 @@ class KeywordIndexingServiceTest {
                 "뉴스 내용",
                 LocalDateTime.now(),
                 List.of(),
-                "news"
+                "news",
+                "정치"
         );
 
         // when
@@ -104,7 +109,8 @@ class KeywordIndexingServiceTest {
                 "뉴스 내용",
                 LocalDateTime.now(),
                 null,
-                "news"
+                "news",
+                "사회"
         );
 
         // when
@@ -142,7 +148,8 @@ class KeywordIndexingServiceTest {
                 "BTS 영상 설명",
                 collectedAt,
                 keywords,
-                "youtube"
+                "youtube",
+                "10"
         );
 
         // when

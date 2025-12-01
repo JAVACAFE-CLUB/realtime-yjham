@@ -44,29 +44,47 @@ public class KeywordCacheService {
     }
 
     /**
-     * 특정 소스/타입 조합의 키워드를 캐시에 저장
+     * 모든 집계 결과를 캐시에 저장 (category 포함)
      */
-    @CachePut(value = CacheConfig.KEYWORDS_CACHE, key = "#source + ':' + #type")
-    public List<KeywordAggregation> cacheKeywords(String source, String type, List<KeywordAggregation> keywords) {
-        log.debug("캐시 저장: {}:{} - {}개 키워드", source, type, keywords.size());
+    public void cacheAggregationsWithCategory(Map<String, List<KeywordAggregation>> aggregations) {
+        Cache cache = cacheManager.getCache(CacheConfig.KEYWORDS_CACHE);
+        if (cache == null) {
+            log.warn("캐시를 찾을 수 없음: {}", CacheConfig.KEYWORDS_CACHE);
+            return;
+        }
+
+        aggregations.forEach((key, value) -> {
+            cache.put(key, value);
+            log.debug("캐시 저장: {} - {}개 키워드", key, value.size());
+        });
+
+        log.info("키워드 캐시 저장 완료 (카테고리 포함): {}개 조합", aggregations.size());
+    }
+
+    /**
+     * 특정 소스/타입/카테고리 조합의 키워드를 캐시에 저장
+     */
+    @CachePut(value = CacheConfig.KEYWORDS_CACHE, key = "#source + ':' + #type + ':' + #category")
+    public List<KeywordAggregation> cacheKeywords(String source, String type, String category, List<KeywordAggregation> keywords) {
+        log.debug("캐시 저장: {}:{}:{} - {}개 키워드", source, type, category, keywords.size());
         return keywords;
     }
 
     /**
      * 캐시에서 키워드 조회
      */
-    @Cacheable(value = CacheConfig.KEYWORDS_CACHE, key = "#source + ':' + #type", unless = "#result == null")
-    public List<KeywordAggregation> getKeywords(String source, String type) {
-        log.debug("캐시 미스: {}:{}", source, type);
+    @Cacheable(value = CacheConfig.KEYWORDS_CACHE, key = "#source + ':' + #type + ':' + #category", unless = "#result == null")
+    public List<KeywordAggregation> getKeywords(String source, String type, String category) {
+        log.debug("캐시 미스: {}:{}:{}", source, type, category);
         return null;
     }
 
     /**
      * 특정 캐시 키 삭제
      */
-    @CacheEvict(value = CacheConfig.KEYWORDS_CACHE, key = "#source + ':' + #type")
-    public void evictKeywords(String source, String type) {
-        log.debug("캐시 삭제: {}:{}", source, type);
+    @CacheEvict(value = CacheConfig.KEYWORDS_CACHE, key = "#source + ':' + #type + ':' + #category")
+    public void evictKeywords(String source, String type, String category) {
+        log.debug("캐시 삭제: {}:{}:{}", source, type, category);
     }
 
     /**

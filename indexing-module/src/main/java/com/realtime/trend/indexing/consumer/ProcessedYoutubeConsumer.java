@@ -40,7 +40,8 @@ public class ProcessedYoutubeConsumer extends AbstractIndexingConsumer {
                 (String) messageMap.get("processedDescription"),
                 parseDateTime(messageMap.get("collectedAt")),
                 extractKeywords(messageMap),
-                getSourceType()
+                getSourceType(),
+                (String) messageMap.get("categoryId")
         );
     }
 

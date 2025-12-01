@@ -39,11 +39,11 @@ class KeywordCacheServiceTest {
         when(cacheManager.getCache(CacheConfig.KEYWORDS_CACHE)).thenReturn(cache);
 
         List<KeywordAggregation> newsAll = List.of(
-                new KeywordAggregation("삼성전자", "ORG", 10),
-                new KeywordAggregation("이재용", "PER", 5)
+                new KeywordAggregation("삼성전자", "ORG", "ECONOMY", 10),
+                new KeywordAggregation("이재용", "PER", "ECONOMY", 5)
         );
         List<KeywordAggregation> youtubeAll = List.of(
-                new KeywordAggregation("BTS", "ORG", 20)
+                new KeywordAggregation("BTS", "ORG", "ENTERTAINMENT", 20)
         );
 
         Map<String, List<KeywordAggregation>> aggregations = Map.of(
@@ -66,7 +66,7 @@ class KeywordCacheServiceTest {
         when(cacheManager.getCache(CacheConfig.KEYWORDS_CACHE)).thenReturn(null);
 
         Map<String, List<KeywordAggregation>> aggregations = Map.of(
-                "news:all", List.of(new KeywordAggregation("test", "ORG", 1))
+                "news:all", List.of(new KeywordAggregation("test", "ORG", "ECONOMY", 1))
         );
 
         // when

@@ -10,7 +10,8 @@ public record ProcessedMessage(
         String processedContent,
         LocalDateTime collectedAt,
         List<ExtractedEntity> keywords,
-        String source
+        String source,
+        String originalCategory
 ) {
     public record ExtractedEntity(String keyword, String type) {
     }
