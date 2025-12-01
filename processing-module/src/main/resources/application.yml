@@ -1,0 +1,59 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: processing-module
+
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: processing-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.use.type.headers: false
+        spring.json.value.default.type: java.util.HashMap
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+ner:
+  grpc:
+    host: ${NER_SERVICE_HOST:localhost}
+    port: ${NER_SERVICE_PORT:50051}
+
+kafka:
+  topics:
+    raw-news: raw-news
+    raw-youtube: raw-youtube
+    processed-news: processed-news
+    processed-youtube: processed-youtube
+    dlq-news: raw-news-dlq
+    dlq-youtube: raw-youtube-dlq
+
+processing:
+  min-content-length: 100
+  retry:
+    max-attempts: 3
+    initial-interval: 1000
+    multiplier: 2.0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+logging:
+  level:
+    com.yjham.processing: DEBUG
+    org.springframework.kafka: INFO

@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: processing-module-test
+
+  kafka:
+    consumer:
+      group-id: processing-test-group
+      auto-offset-reset: earliest
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+  # MongoDB 비활성화 (processing-module은 MongoDB 사용 안함)
+  data:
+    mongodb:
+      auto-index-creation: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
+
+ner:
+  grpc:
+    host: localhost
+    port: 50051
+
+kafka:
+  topics:
+    raw-news: raw-news-test
+    raw-youtube: raw-youtube-test
+    processed-news: processed-news-test
+    processed-youtube: processed-youtube-test
+    dlq-news: raw-news-dlq-test
+    dlq-youtube: raw-youtube-dlq-test
+
+processing:
+  min-content-length: 50
+  retry:
+    max-attempts: 1
+    initial-interval: 100
+    multiplier: 1.0
+
+logging:
+  level:
+    com.realtime.trend.processing: DEBUG
+    org.springframework.kafka: WARN

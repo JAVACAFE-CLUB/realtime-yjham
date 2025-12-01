@@ -1,0 +1,17 @@
+# gRPC
+grpcio>=1.60.0
+grpcio-tools>=1.60.0
+grpcio-health-checking>=1.60.0
+
+# NER - GLiNER Korean
+gliner
+python-mecab-ko
+numpy<2.0
+
+# Metrics
+prometheus-client>=0.19.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0

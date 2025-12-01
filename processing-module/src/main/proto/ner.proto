@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package ner;
+
+// NER 서비스 정의
+service NERService {
+  // 단일 텍스트 분석
+  rpc Analyze(TextRequest) returns (NERResponse);
+
+  // 배치 텍스트 분석
+  rpc AnalyzeBatch(BatchTextRequest) returns (BatchNERResponse);
+}
+
+// 단일 텍스트 요청
+message TextRequest {
+  string text = 1;
+}
+
+// 배치 텍스트 요청
+message BatchTextRequest {
+  repeated string texts = 1;
+}
+
+// 개체명 정보
+message Entity {
+  string keyword = 1;    // 추출된 키워드
+  string type = 2;       // PERSON, LOCATION, ORGANIZATION
+}
+
+// 단일 응답
+message NERResponse {
+  repeated Entity entities = 1;
+}
+
+// 배치 응답
+message BatchNERResponse {
+  repeated NERResponse responses = 1;
+}

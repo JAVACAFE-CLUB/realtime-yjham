@@ -1,0 +1,60 @@
+package com.realtime.trend.serving.config;
+
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import io.github.bucket4j.Bandwidth;
+import io.github.bucket4j.Bucket;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+@Component
+public class RateLimitConfig {
+
+    private final Cache<String, Bucket> buckets;
+    private final int requestsPerMinute;
+    private final int requestsPerHour;
+
+    public RateLimitConfig(
+            @Value("${rate-limit.requests-per-minute}") int requestsPerMinute,
+            @Value("${rate-limit.requests-per-hour}") int requestsPerHour
+    ) {
+        this.requestsPerMinute = requestsPerMinute;
+        this.requestsPerHour = requestsPerHour;
+        this.buckets = Caffeine.newBuilder()
+                .expireAfterAccess(1, TimeUnit.HOURS)
+                .maximumSize(10000)
+                .build();
+    }
+
+    public Bucket resolveBucket(String clientIp) {
+        return buckets.get(clientIp, this::createBucket);
+    }
+
+    private Bucket createBucket(String clientIp) {
+        Bandwidth minuteLimit = Bandwidth.builder()
+                .capacity(requestsPerMinute)
+                .refillGreedy(requestsPerMinute, Duration.ofMinutes(1))
+                .build();
+
+        Bandwidth hourLimit = Bandwidth.builder()
+                .capacity(requestsPerHour)
+                .refillGreedy(requestsPerHour, Duration.ofHours(1))
+                .build();
+
+        return Bucket.builder()
+                .addLimit(minuteLimit)
+                .addLimit(hourLimit)
+                .build();
+    }
+
+    public boolean tryConsume(String clientIp) {
+        return resolveBucket(clientIp).tryConsume(1);
+    }
+
+    public long getAvailableTokens(String clientIp) {
+        return resolveBucket(clientIp).getAvailableTokens();
+    }
+}

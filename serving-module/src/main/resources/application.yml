@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: serving-module
+
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URIS:http://localhost:9200}
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+cache:
+  redis:
+    ttl-minutes: 10
+    key-prefix: "keywords:today"
+
+rate-limit:
+  requests-per-minute: 100
+  requests-per-hour: 1000
+
+elasticsearch:
+  index:
+    keywords: keywords
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+logging:
+  level:
+    com.realtime.trend.serving: DEBUG

@@ -1,0 +1,87 @@
+env:
+  filename: ../.env
+
+spring:
+  application:
+    name: collection-module
+
+  # DataSource 설정 (Spring Batch Job 메타데이터용)
+  datasource:
+    url: jdbc:h2:mem:batch
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  # MongoDB 설정
+  data:
+    mongodb:
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/realtime-trend}
+
+  # Kafka 설정
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+      properties:
+        spring.json.add.type.headers: false
+
+  # Batch 설정
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false  # 자동 실행 방지
+
+# 서버 포트
+server:
+  port: 8081
+
+# Actuator 설정 (Prometheus)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+# 수집 설정
+collection:
+  news:
+    enabled: true
+    cron: "0 */10 * * * *"
+    compensating-cron: "0 */30 * * * *"
+    topic: raw-news
+    crawler:
+      requests-per-second: 2
+      timeout-ms: 10000
+    rss:
+      # 추가 피드 (형식: "언론사1=URL1,언론사2=URL2")
+      additional-feeds: ""
+  youtube:
+    enabled: true
+    cron: "0 */15 * * * *"
+    compensating-cron: "0 */30 * * * *"
+    topic: raw-youtube
+  # 보상 트랜잭션 설정
+  compensating:
+    max-retry-count: 5
+    publish-timeout-seconds: 10
+
+# YouTube API 설정
+youtube:
+  api:
+    key: ${YOUTUBE_API_KEY:}
+    max-results: 50
+
+# 로깅
+logging:
+  level:
+    com.realtime.trend: INFO
+    org.springframework.kafka: WARN
+    org.springframework.data.mongodb: WARN
