@@ -1,6 +1,7 @@
 package com.realtime.trend.indexing.consumer;
 
 import com.realtime.trend.indexing.dto.ProcessedMessage;
+import com.realtime.trend.indexing.metrics.IndexingMetrics;
 import com.realtime.trend.indexing.service.KeywordIndexingService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -14,8 +15,8 @@ import java.util.Map;
 @Component
 public class ProcessedYoutubeConsumer extends AbstractIndexingConsumer {
 
-    public ProcessedYoutubeConsumer(KeywordIndexingService keywordIndexingService) {
-        super(keywordIndexingService);
+    public ProcessedYoutubeConsumer(KeywordIndexingService keywordIndexingService, IndexingMetrics metrics) {
+        super(keywordIndexingService, metrics);
     }
 
     @KafkaListener(

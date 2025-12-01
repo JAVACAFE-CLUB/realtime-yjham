@@ -1,6 +1,7 @@
 package com.realtime.trend.indexing.consumer;
 
 import com.realtime.trend.indexing.dto.ProcessedMessage;
+import com.realtime.trend.indexing.metrics.IndexingMetrics;
 import com.realtime.trend.indexing.service.KeywordIndexingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +19,11 @@ public abstract class AbstractIndexingConsumer {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
     protected final KeywordIndexingService keywordIndexingService;
+    protected final IndexingMetrics metrics;
 
-    protected AbstractIndexingConsumer(KeywordIndexingService keywordIndexingService) {
+    protected AbstractIndexingConsumer(KeywordIndexingService keywordIndexingService, IndexingMetrics metrics) {
         this.keywordIndexingService = keywordIndexingService;
+        this.metrics = metrics;
     }
 
     /**
@@ -43,15 +46,23 @@ public abstract class AbstractIndexingConsumer {
      */
     protected void processAndIndex(Map<String, Object> messageMap) {
         String id = getMessageId(messageMap);
-        log.debug("처리된 {} 수신: {}", getSourceType(), id);
+        String sourceType = getSourceType();
+        log.debug("처리된 {} 수신: {}", sourceType, id);
+        metrics.incrementConsumed(sourceType);
+        long startTime = System.currentTimeMillis();
 
         try {
             ProcessedMessage processedMessage = convertToProcessedMessage(messageMap);
             keywordIndexingService.indexKeywords(processedMessage);
-            log.info("{} 인덱싱 완료: {}", getSourceType(), id);
+            metrics.incrementIndexed(sourceType);
+            metrics.incrementKeywordsIndexed(sourceType, processedMessage.keywords().size());
+            log.info("{} 인덱싱 완료: {}", sourceType, id);
         } catch (Exception e) {
-            log.error("{} 인덱싱 실패: {} - {}", getSourceType(), id, e.getMessage(), e);
+            log.error("{} 인덱싱 실패: {} - {}", sourceType, id, e.getMessage(), e);
+            metrics.incrementFailed(sourceType);
             throw e;
+        } finally {
+            metrics.recordIndexTime(sourceType, System.currentTimeMillis() - startTime);
         }
     }
 
