@@ -1,0 +1,97 @@
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+
+rules:
+  # Kafka Broker 메트릭
+  - pattern: kafka.server<type=(.+), name=(.+), clientId=(.+), topic=(.+), partition=(.*)><>Value
+    name: kafka_server_$1_$2
+    type: GAUGE
+    labels:
+      clientId: "$3"
+      topic: "$4"
+      partition: "$5"
+
+  - pattern: kafka.server<type=(.+), name=(.+), clientId=(.+), brokerHost=(.+), brokerPort=(.+)><>Value
+    name: kafka_server_$1_$2
+    type: GAUGE
+    labels:
+      clientId: "$3"
+      broker: "$4:$5"
+
+  - pattern: kafka.server<type=(.+), name=(.+)><>Value
+    name: kafka_server_$1_$2
+    type: GAUGE
+
+  - pattern: kafka.server<type=(.+), name=(.+)><>Count
+    name: kafka_server_$1_$2_total
+    type: COUNTER
+
+  # Kafka Controller 메트릭
+  - pattern: kafka.controller<type=(.+), name=(.+)><>Value
+    name: kafka_controller_$1_$2
+    type: GAUGE
+
+  # Kafka Network 메트릭
+  - pattern: kafka.network<type=(.+), name=(.+), request=(.+)><>Count
+    name: kafka_network_$1_$2_total
+    type: COUNTER
+    labels:
+      request: "$3"
+
+  - pattern: kafka.network<type=(.+), name=(.+)><>Value
+    name: kafka_network_$1_$2
+    type: GAUGE
+
+  # Kafka Log 메트릭
+  - pattern: kafka.log<type=(.+), name=(.+), topic=(.+), partition=(.+)><>Value
+    name: kafka_log_$1_$2
+    type: GAUGE
+    labels:
+      topic: "$3"
+      partition: "$4"
+
+  # Consumer Group 메트릭 (Consumer Lag)
+  - pattern: kafka.server<type=FetcherLagMetrics, name=ConsumerLag, clientId=(.+), topic=(.+), partition=(.+)><>Value
+    name: kafka_consumer_lag
+    type: GAUGE
+    labels:
+      clientId: "$1"
+      topic: "$2"
+      partition: "$3"
+
+  # Bytes In/Out 메트릭
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=BytesInPerSec, topic=(.+)><>Count
+    name: kafka_server_broker_topic_metrics_bytes_in_total
+    type: COUNTER
+    labels:
+      topic: "$1"
+
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=BytesOutPerSec, topic=(.+)><>Count
+    name: kafka_server_broker_topic_metrics_bytes_out_total
+    type: COUNTER
+    labels:
+      topic: "$1"
+
+  # Messages In 메트릭
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=MessagesInPerSec, topic=(.+)><>Count
+    name: kafka_server_broker_topic_metrics_messages_in_total
+    type: COUNTER
+    labels:
+      topic: "$1"
+
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=MessagesInPerSec><>Count
+    name: kafka_server_broker_topic_metrics_messages_in_total
+    type: COUNTER
+
+  # Request 메트릭
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=TotalProduceRequestsPerSec, topic=(.+)><>Count
+    name: kafka_server_broker_topic_metrics_produce_requests_total
+    type: COUNTER
+    labels:
+      topic: "$1"
+
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=TotalFetchRequestsPerSec, topic=(.+)><>Count
+    name: kafka_server_broker_topic_metrics_fetch_requests_total
+    type: COUNTER
+    labels:
+      topic: "$1"

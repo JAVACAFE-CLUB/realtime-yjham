@@ -8,26 +8,43 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
+  # Kafka Broker 메트릭 (JMX Exporter)
+  - job_name: 'kafka'
+    static_configs:
+      - targets: ['kafka-jmx-exporter:9404']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'kafka:9092'
+
   # Collection Module
   - job_name: 'collection-module'
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['collection-module:8081']
+        labels:
+          application: 'collection-module'
 
   # Processing Module
   - job_name: 'processing-module'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['processing-module:8084']
+      - targets: ['processing-module:8082']
+        labels:
+          application: 'processing-module'
 
   # Indexing Module
   - job_name: 'indexing-module'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['indexing-module:8085']
+      - targets: ['indexing-module:8083']
+        labels:
+          application: 'indexing-module'
 
   # Serving Module
   - job_name: 'serving-module'
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['serving-module:8080']
+        labels:
+          application: 'serving-module'

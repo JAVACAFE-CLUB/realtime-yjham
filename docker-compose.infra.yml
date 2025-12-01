@@ -56,6 +56,7 @@ services:
     ports:
       - "9092:9092"
       - "9093:9093"
+      - "9101:9101"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -67,6 +68,10 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      # JMX 설정 (메트릭 수집용)
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: kafka
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9101"
     networks:
       - realtime-network
     healthcheck:
@@ -74,6 +79,25 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
+
+  # Kafka JMX Exporter (Prometheus 메트릭 수집)
+  kafka-jmx-exporter:
+    image: sscaling/jmx-prometheus-exporter:0.12.0
+    container_name: realtime-kafka-jmx-exporter
+    ports:
+      - "9404:9404"
+    volumes:
+      - ./monitoring/kafka-jmx-exporter.yml:/etc/jmx-exporter/config.yml:ro
+    environment:
+      JMX_HOST: kafka
+      JMX_PORT: 9101
+      HTTP_PORT: 9404
+      CONFIG_FILE: /etc/jmx-exporter/config.yml
+    depends_on:
+      - kafka
+    networks:
+      - realtime-network
+    restart: unless-stopped
 
   # Kafka UI
   kafka-ui:
