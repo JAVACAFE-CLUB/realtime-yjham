@@ -16,11 +16,22 @@ spring:
         spring.json.trusted.packages: "*"
         spring.json.use.type.headers: false
         spring.json.value.default.type: java.util.HashMap
+        # Consumer 최적화: fetch 설정
+        fetch.min.bytes: 1024
+        fetch.max.wait.ms: 500
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      # Producer 최적화: batch + compression
+      batch-size: 32768
       properties:
         spring.json.add.type.headers: false
+        linger.ms: 10
+        compression.type: lz4
+    listener:
+      # Consumer 동시성: 파티션 수에 맞춤 (6개)
+      concurrency: 6
+      ack-mode: RECORD
 
 ner:
   grpc:
@@ -52,6 +63,19 @@ management:
     export:
       prometheus:
         enabled: true
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        kafka.consumer: true
+        kafka.producer: true
+      slo:
+        kafka.consumer.fetch.latency: 10ms, 50ms, 100ms, 500ms
+        kafka.producer.request.latency: 10ms, 50ms, 100ms, 500ms
+    enable:
+      kafka: true
+      jvm: true
+      process: true
 
 logging:
   level:

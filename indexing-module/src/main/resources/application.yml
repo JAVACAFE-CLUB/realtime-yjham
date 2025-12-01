@@ -58,6 +58,19 @@ management:
     export:
       prometheus:
         enabled: true
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        kafka.consumer: true
+        kafka.producer: true
+      slo:
+        kafka.consumer.fetch.latency: 10ms, 50ms, 100ms, 500ms
+        kafka.producer.request.latency: 10ms, 50ms, 100ms, 500ms
+    enable:
+      kafka: true
+      jvm: true
+      process: true
 
 logging:
   level:

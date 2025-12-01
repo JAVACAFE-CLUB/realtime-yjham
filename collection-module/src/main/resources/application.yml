@@ -25,8 +25,12 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       acks: all
       retries: 3
+      # Producer 최적화: batch + compression
+      batch-size: 32768
       properties:
         spring.json.add.type.headers: false
+        linger.ms: 10
+        compression.type: lz4
 
   # Batch 설정
   batch:
@@ -49,6 +53,17 @@ management:
     export:
       prometheus:
         enabled: true
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        kafka.producer: true
+      slo:
+        kafka.producer.request.latency: 10ms, 50ms, 100ms, 500ms
+    enable:
+      kafka: true
+      jvm: true
+      process: true
 
 # 수집 설정
 collection:
