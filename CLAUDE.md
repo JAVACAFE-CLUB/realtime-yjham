@@ -108,13 +108,44 @@ Package structure: `com.realtime.trend.<module-name>.*`
 - `grpc/` - gRPC client configurations
 - `scheduler/` - Scheduled tasks
 
+## Coding Style
+
+- **Convention**: Naver Coding Convention v1.2 (tabs, 120 chars line length)
+- **DTO**: Use `record` for immutable DTOs
+- **Entity**: Use `@Getter`, `@Builder` (no `@Setter`), state changes via domain methods
+- **Lombok**: Active use except `@Setter` on entities
+
+## Git Commits
+
+Format: Conventional Commits
+- `feat:` new feature
+- `fix:` bug fix
+- `refactor:` code refactoring
+- `test:` test additions
+- `docs:` documentation
+
 ## Testing
 
-Uses Testcontainers for integration tests. Extend base classes from `test-support` module:
+**Style**: JUnit 5 + Given-When-Then pattern + `@DisplayName` for Korean descriptions
 
+```java
+@DisplayName("NewsItemProcessor 단위 테스트")
+@ExtendWith(MockitoExtension.class)
+class NewsItemProcessorTest {
+    @Test
+    @DisplayName("정상적인 RSS 아이템을 News 객체로 변환해야 한다")
+    void process_withValidRssItem_shouldReturnNews() {
+        // given
+        // when
+        // then
+    }
+}
+```
+
+**Integration Tests**: Extend base classes from `test-support` module:
 - `AbstractMongoIntegrationTest` - MongoDB only
 - `AbstractKafkaIntegrationTest` - MongoDB + Kafka
-- `AbstractFullIntegrationTest` - Full infrastructure (MongoDB, Kafka, Elasticsearch)
+- `AbstractFullIntegrationTest` - Full infrastructure
 - `AbstractElasticsearchIntegrationTest` - Elasticsearch only
 - `AbstractRedisIntegrationTest` - Redis only
 - `TestDataFactory` - Test data fixtures
