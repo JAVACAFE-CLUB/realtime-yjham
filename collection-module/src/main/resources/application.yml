@@ -76,7 +76,7 @@ collection:
 # YouTube API 설정
 youtube:
   api:
-    key: ${env.YOUTUBE_API_KEY:}
+    key: ${YOUTUBE_API_KEY:}
     max-results: 50
 
 # 로깅
