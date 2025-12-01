@@ -25,13 +25,13 @@ public class KeywordService {
 
     @Cacheable(
             cacheNames = "today",
-            key = "'source:' + #source + ':type:' + #type + ':limit:' + #limit",
+            key = "'source:' + #source + ':type:' + #type + ':category:' + #category + ':limit:' + #limit",
             unless = "#result.keywords().isEmpty()"
     )
-    public KeywordResponse getKeywords(String source, String type, int limit) {
-        log.debug("키워드 조회 (캐시 미스): source={}, type={}, limit={}", source, type, limit);
+    public KeywordResponse getKeywords(String source, String type, String category, int limit) {
+        log.debug("키워드 조회 (캐시 미스): source={}, type={}, category={}, limit={}", source, type, category, limit);
 
-        List<KeywordItem> keywords = elasticsearchService.getKeywords(source, type, limit);
+        List<KeywordItem> keywords = elasticsearchService.getKeywords(source, type, category, limit);
 
         return new KeywordResponse(
                 keywords,
@@ -40,6 +40,7 @@ public class KeywordService {
                         limit,
                         source,
                         type,
+                        category,
                         LocalDateTime.now(ZoneId.of("Asia/Seoul"))
                 )
         );

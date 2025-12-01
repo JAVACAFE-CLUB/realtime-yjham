@@ -40,12 +40,12 @@ class KeywordControllerTest {
 
         KeywordResponse response = new KeywordResponse(
                 List.of(
-                        new KeywordItem("삼성전자", "ORG", 100),
-                        new KeywordItem("이재용", "PER", 50)
+                        new KeywordItem("삼성전자", "ORG", "ECONOMY", 100),
+                        new KeywordItem("이재용", "PER", "ECONOMY", 50)
                 ),
-                new Metadata(2, 10, "all", "all", LocalDateTime.now())
+                new Metadata(2, 10, "all", "all", "all", LocalDateTime.now())
         );
-        when(keywordService.getKeywords("all", "all", 10)).thenReturn(response);
+        when(keywordService.getKeywords("all", "all", "all", 10)).thenReturn(response);
 
         // when & then
         mockMvc.perform(get("/api/keywords/today"))
@@ -64,10 +64,10 @@ class KeywordControllerTest {
         when(rateLimitConfig.tryConsume(anyString())).thenReturn(true);
 
         KeywordResponse response = new KeywordResponse(
-                List.of(new KeywordItem("BTS", "ORG", 200)),
-                new Metadata(1, 10, "youtube", "all", LocalDateTime.now())
+                List.of(new KeywordItem("BTS", "ORG", "ENTERTAINMENT", 200)),
+                new Metadata(1, 10, "youtube", "all", "all", LocalDateTime.now())
         );
-        when(keywordService.getKeywords("youtube", "all", 10)).thenReturn(response);
+        when(keywordService.getKeywords("youtube", "all", "all", 10)).thenReturn(response);
 
         // when & then
         mockMvc.perform(get("/api/keywords/today")
@@ -83,10 +83,10 @@ class KeywordControllerTest {
         when(rateLimitConfig.tryConsume(anyString())).thenReturn(true);
 
         KeywordResponse response = new KeywordResponse(
-                List.of(new KeywordItem("테스트", "PERSON", 30)),
-                new Metadata(1, 10, "all", "PERSON", LocalDateTime.now())
+                List.of(new KeywordItem("테스트", "PERSON", "SOCIETY", 30)),
+                new Metadata(1, 10, "all", "PERSON", "all", LocalDateTime.now())
         );
-        when(keywordService.getKeywords("all", "PERSON", 10)).thenReturn(response);
+        when(keywordService.getKeywords("all", "PERSON", "all", 10)).thenReturn(response);
 
         // when & then
         mockMvc.perform(get("/api/keywords/today")
@@ -168,9 +168,9 @@ class KeywordControllerTest {
 
         KeywordResponse response = new KeywordResponse(
                 List.of(),
-                new Metadata(0, 50, "all", "all", LocalDateTime.now())
+                new Metadata(0, 50, "all", "all", "all", LocalDateTime.now())
         );
-        when(keywordService.getKeywords("all", "all", 50)).thenReturn(response);
+        when(keywordService.getKeywords("all", "all", "all", 50)).thenReturn(response);
 
         // when & then
         mockMvc.perform(get("/api/keywords/today")

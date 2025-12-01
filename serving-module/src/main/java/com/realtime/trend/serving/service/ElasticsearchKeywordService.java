@@ -31,7 +31,7 @@ public class ElasticsearchKeywordService {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
-    public List<KeywordItem> getKeywords(String source, String type, int limit) {
+    public List<KeywordItem> getKeywords(String source, String type, String category, int limit) {
         try {
             LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
             String startOfDay = today.atStartOfDay().format(DATE_FORMATTER);
@@ -56,6 +56,9 @@ public class ElasticsearchKeywordService {
                                 if (type != null && !type.equals("all")) {
                                     b.must(m -> m.term(t -> t.field("type").value(type)));
                                 }
+                                if (category != null && !category.equals("all")) {
+                                    b.must(m -> m.term(t -> t.field("category").value(category.toUpperCase())));
+                                }
 
                                 return b;
                             })
@@ -68,6 +71,12 @@ public class ElasticsearchKeywordService {
                             .aggregations("type_info", sa -> sa
                                     .terms(st -> st
                                             .field("type")
+                                            .size(1)
+                                    )
+                            )
+                            .aggregations("category_info", sa -> sa
+                                    .terms(st -> st
+                                            .field("category")
                                             .size(1)
                                     )
                             )
@@ -97,14 +106,25 @@ public class ElasticsearchKeywordService {
                     keywordType = typeInfoBuckets.get(0).key().stringValue();
                 }
 
-                results.add(new KeywordItem(keyword, keywordType, count));
+                String keywordCategory = "OTHER";
+                var categoryInfoBuckets = bucket.aggregations()
+                        .get("category_info")
+                        .sterms()
+                        .buckets()
+                        .array();
+
+                if (!categoryInfoBuckets.isEmpty()) {
+                    keywordCategory = categoryInfoBuckets.get(0).key().stringValue();
+                }
+
+                results.add(new KeywordItem(keyword, keywordType, keywordCategory, count));
             }
 
             log.debug("Elasticsearch 조회 완료: {}개 키워드", results.size());
             return results;
 
         } catch (Exception e) {
-            log.error("Elasticsearch 조회 실패: source={}, type={}", source, type, e);
+            log.error("Elasticsearch 조회 실패: source={}, type={}, category={}", source, type, category, e);
             return List.of();
         }
     }

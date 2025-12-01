@@ -48,7 +48,7 @@ class ElasticsearchKeywordServiceTest {
                 .thenThrow(new RuntimeException("ES 연결 실패"));
 
         // when
-        List<KeywordItem> result = elasticsearchKeywordService.getKeywords("news", "all", 10);
+        List<KeywordItem> result = elasticsearchKeywordService.getKeywords("news", "all", "all", 10);
 
         // then
         assertThat(result).isEmpty();
@@ -62,7 +62,7 @@ class ElasticsearchKeywordServiceTest {
                 .thenThrow(new RuntimeException("Test"));
 
         // when
-        List<KeywordItem> result = elasticsearchKeywordService.getKeywords("all", "all", 10);
+        List<KeywordItem> result = elasticsearchKeywordService.getKeywords("all", "all", "all", 10);
 
         // then - 예외 발생해도 빈 목록 반환
         assertThat(result).isEmpty();
@@ -76,7 +76,7 @@ class ElasticsearchKeywordServiceTest {
                 .thenThrow(new RuntimeException("Test"));
 
         // when
-        List<KeywordItem> result = elasticsearchKeywordService.getKeywords("news", "all", 10);
+        List<KeywordItem> result = elasticsearchKeywordService.getKeywords("news", "all", "all", 10);
 
         // then
         assertThat(result).isEmpty();

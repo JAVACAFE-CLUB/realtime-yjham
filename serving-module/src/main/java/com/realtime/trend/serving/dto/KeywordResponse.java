@@ -10,6 +10,7 @@ public record KeywordResponse(
     public record KeywordItem(
             String keyword,
             String type,
+            String category,
             long count
     ) {
     }
@@ -19,6 +20,7 @@ public record KeywordResponse(
             int limit,
             String source,
             String type,
+            String category,
             LocalDateTime lastUpdated
     ) {
     }

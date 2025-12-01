@@ -1,6 +1,7 @@
 package com.realtime.trend.serving.controller;
 
 import com.realtime.trend.serving.config.RateLimitConfig;
+import com.realtime.trend.serving.dto.Category;
 import com.realtime.trend.serving.dto.DataSource;
 import com.realtime.trend.serving.dto.KeywordResponse;
 import com.realtime.trend.serving.dto.KeywordType;
@@ -31,6 +32,7 @@ public class KeywordController {
             @RequestParam(defaultValue = "10") int limit,
             @RequestParam(defaultValue = "all") String source,
             @RequestParam(defaultValue = "all") String type,
+            @RequestParam(defaultValue = "all") String category,
             HttpServletRequest request
     ) {
         String clientIp = getClientIp(request);
@@ -59,9 +61,14 @@ public class KeywordController {
                     .body(new ErrorResponse("type은 " + KeywordType.validValues() + " 중 하나여야 합니다."));
         }
 
-        log.info("키워드 조회 요청: source={}, type={}, limit={}, ip={}", source, type, limit, clientIp);
+        if (!Category.isValid(category)) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("category는 " + Category.validValues() + " 중 하나여야 합니다."));
+        }
 
-        KeywordResponse response = keywordService.getKeywords(source, type, limit);
+        log.info("키워드 조회 요청: source={}, type={}, category={}, limit={}, ip={}", source, type, category, limit, clientIp);
+
+        KeywordResponse response = keywordService.getKeywords(source, type, category, limit);
         return ResponseEntity.ok(response);
     }
 

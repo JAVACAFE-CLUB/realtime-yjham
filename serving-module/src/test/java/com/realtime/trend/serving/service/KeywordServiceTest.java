@@ -32,14 +32,14 @@ class KeywordServiceTest {
     void getKeywords_returnsKeywordResponse() {
         // given
         List<KeywordItem> mockKeywords = List.of(
-                new KeywordItem("삼성전자", "ORG", 100),
-                new KeywordItem("이재용", "PER", 50)
+                new KeywordItem("삼성전자", "ORG", "ECONOMY", 100),
+                new KeywordItem("이재용", "PER", "ECONOMY", 50)
         );
-        when(elasticsearchKeywordService.getKeywords("news", "all", 10))
+        when(elasticsearchKeywordService.getKeywords("news", "all", "all", 10))
                 .thenReturn(mockKeywords);
 
         // when
-        KeywordResponse response = keywordService.getKeywords("news", "all", 10);
+        KeywordResponse response = keywordService.getKeywords("news", "all", "all", 10);
 
         // then
         assertThat(response.keywords()).hasSize(2);
@@ -52,13 +52,13 @@ class KeywordServiceTest {
     void getKeywords_setsMetadataCorrectly() {
         // given
         List<KeywordItem> mockKeywords = List.of(
-                new KeywordItem("BTS", "ORG", 200)
+                new KeywordItem("BTS", "ORG", "ENTERTAINMENT", 200)
         );
-        when(elasticsearchKeywordService.getKeywords("youtube", "ORG", 5))
+        when(elasticsearchKeywordService.getKeywords("youtube", "ORG", "all", 5))
                 .thenReturn(mockKeywords);
 
         // when
-        KeywordResponse response = keywordService.getKeywords("youtube", "ORG", 5);
+        KeywordResponse response = keywordService.getKeywords("youtube", "ORG", "all", 5);
 
         // then
         assertThat(response.metadata().totalCount()).isEqualTo(1);
@@ -72,11 +72,11 @@ class KeywordServiceTest {
     @DisplayName("결과가 없으면 빈 목록을 반환한다")
     void getKeywords_whenNoResults_returnsEmptyList() {
         // given
-        when(elasticsearchKeywordService.getKeywords("all", "all", 10))
+        when(elasticsearchKeywordService.getKeywords("all", "all", "all", 10))
                 .thenReturn(List.of());
 
         // when
-        KeywordResponse response = keywordService.getKeywords("all", "all", 10);
+        KeywordResponse response = keywordService.getKeywords("all", "all", "all", 10);
 
         // then
         assertThat(response.keywords()).isEmpty();
@@ -88,13 +88,13 @@ class KeywordServiceTest {
     void getKeywords_withAllSource_returnsResults() {
         // given
         List<KeywordItem> mockKeywords = List.of(
-                new KeywordItem("테스트", "ORG", 30)
+                new KeywordItem("테스트", "ORG", "ECONOMY", 30)
         );
-        when(elasticsearchKeywordService.getKeywords("all", "all", 10))
+        when(elasticsearchKeywordService.getKeywords("all", "all", "all", 10))
                 .thenReturn(mockKeywords);
 
         // when
-        KeywordResponse response = keywordService.getKeywords("all", "all", 10);
+        KeywordResponse response = keywordService.getKeywords("all", "all", "all", 10);
 
         // then
         assertThat(response.keywords()).hasSize(1);
