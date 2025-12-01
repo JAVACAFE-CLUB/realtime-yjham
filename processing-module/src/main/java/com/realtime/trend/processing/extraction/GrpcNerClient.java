@@ -1,6 +1,7 @@
 package com.realtime.trend.processing.extraction;
 
 import com.realtime.trend.processing.dto.ExtractedEntity;
+import io.grpc.ManagedChannel;
 import ner.Ner;
 import ner.NERServiceGrpc;
 import io.grpc.StatusRuntimeException;
@@ -10,20 +11,34 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
  * gRPC 기반 NER 클라이언트 구현
+ * 다중 NER 서버에 대한 라운드로빈 로드밸런싱 지원
  */
 @Component
 public class GrpcNerClient implements NerClient {
 
     private static final Logger log = LoggerFactory.getLogger(GrpcNerClient.class);
 
-    private final NERServiceGrpc.NERServiceBlockingStub nerServiceStub;
+    private final List<NERServiceGrpc.NERServiceBlockingStub> stubs;
+    private final AtomicInteger counter = new AtomicInteger(0);
 
-    public GrpcNerClient(NERServiceGrpc.NERServiceBlockingStub nerServiceStub) {
-        this.nerServiceStub = nerServiceStub;
+    public GrpcNerClient(List<ManagedChannel> nerChannels) {
+        this.stubs = nerChannels.stream()
+                .map(NERServiceGrpc::newBlockingStub)
+                .toList();
+        log.info("GrpcNerClient 초기화: {} 개의 NER 서버에 로드밸런싱", stubs.size());
+    }
+
+    /**
+     * 라운드로빈 방식으로 다음 Stub 반환
+     */
+    private NERServiceGrpc.NERServiceBlockingStub getNextStub() {
+        int index = Math.abs(counter.getAndIncrement() % stubs.size());
+        return stubs.get(index);
     }
 
     @Override
@@ -37,7 +52,8 @@ public class GrpcNerClient implements NerClient {
                     .setText(text)
                     .build();
 
-            Ner.NERResponse response = nerServiceStub.analyze(request);
+            NERServiceGrpc.NERServiceBlockingStub stub = getNextStub();
+            Ner.NERResponse response = stub.analyze(request);
 
             return response.getEntitiesList().stream()
                     .map(entity -> new ExtractedEntity(
@@ -63,7 +79,8 @@ public class GrpcNerClient implements NerClient {
                     .addAllTexts(texts)
                     .build();
 
-            Ner.BatchNERResponse response = nerServiceStub.analyzeBatch(request);
+            NERServiceGrpc.NERServiceBlockingStub stub = getNextStub();
+            Ner.BatchNERResponse response = stub.analyzeBatch(request);
 
             return response.getResponsesList().stream()
                     .map(nerResponse -> nerResponse.getEntitiesList().stream()

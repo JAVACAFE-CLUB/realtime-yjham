@@ -196,14 +196,42 @@ services:
   # Application Services
   # ============================================
 
-  # Extraction Module (Python NER)
-  extraction-module:
+  # Extraction Module (Python NER) - 3개 인스턴스로 수평 확장
+  extraction-module-1:
     build:
       context: ./extraction-module
       dockerfile: Dockerfile
-    container_name: realtime-extraction-module
-    ports:
-      - "50051:50051"
+    container_name: realtime-extraction-module-1
+    networks:
+      - realtime-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import grpc; channel = grpc.insecure_channel('localhost:50051'); channel.close()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  extraction-module-2:
+    build:
+      context: ./extraction-module
+      dockerfile: Dockerfile
+    container_name: realtime-extraction-module-2
+    networks:
+      - realtime-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import grpc; channel = grpc.insecure_channel('localhost:50051'); channel.close()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  extraction-module-3:
+    build:
+      context: ./extraction-module
+      dockerfile: Dockerfile
+    container_name: realtime-extraction-module-3
     networks:
       - realtime-network
     restart: unless-stopped
@@ -247,12 +275,16 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9093
-      - NER_SERVICE_HOST=extraction-module
-      - NER_SERVICE_PORT=50051
+      # gRPC 로드밸런싱: dns:/// 스킴 사용
+      - NER_SERVICE_HOSTS=extraction-module-1:50051,extraction-module-2:50051,extraction-module-3:50051
     depends_on:
       kafka:
         condition: service_healthy
-      extraction-module:
+      extraction-module-1:
+        condition: service_healthy
+      extraction-module-2:
+        condition: service_healthy
+      extraction-module-3:
         condition: service_healthy
     networks:
       - realtime-network
@@ -340,6 +372,7 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/grafana/dashboards:/etc/grafana/dashboards
     depends_on:
       - prometheus
     networks:

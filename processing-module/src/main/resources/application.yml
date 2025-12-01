@@ -35,8 +35,11 @@ spring:
 
 ner:
   grpc:
+    # 단일 호스트 모드 (기본값)
     host: ${NER_SERVICE_HOST:localhost}
     port: ${NER_SERVICE_PORT:50051}
+    # 다중 호스트 모드 (로드밸런싱) - 설정 시 host/port 무시
+    hosts: ${NER_SERVICE_HOSTS:}
 
 kafka:
   topics:

@@ -2,6 +2,7 @@ package com.realtime.trend.processing.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -12,6 +13,7 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.core.MicrometerConsumerListener;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.ExponentialBackOffWithMaxRetries;
@@ -84,7 +86,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, Object> consumerFactory() {
+    public ConsumerFactory<String, Object> consumerFactory(MeterRegistry meterRegistry) {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
@@ -103,11 +105,16 @@ public class KafkaConfig {
         ErrorHandlingDeserializer<Object> errorHandlingDeserializer =
                 new ErrorHandlingDeserializer<>(jsonDeserializer);
 
-        return new DefaultKafkaConsumerFactory<>(
+        DefaultKafkaConsumerFactory<String, Object> factory = new DefaultKafkaConsumerFactory<>(
                 props,
                 new StringDeserializer(),
                 errorHandlingDeserializer
         );
+
+        // Micrometer 메트릭 리스너 등록
+        factory.addListener(new MicrometerConsumerListener<>(meterRegistry));
+
+        return factory;
     }
 
     @Bean
