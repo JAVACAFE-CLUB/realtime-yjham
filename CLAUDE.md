@@ -13,46 +13,49 @@ Realtime Korean trend analysis system that collects news (RSS) and YouTube data,
 ./gradlew build
 
 # Run tests
-./gradlew test                           # All modules
-./gradlew :collection-module:test        # Single module
-./gradlew test --tests "ClassName"       # Single test class
+./gradlew test                                    # All modules
+./gradlew :collection-module:test                 # Single module
+./gradlew test --tests "ClassName"                # Single test class
+./gradlew test --tests "*Test.methodName"         # Single test method
 
 # Run individual modules
-./gradlew :collection-module:bootRun     # Port 8081
-./gradlew :processing-module:bootRun     # Port 8082
-./gradlew :indexing-module:bootRun       # Port 8083
-./gradlew :serving-module:bootRun        # Port 8080
+./gradlew :collection-module:bootRun              # Port 8081
+./gradlew :processing-module:bootRun              # Port 8082
+./gradlew :indexing-module:bootRun                # Port 8083
+./gradlew :serving-module:bootRun                 # Port 8080
 
 # Infrastructure
-docker compose -f docker-compose.infra.yml up -d    # Start infrastructure
-docker compose -f docker-compose.infra.yml down     # Stop infrastructure
-docker compose -f docker-compose.infra.yml down -v  # Stop and remove volumes
-docker compose -f docker-compose.full.yml up -d     # Full system with apps
+docker compose -f docker-compose.infra.yml up -d              # Start infrastructure only
+docker compose -f docker-compose.infra.yml down -v            # Stop and remove volumes
+docker compose -f docker-compose.full.yml up -d               # Full system with apps
+docker compose -f docker-compose.full.yml up -d --build       # Rebuild and start
+docker compose -f docker-compose.full.yml up -d --build <service>  # Rebuild specific service
+docker compose -f docker-compose.full.yml logs -f <service>   # Follow logs
 ```
 
 ### extraction-module (Python)
 
 ```bash
 cd extraction-module
-pip install -r requirements.txt          # Install dependencies
-pytest                                    # Run all tests
-pytest tests/test_analyzer.py            # Single test file
-python src/main.py                        # Run gRPC server
-./generate_proto.sh                       # Generate protobuf
+pip install -r requirements.txt           # Install dependencies
+pytest                                     # Run all tests
+pytest tests/test_analyzer.py             # Single test file
+python src/main.py                         # Run gRPC server
+./generate_proto.sh                        # Generate protobuf
+```
+
+### Kafka Debugging
+
+```bash
+# Check consumer group lag
+docker exec realtime-kafka kafka-consumer-groups \
+  --bootstrap-server localhost:9092 --group processing-group --describe
+
+# List topics
+docker exec realtime-kafka kafka-topics --bootstrap-server localhost:9092 --list
 ```
 
 ## Architecture
-
-### Module Structure
-
-| Module | Port | Purpose |
-|--------|------|---------|
-| serving-module | 8080 | REST API for keyword queries with caching and rate limiting |
-| collection-module | 8081 | Collects news (RSS) and YouTube data via Spring Batch, stores in MongoDB, publishes to Kafka |
-| processing-module | 8082 | Consumes raw data from Kafka, extracts keywords via NER gRPC service |
-| indexing-module | 8083 | Indexes keywords to Elasticsearch, aggregates trending keywords, caches in Redis |
-| extraction-module | 50051 | Python gRPC service for Korean NER using GLiNER-ko model |
-| test-support | - | Shared test utilities (Testcontainers base classes, fixtures) |
 
 ### Data Flow
 
@@ -75,38 +78,44 @@ python src/main.py                        # Run gRPC server
   serving-module ---> REST API
 ```
 
+### Module Responsibilities
+
+| Module | Port | Role |
+|--------|------|------|
+| collection-module | 8081 | Spring Batch로 RSS/YouTube 수집 → MongoDB 저장 → Kafka 발행 |
+| processing-module | 8082 | Kafka 소비 → gRPC로 NER 호출 → 키워드 추출 후 Kafka 발행 |
+| indexing-module | 8083 | 처리된 데이터 Elasticsearch 인덱싱 + Redis 캐싱 |
+| serving-module | 8080 | REST API 제공 (캐싱, Rate Limiting) |
+| extraction-module | 50051 | Python gRPC 서비스, GLiNER-ko 한국어 NER |
+| test-support | - | Testcontainers 기반 통합 테스트 유틸리티 |
+
+### Key Abstractions
+
+**collection-module**:
+- `Publishable<T>` - Kafka 발행 가능한 엔티티 인터페이스 (상태 관리: PENDING → PUBLISHED/FAILED)
+- `DataSource` - 데이터 소스 추상화 (NewsDataSource, YouTubeDataSource)
+- `GenericItemWriter` - 범용 Spring Batch Writer
+
+**processing-module**:
+- `AbstractMessageConsumer` - Kafka 컨슈머 공통 로직 (에러 처리, DLQ)
+- `NerClient` - NER 서비스 클라이언트 인터페이스
+
+**indexing-module**:
+- `AbstractIndexingConsumer` - 인덱싱 컨슈머 공통 로직
+
 ### Kafka Topics
 
-- `raw-news`, `raw-youtube` - Raw collected data
-- `processed-news`, `processed-youtube` - Data with extracted keywords
-- `raw-news-dlq`, `raw-youtube-dlq` - Dead letter queues
-- `aggregated-keywords` - Aggregated trending keywords
+- `raw-news`, `raw-youtube` - 수집된 원본 데이터
+- `processed-news`, `processed-youtube` - 키워드 추출된 데이터
+- `raw-news-dlq`, `raw-youtube-dlq` - Dead Letter Queue
+- `aggregated-keywords` - 집계된 트렌드 키워드
 
 ## Tech Stack
 
 - Java 21, Spring Boot 3.3.7
-- MongoDB (document storage)
-- Apache Kafka (message broker)
-- Elasticsearch (search/indexing)
-- Redis (caching)
-- gRPC + Protobuf (extraction-module communication)
-- Python + GLiNER-ko (extraction-module)
-
-## Package Conventions
-
-Package structure: `com.realtime.trend.<module-name>.*`
-
-- `batch/` - Spring Batch job configurations
-- `config/` - Spring configurations
-- `consumer/` - Kafka consumers
-- `controller/` - REST controllers
-- `domain/` - MongoDB documents
-- `document/` - Elasticsearch documents
-- `dto/` - Data Transfer Objects
-- `repository/` - Data repositories
-- `service/` - Business logic
-- `grpc/` - gRPC client configurations
-- `scheduler/` - Scheduled tasks
+- MongoDB, Apache Kafka, Elasticsearch, Redis
+- gRPC + Protobuf (extraction-module 통신)
+- Python + GLiNER-ko (NER)
 
 ## Coding Style
 
@@ -152,22 +161,6 @@ class NewsItemProcessorTest {
 - `KafkaTestSupport` - Kafka test utilities
 
 Test profile: `application-test.yml`.
-
-## Infrastructure Ports
-
-| Service | Port |
-|---------|------|
-| MongoDB | 27017 |
-| Kafka | 9092 |
-| Elasticsearch | 9200 |
-| Redis | 6379 |
-| Extraction Module | 50051 |
-| Mongo Express | 9081 |
-| Kafka UI | 9082 |
-| Redis Insight | 9083 |
-| Kibana | 9084 |
-| Prometheus | 9090 |
-| Grafana | 3000 |
 
 ## Environment Variables
 

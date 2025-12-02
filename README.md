@@ -1,4 +1,4 @@
-﻿# 실시간 트렌드 분석 시스템
+# 실시간 트렌드 분석 시스템
 
 뉴스(RSS)와 YouTube 데이터를 수집하고, NER(개체명 인식)을 통해 키워드를 추출하여 실시간 트렌드 키워드를 제공하는 시스템입니다.
 
@@ -32,14 +32,15 @@
 | processing-module | 8082 | Kafka 메시지 소비, NER gRPC 서비스로 키워드 추출 |
 | indexing-module | 8083 | Elasticsearch 인덱싱, 트렌드 키워드 집계, Redis 캐싱 |
 | extraction-module | 50051 | Python gRPC 서비스, GLiNER-ko 모델로 한국어 NER |
+| test-support | - | 공유 테스트 유틸리티 (Testcontainers 기반) |
 
 ## 기술 스택
 
-- **Backend**: Java 21, Spring Boot 3.2.5
+- **Backend**: Java 21, Spring Boot 3.3.7
 - **데이터 저장**: MongoDB, Elasticsearch, Redis
 - **메시지 브로커**: Apache Kafka
 - **NER 서비스**: Python, GLiNER-ko, gRPC
-- **모니터링**: Prometheus, Grafana
+- **모니터링**: Prometheus, Grafana, Micrometer
 
 ## 빠른 시작
 
@@ -51,7 +52,7 @@
 
 ### 2. 환경 변수 설정
 
-프로젝트 루트에 `.env` 파일 생성:
+프로젝트 루트에 `.env` 파일 생성 (`.env.example` 참고):
 
 ```env
 YOUTUBE_API_KEY=<your_youtube_api_key>
@@ -86,7 +87,17 @@ docker compose -f docker-compose.infra.yml down -v
 #### 전체 시스템 실행 (Docker)
 
 ```bash
+# 전체 시스템 시작
 docker compose -f docker-compose.full.yml up -d
+
+# 재빌드 후 시작
+docker compose -f docker-compose.full.yml up -d --build
+
+# 특정 서비스만 재빌드
+docker compose -f docker-compose.full.yml up -d --build collection-module
+
+# 로그 확인
+docker compose -f docker-compose.full.yml logs -f <service-name>
 ```
 
 ## API 사용법
@@ -108,6 +119,40 @@ curl -X POST http://localhost:8081/api/jobs/youtube
 curl "http://localhost:8080/api/keywords/today?limit=10&source=all&type=all"
 ```
 
+### 헬스 체크
+
+```bash
+# 각 모듈 헬스 체크 (Actuator)
+curl http://localhost:8080/actuator/health
+curl http://localhost:8081/actuator/health
+curl http://localhost:8082/actuator/health
+curl http://localhost:8083/actuator/health
+```
+
+## 모니터링
+
+### 대시보드 접속
+
+| 서비스 | URL | 설명 |
+|--------|-----|------|
+| Grafana | http://localhost:3000 | 모니터링 대시보드 |
+| Prometheus | http://localhost:9090 | 메트릭 수집/조회 |
+| Kafka UI | http://localhost:9082 | Kafka 토픽/컨슈머 모니터링 |
+| Kibana | http://localhost:9084 | Elasticsearch 데이터 조회 |
+| Mongo Express | http://localhost:9081 | MongoDB 데이터 조회 |
+| Redis Insight | http://localhost:9083 | Redis 데이터 조회 |
+
+### Kafka 상태 확인
+
+```bash
+# Consumer Group Lag 확인
+docker exec realtime-kafka kafka-consumer-groups \
+  --bootstrap-server localhost:9092 --group processing-group --describe
+
+# 토픽 목록
+docker exec realtime-kafka kafka-topics --bootstrap-server localhost:9092 --list
+```
+
 ## 인프라 포트
 
 | 서비스 | 포트 | 설명 |
@@ -117,12 +162,6 @@ curl "http://localhost:8080/api/keywords/today?limit=10&source=all&type=all"
 | Elasticsearch | 9200 | 검색/인덱싱 |
 | Redis | 6379 | 캐싱 |
 | Extraction Module | 50051 | NER gRPC 서비스 |
-| Mongo Express | 9081 | MongoDB UI |
-| Kafka UI | 9082 | Kafka 모니터링 UI |
-| Redis Insight | 9083 | Redis UI |
-| Kibana | 9084 | Elasticsearch UI |
-| Prometheus | 9090 | 메트릭 수집 |
-| Grafana | 3000 | 모니터링 대시보드 |
 
 ## 빌드 및 테스트
 
@@ -135,6 +174,12 @@ curl "http://localhost:8080/api/keywords/today?limit=10&source=all&type=all"
 
 # 특정 모듈 테스트
 ./gradlew :collection-module:test
+
+# 특정 테스트 클래스 실행
+./gradlew test --tests "NewsItemProcessorTest"
+
+# 특정 테스트 메서드 실행
+./gradlew test --tests "*Test.methodName"
 ```
 
 ## Kafka 토픽
@@ -158,7 +203,9 @@ realtime-trend-system/
 ├── indexing-module/       # 인덱싱/집계 모듈
 ├── serving-module/        # REST API 모듈
 ├── extraction-module/     # Python NER 서비스
+├── test-support/          # 공유 테스트 유틸리티
 ├── monitoring/            # Prometheus, Grafana 설정
+├── docs/                  # 문서
 ├── docker-compose.infra.yml   # 인프라 Docker 설정
 └── docker-compose.full.yml    # 전체 시스템 Docker 설정
 ```
